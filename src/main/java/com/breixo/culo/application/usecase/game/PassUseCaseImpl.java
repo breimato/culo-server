@@ -38,6 +38,11 @@ public class PassUseCaseImpl implements PassUseCase {
     if (!player.getId().equals(room.getCurrentPlayerId())) {
       throw new GameException(GameExceptionConstants.NOT_YOUR_TURN);
     }
+    if (room.isPlayerOut(player.getId())) {
+      throw new GameException(GameExceptionConstants.PLAYER_OUT);
+    }
+
+    room.discardQuads(player.getId());
 
     final var round = room.getCurrentRound();
     round.registerPass(player.getId());
@@ -76,14 +81,7 @@ public class PassUseCaseImpl implements PassUseCase {
     if (!RULE_ENGINE.isRoundOver(round, activePlayerIds)) {
       return false;
     }
-    final var winnerId = round.getLastPlayerId();
-    round.reset();
-    if (winnerId != null) {
-      final var winnerIdx = room.getPlayerOrder().indexOf(winnerId);
-      if (winnerIdx >= 0) {
-        room.setCurrentPlayerIndex(winnerIdx);
-      }
-    }
+    room.finishRoundAndSetOpener();
     return true;
   }
 }

@@ -14,6 +14,7 @@ import com.breixo.culo.domain.port.output.room.RoomPersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -32,6 +33,9 @@ public class ExchangeGiveUseCaseImpl implements ExchangeGiveUseCase {
     if (!room.getPhase().equals(GamePhase.EXCHANGE)) {
       throw new GameException(GameExceptionConstants.WRONG_PHASE);
     }
+    if (room.getExchangeDone().contains(player.getId())) {
+      throw new GameException(GameExceptionConstants.EXCHANGE_ALREADY_DONE);
+    }
 
     final var role = player.getRole();
     if (role == PlayerRole.GANADOR) {
@@ -47,6 +51,7 @@ public class ExchangeGiveUseCaseImpl implements ExchangeGiveUseCase {
     if (this.isExchangeComplete(room)) {
       room.getPlayers().forEach(p -> p.setRole(PlayerRole.NONE));
       room.setPhase(GamePhase.PLAYING);
+      room.discardQuadsForAllPlayers();
     }
 
     return this.roomPersistencePort.save(room);

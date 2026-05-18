@@ -59,6 +59,7 @@ public class DealCardsUseCaseImpl implements DealCardsUseCase {
       room.setPhase(GamePhase.EXCHANGE);
     } else {
       room.setPhase(GamePhase.PLAYING);
+      room.discardQuadsForAllPlayers();
     }
 
     return this.roomPersistencePort.save(room);

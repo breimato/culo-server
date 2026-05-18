@@ -198,6 +198,10 @@ components:
           type: string
         culoSwapTargetId:
           type: string
+        exchangeDonePlayerIds:
+          type: array
+          items:
+            type: string
 
     JoinedRoom:
       type: object
@@ -266,6 +270,18 @@ components:
       properties:
         accepted:
           type: boolean
+
+    QuadDiscarded:
+      type: object
+      properties:
+        playerId:
+          type: string
+        value:
+          type: integer
+        cards:
+          type: array
+          items:
+            $ref: '#/components/schemas/Card'
 
     WsError:
       type: object

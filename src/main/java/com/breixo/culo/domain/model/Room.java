@@ -21,6 +21,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+
 @Getter
 @RequiredArgsConstructor
 public class Room {
@@ -200,12 +201,66 @@ public class Room {
         int steps = skipOne ? 2 : 1;
         for (int i = 0; i < steps; i++) {
             this.currentPlayerIndex = (this.currentPlayerIndex + 1) % n;
-            int safety = 0;
-            while (this.isPlayerOut(this.playerOrder.get(this.currentPlayerIndex)) && safety < n) {
-                this.currentPlayerIndex = (this.currentPlayerIndex + 1) % n;
-                safety++;
+            this.ensureCurrentPlayerIsActive();
+        }
+    }
+
+    /** Índice del primer jugador activo (con cartas) en el orden de turno. */
+    public int findFirstActivePlayerIndex() {
+        for (int i = 0; i < this.playerOrder.size(); i++) {
+            if (!this.isPlayerOut(this.playerOrder.get(i))) {
+                return i;
             }
         }
+        return this.currentPlayerIndex;
+    }
+
+    /**
+     * Siguiente jugador activo después de {@code playerId} en el orden de mesa.
+     */
+    public int findNextActivePlayerIndexAfter(final String playerId) {
+        final var startIdx = this.playerOrder.indexOf(playerId);
+        if (startIdx < 0) {
+            return this.findFirstActivePlayerIndex();
+        }
+        final int n = this.playerOrder.size();
+        for (int step = 1; step <= n; step++) {
+            final var idx = (startIdx + step) % n;
+            if (!this.isPlayerOut(this.playerOrder.get(idx))) {
+                return idx;
+            }
+        }
+        return this.currentPlayerIndex;
+    }
+
+    /** Garantiza que el jugador en turno tenga cartas; si no, avanza hasta uno activo. */
+    public void ensureCurrentPlayerIsActive() {
+        final int n = this.playerOrder.size();
+        int safety = 0;
+        while (safety < n && this.isPlayerOut(this.playerOrder.get(this.currentPlayerIndex))) {
+            this.currentPlayerIndex = (this.currentPlayerIndex + 1) % n;
+            safety++;
+        }
+    }
+
+    /**
+     * Cierra la ronda actual y asigna quién abre la siguiente.
+     * Si quien jugó último ya no tiene cartas, abre el siguiente jugador activo en el orden.
+     */
+    public void finishRoundAndSetOpener() {
+        final var lastPlayerId = this.currentRound.getLastPlayerId();
+        this.currentRound.reset();
+        if (lastPlayerId == null) {
+            this.ensureCurrentPlayerIsActive();
+            return;
+        }
+        final int openerIdx = this.isPlayerOut(lastPlayerId)
+                ? this.findNextActivePlayerIndexAfter(lastPlayerId)
+                : this.playerOrder.indexOf(lastPlayerId);
+        if (openerIdx >= 0) {
+            this.currentPlayerIndex = openerIdx;
+        }
+        this.ensureCurrentPlayerIsActive();
     }
 
     public List<Card> getHand(final String playerId) {
@@ -318,4 +373,54 @@ public class Room {
         Collections.shuffle(deck);
         return deck;
     }
+
+    // ─── Quad discard ─────────────────────────────────────────────────────────
+
+    /** Eventos de descarte de cuádruples pendientes de publicar. */
+    private final List<QuadDiscardEvent> pendingQuadDiscards = new ArrayList<>();
+
+    /**
+     * Detecta y descarta todos los grupos de 4 cartas del mismo número de la mano
+     * del jugador indicado. Solo debe llamarse en fase PLAYING.
+     * Los eventos se acumulan en {@code pendingQuadDiscards} hasta ser drenados.
+     *
+     * @param playerId ID del jugador cuya mano se revisa
+     * @return lista de eventos generados en esta llamada
+     */
+    public void discardQuadsForAllPlayers() {
+        this.playerOrder.forEach(this::discardQuads);
+    }
+
+    public List<QuadDiscardEvent> discardQuads(final String playerId) {
+        final var hand = this.hands.get(playerId);
+        if (hand == null || hand.isEmpty()) {
+            return List.of();
+        }
+
+        final var groups = hand.stream()
+                .collect(Collectors.groupingBy(Card::number));
+
+        final var events = new ArrayList<QuadDiscardEvent>();
+        for (final var entry : groups.entrySet()) {
+            if (entry.getValue().size() >= 4) {
+                final var quadCards = new ArrayList<>(entry.getValue());
+                hand.removeIf(quadCards::contains);
+                events.add(new QuadDiscardEvent(playerId, entry.getKey(), List.copyOf(quadCards)));
+            }
+        }
+        this.pendingQuadDiscards.addAll(events);
+        return events;
+    }
+
+    /**
+     * Drena y devuelve todos los eventos de descarte de cuádruples pendientes.
+     * Llamar desde el controlador después de ejecutar el use case.
+     */
+    public List<QuadDiscardEvent> drainQuadDiscards() {
+        final var drained = new ArrayList<>(this.pendingQuadDiscards);
+        this.pendingQuadDiscards.clear();
+        return drained;
+    }
+
+    public record QuadDiscardEvent(String playerId, int value, List<Card> cards) {}
 }

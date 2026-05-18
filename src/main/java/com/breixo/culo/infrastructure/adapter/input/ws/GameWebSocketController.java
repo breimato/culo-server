@@ -6,6 +6,7 @@ import com.breixo.culo.domain.command.game.DealCardsCommand;
 import com.breixo.culo.domain.command.game.ExchangeGiveCommand;
 import com.breixo.culo.domain.command.game.PassCommand;
 import com.breixo.culo.domain.exception.CuloException;
+import com.breixo.culo.domain.model.Room;
 import com.breixo.culo.domain.port.input.game.CuloSwapInitiateUseCase;
 import com.breixo.culo.domain.port.input.game.CuloSwapVoteUseCase;
 import com.breixo.culo.domain.port.input.game.DealCardsUseCase;
@@ -143,6 +144,7 @@ public class GameWebSocketController {
           .build();
       final var room = this.dealCardsUseCase.execute(dealCardsCommand);
       this.roomEventPublisher.publishRoomState(room);
+      this.publishPendingQuadDiscards(room);
       this.roomEventPublisher.publishAllHands(room);
     } catch (final CuloException culoException) {
       log.warn("Error dealing cards: {}", culoException.getMessage());
@@ -158,6 +160,7 @@ public class GameWebSocketController {
       final var room = playResult.room();
       this.roomEventPublisher.publishPlayMade(room, playResult);
       this.roomEventPublisher.publishRoomState(room);
+      this.publishPendingQuadDiscards(room);
       if (playResult.gameEnded()) {
         this.roomEventPublisher.publishGameEnded(room);
         this.roomEventPublisher.publishAllHands(room);
@@ -184,6 +187,7 @@ public class GameWebSocketController {
       final var passResult = this.passUseCase.execute(passCommand);
       final var room = passResult.room();
       this.roomEventPublisher.publishRoomState(room);
+      this.publishPendingQuadDiscards(room);
       if (passResult.roundEnded()) {
         this.roomEventPublisher.publishRoundEnded(room, room.getCurrentPlayerId());
       }
@@ -202,6 +206,7 @@ public class GameWebSocketController {
       final var exchangeGiveCommand = this.exchangeGiveRequestMapper.toExchangeGiveCommand(exchangeGiveRequestDto);
       final var room = this.exchangeGiveUseCase.execute(exchangeGiveCommand);
       this.roomEventPublisher.publishRoomState(room);
+      this.publishPendingQuadDiscards(room);
       room.getPlayers().forEach(player ->
           this.roomEventPublisher.publishHandUpdate(room, player.getId()));
     } catch (final CuloException culoException) {
@@ -253,6 +258,13 @@ public class GameWebSocketController {
   }
 
   // ─── Helpers ─────────────────────────────────────────────────────────────
+
+  private void publishPendingQuadDiscards(final Room room) {
+    room.drainQuadDiscards().forEach(event -> {
+      this.roomEventPublisher.publishQuadDiscarded(room, event);
+      this.roomEventPublisher.publishHandUpdate(room, event.playerId());
+    });
+  }
 
   private Optional<String> resolvePlayerId(final String clientId, final String roomCode) {
     if (StringUtils.isBlank(roomCode)) {

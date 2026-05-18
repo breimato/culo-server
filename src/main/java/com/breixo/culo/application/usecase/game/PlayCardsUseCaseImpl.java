@@ -40,6 +40,11 @@ public class PlayCardsUseCaseImpl implements PlayCardsUseCase {
     if (!player.getId().equals(room.getCurrentPlayerId())) {
       throw new GameException(GameExceptionConstants.NOT_YOUR_TURN);
     }
+    if (room.isPlayerOut(player.getId())) {
+      throw new GameException(GameExceptionConstants.PLAYER_OUT);
+    }
+
+    room.discardQuads(player.getId());
 
     final var cards = this.toCards(playCardsCommand, room, player.getId());
     final var play = Play.builder().cards(cards).build();
@@ -53,6 +58,8 @@ public class PlayCardsUseCaseImpl implements PlayCardsUseCase {
     final var isAsOros = play.isAsOros();
 
     room.getHand(player.getId()).removeAll(cards);
+
+    final var discardedQuads = room.discardQuads(player.getId());
 
     if (isAsOros) {
       round.reset();
@@ -72,7 +79,11 @@ public class PlayCardsUseCaseImpl implements PlayCardsUseCase {
     boolean roundEndedByPlin = false;
     if (gameEnded) {
       room.setPhase(GamePhase.DEALING);
-    } else if (!isAsOros) {
+    } else if (isAsOros) {
+      if (playerOut) {
+        room.advanceTurn(false);
+      }
+    } else {
       room.advanceTurn(plin);
       if (plin && this.closeRoundIfOthersAllPassed(room, round)) {
         roundEndedByPlin = true;
@@ -102,14 +113,7 @@ public class PlayCardsUseCaseImpl implements PlayCardsUseCase {
     if (!RULE_ENGINE.isRoundOver(round, activePlayerIds)) {
       return false;
     }
-    final var winnerId = round.getLastPlayerId();
-    round.reset();
-    if (winnerId != null) {
-      final var winnerIdx = room.getPlayerOrder().indexOf(winnerId);
-      if (winnerIdx >= 0) {
-        room.setCurrentPlayerIndex(winnerIdx);
-      }
-    }
+    room.finishRoundAndSetOpener();
     return true;
   }
 

@@ -13,6 +13,7 @@ import com.breixo.culo.infrastructure.adapter.input.ws.dto.GameEndedDto;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.HandUpdateDto;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.JoinedRoomDto;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.PlayMadeDto;
+import com.breixo.culo.infrastructure.adapter.input.ws.dto.QuadDiscardedDto;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.RankingEntryDto;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.RoomStateDto;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.RoundEndedDto;
@@ -151,6 +152,16 @@ public class RoomEventPublisher {
         .build();
     final var destination = WsDestinationConstants.roomTopic(room.getCode()) + "/culoSwapRequest";
     this.simpMessagingTemplate.convertAndSend(destination, culoSwapRequestDto);
+  }
+
+  public void publishQuadDiscarded(final Room room, final Room.QuadDiscardEvent event) {
+    final var quadDiscardedDto = QuadDiscardedDto.builder()
+        .playerId(event.playerId())
+        .value(event.value())
+        .cards(this.cardDtoMapper.toCardDtoList(event.cards()))
+        .build();
+    final var destination = WsDestinationConstants.roomTopic(room.getCode()) + "/quadDiscarded";
+    this.simpMessagingTemplate.convertAndSend(destination, quadDiscardedDto);
   }
 
   public void publishCuloSwapResult(final Room room, final boolean accepted) {

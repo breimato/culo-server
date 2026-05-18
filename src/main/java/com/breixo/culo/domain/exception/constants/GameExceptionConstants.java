@@ -11,6 +11,8 @@ public final class GameExceptionConstants {
     public static final String SWAP_ALREADY_VOTED  = "CULO-GAME-009 | Ya has votado en esta transferencia";
     public static final String NOT_IN_EXCHANGE     = "CULO-GAME-007 | No eres participante de este intercambio";
     public static final String INVALID_EXCHANGE    = "CULO-GAME-008 | Selección de cartas inválida para el intercambio";
+    public static final String EXCHANGE_ALREADY_DONE = "CULO-GAME-010 | Ya has completado el intercambio";
+    public static final String PLAYER_OUT          = "CULO-GAME-011 | Ya no tienes cartas en mano";
 
     private GameExceptionConstants() {
     }

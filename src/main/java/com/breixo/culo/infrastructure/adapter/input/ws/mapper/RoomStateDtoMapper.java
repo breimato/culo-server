@@ -46,6 +46,7 @@ public class RoomStateDtoMapper {
             : this.cardDtoMapper.toCardDtoList(round.getLastPlayedCards()))
         .culoSwapInitiatorId(room.getCuloSwapInitiatorId())
         .culoSwapTargetId(room.getCuloSwapTargetId())
+        .exchangeDonePlayerIds(List.copyOf(room.getExchangeDone()))
         .build();
   }
 
