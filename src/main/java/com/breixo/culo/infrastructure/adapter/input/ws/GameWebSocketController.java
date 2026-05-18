@@ -22,6 +22,7 @@ import com.breixo.culo.infrastructure.adapter.input.ws.dto.CuloSwapVoteRequestDt
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.CreateRoomRequestDto;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.DealingConfirmRequestDto;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.ExchangeGiveRequestDto;
+import com.breixo.culo.infrastructure.adapter.input.ws.dto.GameAckRequestDto;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.JoinRoomRequestDto;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.PassRequestDto;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.PlayCardsRequestDto;
@@ -74,6 +75,9 @@ public class GameWebSocketController {
 
   /** The room event publisher. */
   private final RoomEventPublisher roomEventPublisher;
+
+  /** Coordinador de ACKs antes de publicar estado/turno. */
+  private final RoomAckCoordinator roomAckCoordinator;
 
   /** The room persistence port. */
   private final RoomPersistencePort roomPersistencePort;
@@ -158,23 +162,23 @@ public class GameWebSocketController {
       final var playCardsCommand = this.playCardsRequestMapper.toPlayCardsCommand(playCardsRequestDto);
       final var playResult = this.playCardsUseCase.execute(playCardsCommand);
       final var room = playResult.room();
-      this.roomEventPublisher.publishPlayMade(room, playResult);
-      this.roomEventPublisher.publishRoomState(room);
-      this.publishPendingQuadDiscards(room);
-      if (playResult.gameEnded()) {
-        this.roomEventPublisher.publishGameEnded(room);
-        this.roomEventPublisher.publishAllHands(room);
-      } else {
-        this.roomEventPublisher.publishHandUpdate(room, playResult.playerId());
-        if (playResult.roundEnded()) {
-          this.roomEventPublisher.publishRoundEnded(room, room.getCurrentPlayerId());
-        }
-        this.roomEventPublisher.publishTurnChanged(room);
-      }
+      final var eventId = this.roomAckCoordinator.awaitAllConnected(room, () ->
+          this.publishPlayFollowUp(room.getCode(), playResult));
+      this.roomEventPublisher.publishPlayMade(room, playResult, eventId);
     } catch (final CuloException culoException) {
       log.warn("Error playing cards: {}", culoException.getMessage());
       this.roomEventPublisher.publishErrorToClient(playCardsRequestDto.getClientId(), culoException);
     }
+  }
+
+  @MessageMapping("/game.ack")
+  public void gameAck(@Payload final GameAckRequestDto gameAckRequestDto) {
+    this.roomPersistencePort.findByCode(gameAckRequestDto.getRoomCode())
+        .flatMap(room -> room.findPlayerByClientId(gameAckRequestDto.getClientId()))
+        .ifPresent(player -> this.roomAckCoordinator.recordAck(
+            gameAckRequestDto.getRoomCode(),
+            gameAckRequestDto.getEventId(),
+            player.getId()));
   }
 
   @MessageMapping("/game.pass")
@@ -258,6 +262,22 @@ public class GameWebSocketController {
   }
 
   // ─── Helpers ─────────────────────────────────────────────────────────────
+
+  private void publishPlayFollowUp(final String roomCode, final com.breixo.culo.domain.model.game.PlayResult playResult) {
+    final var room = this.roomPersistencePort.findByCode(roomCode).orElse(playResult.room());
+    this.roomEventPublisher.publishRoomState(room);
+    this.publishPendingQuadDiscards(room);
+    if (playResult.gameEnded()) {
+      this.roomEventPublisher.publishGameEnded(room);
+      this.roomEventPublisher.publishAllHands(room);
+    } else {
+      this.roomEventPublisher.publishHandUpdate(room, playResult.playerId());
+      if (playResult.roundEnded()) {
+        this.roomEventPublisher.publishRoundEnded(room, room.getCurrentPlayerId());
+      }
+      this.roomEventPublisher.publishTurnChanged(room);
+    }
+  }
 
   private void publishPendingQuadDiscards(final Room room) {
     room.drainQuadDiscards().forEach(event -> {

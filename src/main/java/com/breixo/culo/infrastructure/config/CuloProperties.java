@@ -29,5 +29,8 @@ public class CuloProperties {
   public static class Room {
 
     private int ttlHours = 2;
+
+    /** Tiempo máximo de espera de ACKs antes de continuar (ms). */
+    private long ackTimeoutMs = 8000;
   }
 }

@@ -155,6 +155,17 @@ components:
         accept:
           type: boolean
 
+    GameAckRequest:
+      type: object
+      required: [clientId, roomCode, eventId]
+      properties:
+        clientId:
+          type: string
+        roomCode:
+          type: string
+        eventId:
+          type: string
+
     # ─── Outbound: Server → Client ───────────────────────────────────────────
 
     Player:
@@ -225,6 +236,9 @@ components:
     PlayMade:
       type: object
       properties:
+        eventId:
+          type: string
+          description: ACK de todos los clientes antes de publicar turno/estado
         playEpoch:
           type: integer
         playerId:

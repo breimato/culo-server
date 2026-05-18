@@ -95,9 +95,10 @@ public class RoomEventPublisher {
         this.publishHandUpdate(room, player.getId()));
   }
 
-  public void publishPlayMade(final Room room, final PlayResult playResult) {
+  public void publishPlayMade(final Room room, final PlayResult playResult, final String eventId) {
     final var cards = this.cardDtoMapper.toCardDtoList(playResult.play().cards());
     final var playMadeDto = PlayMadeDto.builder()
+        .eventId(eventId)
         .playEpoch(room.getPlayEpoch())
         .playerId(playResult.playerId())
         .cards(cards)
