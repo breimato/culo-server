@@ -202,6 +202,9 @@ components:
           type: array
           items:
             type: string
+        playEpoch:
+          type: integer
+          description: Se incrementa en cada reparto; invalida jugadas de la mano anterior
 
     JoinedRoom:
       type: object
@@ -222,6 +225,8 @@ components:
     PlayMade:
       type: object
       properties:
+        playEpoch:
+          type: integer
         playerId:
           type: string
         cards:

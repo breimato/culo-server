@@ -59,6 +59,13 @@ public class Room {
     /** Estado de la ronda actual. */
     private Round currentRound = new Round();
 
+    /**
+     * Contador de mano/reparto. Se incrementa en cada {@link #dealCards()} para invalidar
+     * eventos de jugada retrasados de la mano anterior.
+     */
+    @Getter
+    private int playEpoch = 0;
+
     /** ID del culo de la partida anterior (null = primera partida). */
     @Setter
     private String lastCuloId = null;
@@ -154,6 +161,7 @@ public class Room {
         }
 
         this.currentRound = new Round();
+        this.playEpoch++;
         this.currentPlayerIndex = this.lastCuloId == null
                 ? this.findTwoOfOrosPlayerIndex()
                 : 0;

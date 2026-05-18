@@ -98,6 +98,7 @@ public class RoomEventPublisher {
   public void publishPlayMade(final Room room, final PlayResult playResult) {
     final var cards = this.cardDtoMapper.toCardDtoList(playResult.play().cards());
     final var playMadeDto = PlayMadeDto.builder()
+        .playEpoch(room.getPlayEpoch())
         .playerId(playResult.playerId())
         .cards(cards)
         .plin(playResult.plin())

@@ -47,6 +47,7 @@ public class RoomStateDtoMapper {
         .culoSwapInitiatorId(room.getCuloSwapInitiatorId())
         .culoSwapTargetId(room.getCuloSwapTargetId())
         .exchangeDonePlayerIds(List.copyOf(room.getExchangeDone()))
+        .playEpoch(room.getPlayEpoch())
         .build();
   }
 

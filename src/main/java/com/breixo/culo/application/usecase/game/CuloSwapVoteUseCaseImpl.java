@@ -22,13 +22,17 @@ public class CuloSwapVoteUseCaseImpl implements CuloSwapVoteUseCase {
 
   @Override
   public CuloSwapVoteResult execute(final CuloSwapVoteCommand command) {
+
     final var room = this.roomPersistencePort.findByCode(command.roomCode())
         .orElseThrow(() -> new RoomException(RoomExceptionConstants.ROOM_NOT_FOUND));
+
     final var player = room.findPlayerByClientId(command.clientId())
         .orElseThrow(() -> new RoomException(RoomExceptionConstants.PLAYER_NOT_IN_ROOM));
+
     if (!room.getPhase().equals(GamePhase.CULO_SWAP_VOTE)) {
       throw new GameException(GameExceptionConstants.WRONG_PHASE);
     }
+
     if (room.getCuloSwapVotes().containsKey(player.getId())) {
       throw new GameException(GameExceptionConstants.SWAP_ALREADY_VOTED);
     }
@@ -47,6 +51,7 @@ public class CuloSwapVoteUseCaseImpl implements CuloSwapVoteUseCase {
     }
 
     final var savedRoom = this.roomPersistencePort.save(room);
+
     return CuloSwapVoteResult.builder()
         .room(savedRoom)
         .completed(completed)
