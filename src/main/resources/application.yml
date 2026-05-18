@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: ${PORT:8080}
 
 spring:
   application:
@@ -10,6 +10,8 @@ culo:
     allowed-origins:
       - http://localhost:5173
       - http://localhost:4173
+      - https://breimato.es
+      - https://www.breimato.es
   room:
     ttl-hours: 2
 

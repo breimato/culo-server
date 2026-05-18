@@ -46,18 +46,28 @@ Vuelve a desplegar tras cambiar orígenes.
 
 ## Despliegue
 
-Este proyecto **no** corre en SiteGround ni Vercel. Usa un servicio con JVM, por ejemplo:
+Este proyecto **no** corre en SiteGround ni **Vercel**. Vercel solo sirve funciones serverless / estáticos; un Spring Boot con WebSocket STOMP necesita un proceso JVM siempre activo. Si despliegas aquí en Vercel verás `404: NOT_FOUND` en todas las rutas.
 
-- [Render](https://render.com)
+### Render (recomendado)
+
+1. Sube el repo a GitHub (`breimato/culo-server`).
+2. En [Render](https://render.com) → **New** → **Blueprint** y conecta el repo (usa el `render.yaml` incluido), o **Web Service** con runtime **Docker**.
+3. Cuando esté en marcha, la URL será algo como `https://culo-server-xxxx.onrender.com`.
+4. En el cliente, `VITE_WS_URL=https://culo-server-xxxx.onrender.com/ws` y vuelve a `pnpm deploy:ftp`.
+
+Health check: `GET /health` → `{"status":"ok"}`.
+
+### Otras plataformas JVM
+
 - [Railway](https://railway.app)
 - [Fly.io](https://fly.io)
-- VPS con Java 21
+- VPS con Java 21 + `Dockerfile` del repo
 
 Configuración típica:
 
-- **Build:** `mvn -DskipTests package`
-- **Start:** `java -jar target/culo-server-0.1.0.jar` (ajusta la versión del JAR)
-- **Puerto:** el que exponga la plataforma (`PORT` / 8080)
+- **Build:** `mvn -DskipTests package` (o Docker)
+- **Start:** `java -jar target/culo-server-0.1.0.jar`
+- **Puerto:** variable `PORT` (por defecto 8080)
 
 ## WebSocket
 
