@@ -1,0 +1,36 @@
+name: Test and deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+
+      - name: Run tests
+        run: mvn -B test
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Trigger Render deploy
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$RENDER_DEPLOY_HOOK" ]; then
+            echo "RENDER_DEPLOY_HOOK not set; skipping (Render may auto-deploy from GitHub)."
+            exit 0
+          fi
+          curl -fsS -X POST "$RENDER_DEPLOY_HOOK"
