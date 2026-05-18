@@ -17,7 +17,7 @@ public class CorsConfig {
   @Bean
   public CorsFilter corsFilter() {
     final var corsConfiguration = new CorsConfiguration();
-    corsConfiguration.setAllowedOrigins(this.culoProperties.getCors().getAllowedOrigins());
+    corsConfiguration.setAllowedOriginPatterns(this.culoProperties.getCors().getAllowedOrigins());
     corsConfiguration.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     corsConfiguration.setAllowedHeaders(java.util.List.of("*"));
     corsConfiguration.setAllowCredentials(true);
