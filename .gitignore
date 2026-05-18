@@ -1,0 +1,16 @@
+target/
+.mvn/wrapper/maven-wrapper.jar
+*.class
+*.jar
+*.war
+*.ear
+hs_err_pid*
+replay_pid*
+.idea/
+*.iml
+.vscode/
+.env
+.env.local
+.DS_Store
+Thumbs.db
+*.log

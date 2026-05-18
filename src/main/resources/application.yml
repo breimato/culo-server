@@ -1,0 +1,18 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: culo-server
+
+culo:
+  cors:
+    allowed-origins:
+      - http://localhost:5173
+      - http://localhost:4173
+  room:
+    ttl-hours: 2
+
+logging:
+  level:
+    com.breixo.culo: DEBUG
