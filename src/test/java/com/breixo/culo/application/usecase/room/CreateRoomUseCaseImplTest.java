@@ -1,10 +1,9 @@
 package com.breixo.culo.application.usecase.room;
 
-import com.breixo.culo.domain.GamePhase;
 import com.breixo.culo.domain.command.room.CreateRoomCommand;
 import com.breixo.culo.domain.model.Room;
 import com.breixo.culo.domain.port.output.room.RoomCodeGenerationPort;
-import com.breixo.culo.domain.port.output.room.RoomPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomSavePersistencePort;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +23,7 @@ import static org.mockito.Mockito.when;
 class CreateRoomUseCaseImplTest {
 
   @Mock
-  RoomPersistencePort roomPersistencePort;
+  RoomSavePersistencePort roomSavePersistencePort;
 
   @Mock
   RoomCodeGenerationPort roomCodeGenerationPort;
@@ -41,13 +40,13 @@ class CreateRoomUseCaseImplTest {
     final var room = Instancio.create(Room.class);
 
     // When
-    when(this.roomCodeGenerationPort.generateUnique()).thenReturn(roomCode);
-    when(this.roomPersistencePort.save(any(Room.class))).thenReturn(room);
+    when(this.roomCodeGenerationPort.execute()).thenReturn(roomCode);
+    when(this.roomSavePersistencePort.save(any(Room.class))).thenReturn(room);
     final var roomJoinResult = this.createRoomUseCaseImpl.execute(createRoomCommand);
 
     // Then
-    verify(this.roomCodeGenerationPort, times(1)).generateUnique();
-    verify(this.roomPersistencePort, times(1)).save(any(Room.class));
+    verify(this.roomCodeGenerationPort, times(1)).execute();
+    verify(this.roomSavePersistencePort, times(1)).save(any(Room.class));
     assertEquals(roomCode, roomJoinResult.roomCode());
     assertNotNull(roomJoinResult.playerId());
     assertEquals(room, roomJoinResult.room());

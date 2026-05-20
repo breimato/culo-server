@@ -6,7 +6,8 @@ import com.breixo.culo.domain.exception.RoomException;
 import com.breixo.culo.domain.exception.constants.RoomExceptionConstants;
 import com.breixo.culo.domain.model.Player;
 import com.breixo.culo.domain.model.Room;
-import com.breixo.culo.domain.port.output.room.RoomPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomSavePersistencePort;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,7 +28,10 @@ import static org.mockito.Mockito.when;
 class JoinRoomUseCaseImplTest {
 
   @Mock
-  RoomPersistencePort roomPersistencePort;
+  RoomSavePersistencePort roomSavePersistencePort;
+
+  @Mock
+  RoomRetrievalPersistencePort roomRetrievalPersistencePort;
 
   @InjectMocks
   JoinRoomUseCaseImpl joinRoomUseCaseImpl;
@@ -39,13 +43,13 @@ class JoinRoomUseCaseImplTest {
     final var joinRoomCommand = Instancio.create(JoinRoomCommand.class);
 
     // When
-    when(this.roomPersistencePort.findByCode(joinRoomCommand.roomCode())).thenReturn(Optional.empty());
+    when(this.roomRetrievalPersistencePort.findByCode(joinRoomCommand.roomCode())).thenReturn(Optional.empty());
 
     // Then
     final var roomException = assertThrows(
         RoomException.class,
         () -> this.joinRoomUseCaseImpl.execute(joinRoomCommand));
-    verify(this.roomPersistencePort, times(1)).findByCode(joinRoomCommand.roomCode());
+    verify(this.roomRetrievalPersistencePort, times(1)).findByCode(joinRoomCommand.roomCode());
     assertEquals(RoomExceptionConstants.ROOM_NOT_FOUND, roomException.getMessage());
   }
 
@@ -58,7 +62,7 @@ class JoinRoomUseCaseImplTest {
     room.setPhase(GamePhase.PLAYING);
 
     // When
-    when(this.roomPersistencePort.findByCode(joinRoomCommand.roomCode())).thenReturn(Optional.of(room));
+    when(this.roomRetrievalPersistencePort.findByCode(joinRoomCommand.roomCode())).thenReturn(Optional.of(room));
 
     // Then
     final var roomException = assertThrows(
@@ -85,12 +89,12 @@ class JoinRoomUseCaseImplTest {
     room.addPlayer(player);
 
     // When
-    when(this.roomPersistencePort.findByCode(joinRoomCommand.roomCode())).thenReturn(Optional.of(room));
-    when(this.roomPersistencePort.save(room)).thenReturn(room);
+    when(this.roomRetrievalPersistencePort.findByCode(joinRoomCommand.roomCode())).thenReturn(Optional.of(room));
+    when(this.roomSavePersistencePort.save(room)).thenReturn(room);
     final var roomJoinResult = this.joinRoomUseCaseImpl.execute(joinRoomCommand);
 
     // Then
-    verify(this.roomPersistencePort, times(1)).save(room);
+    verify(this.roomSavePersistencePort, times(1)).save(room);
     assertEquals("player-1", roomJoinResult.playerId());
     assertEquals(joinRoomCommand.roomCode(), roomJoinResult.roomCode());
   }

@@ -1,7 +1,7 @@
 package com.breixo.culo.infrastructure.adapter.input.ws.support;
 
 import com.breixo.culo.domain.exception.CuloException;
-import com.breixo.culo.domain.port.output.room.RoomPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
 import com.breixo.culo.infrastructure.adapter.input.ws.RoomEventPublisher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +21,8 @@ public class WsInboundExceptionSupport {
   /** The room event publisher. */
   private final RoomEventPublisher roomEventPublisher;
 
-  /** The room persistence port. */
-  private final RoomPersistencePort roomPersistencePort;
+  /** The room retrieval persistence port. */
+  private final RoomRetrievalPersistencePort roomRetrievalPersistencePort;
 
   /**
 	 * Publish error to client.
@@ -64,7 +64,7 @@ public class WsInboundExceptionSupport {
     if (StringUtils.isBlank(roomCode)) {
       return Optional.empty();
     }
-    return this.roomPersistencePort.findByCode(roomCode)
+    return this.roomRetrievalPersistencePort.findByCode(roomCode)
         .flatMap(room -> room.findPlayerByClientId(clientId))
         .map(player -> player.getId());
   }

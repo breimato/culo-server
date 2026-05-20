@@ -2,8 +2,8 @@ package com.breixo.culo.domain.port.output.room;
 
 import jakarta.validation.constraints.NotNull;
 
-/** The Interface Room Existence Port. */
-public interface RoomExistencePort {
+/** The Interface Room Existence Persistence Port. */
+public interface RoomExistencePersistencePort {
 
   /**
    * Exists by code.

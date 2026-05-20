@@ -1,8 +1,12 @@
 package com.breixo.culo.infrastructure.adapter.output.util;
 
+import com.breixo.culo.domain.exception.RoomException;
+import com.breixo.culo.domain.exception.constants.RoomExceptionConstants;
 import com.breixo.culo.domain.port.output.room.RoomCodeGenerationPort;
-import com.breixo.culo.domain.port.output.room.RoomPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomExistencePersistencePort;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.BooleanUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;
@@ -24,24 +28,28 @@ public class RoomCodeGenerator implements RoomCodeGenerationPort {
   /** The Constant MAX_ATTEMPTS. */
   private static final int MAX_ATTEMPTS = 50;
 
-  /** The room persistence port. */
-  private final RoomPersistencePort roomPersistencePort;
-
+  /** The room existence persistence port. */
+  private final RoomExistencePersistencePort roomExistencePersistencePort;
+  
   /** The secure random. */
   private final SecureRandom secureRandom = new SecureRandom();
 
   /**
-	 * Generate unique.
+	 * Execute.
 	 *
 	 * @return the string
 	 */
   @Override
-  public String generateUnique() {
+  public String execute() {
+
     return IntStream.range(0, MAX_ATTEMPTS)
         .mapToObj(attempt -> this.generateCode())
-        .filter(code -> !this.roomPersistencePort.existsByCode(code))
+        .filter(code -> BooleanUtils.isFalse(this.roomExistencePersistencePort.existsByCode(code)))
         .findFirst()
-        .orElseThrow(() -> new IllegalStateException("No se pudo generar un código de sala único"));
+        .orElseThrow(
+                () -> new RoomException(
+                    RoomExceptionConstants.UNIQUE_CODE_GENERATION_FAILED,
+                    HttpStatus.INTERNAL_SERVER_ERROR));
   }
 
   /**
@@ -51,12 +59,14 @@ public class RoomCodeGenerator implements RoomCodeGenerationPort {
 	 */
   private String generateCode() {
 
-final var codeBuilder = new StringBuilder(CODE_LENGTH);
+    final var codeBuilder = new StringBuilder(CODE_LENGTH);
+
     IntStream.range(0, CODE_LENGTH)
         .forEach(index -> {
           final var charIndex = this.secureRandom.nextInt(CODE_CHARS.length());
           codeBuilder.append(CODE_CHARS.charAt(charIndex));
         });
+
     return codeBuilder.toString();
   }
 }

@@ -6,8 +6,8 @@ import com.breixo.culo.domain.exception.RoomException;
 import com.breixo.culo.domain.exception.constants.RoomExceptionConstants;
 import com.breixo.culo.domain.model.Player;
 import com.breixo.culo.domain.model.Room;
-import com.breixo.culo.domain.port.output.room.RoomPersistencePort;
-import org.instancio.Instancio;
+import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomSavePersistencePort;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,7 +27,10 @@ import static org.mockito.Mockito.when;
 class StartGameUseCaseImplTest {
 
   @Mock
-  RoomPersistencePort roomPersistencePort;
+  RoomSavePersistencePort roomSavePersistencePort;
+
+  @Mock
+  RoomRetrievalPersistencePort roomRetrievalPersistencePort;
 
   @InjectMocks
   StartGameUseCaseImpl startGameUseCaseImpl;
@@ -55,12 +58,12 @@ class StartGameUseCaseImplTest {
     room.addPlayer(guestPlayer);
 
     // When
-    when(this.roomPersistencePort.findByCode(startGameCommand.roomCode())).thenReturn(Optional.of(room));
-    when(this.roomPersistencePort.save(room)).thenReturn(room);
+    when(this.roomRetrievalPersistencePort.findByCode(startGameCommand.roomCode())).thenReturn(Optional.of(room));
+    when(this.roomSavePersistencePort.save(room)).thenReturn(room);
     final var savedRoom = this.startGameUseCaseImpl.execute(startGameCommand);
 
     // Then
-    verify(this.roomPersistencePort, times(1)).save(room);
+    verify(this.roomSavePersistencePort, times(1)).save(room);
     assertEquals(GamePhase.DEALING, savedRoom.getPhase());
   }
 
@@ -87,7 +90,7 @@ class StartGameUseCaseImplTest {
     room.addPlayer(guestPlayer);
 
     // When
-    when(this.roomPersistencePort.findByCode(startGameCommand.roomCode())).thenReturn(Optional.of(room));
+    when(this.roomRetrievalPersistencePort.findByCode(startGameCommand.roomCode())).thenReturn(Optional.of(room));
 
     // Then
     final var roomException = assertThrows(
@@ -113,7 +116,7 @@ class StartGameUseCaseImplTest {
     room.addPlayer(hostPlayer);
 
     // When
-    when(this.roomPersistencePort.findByCode(startGameCommand.roomCode())).thenReturn(Optional.of(room));
+    when(this.roomRetrievalPersistencePort.findByCode(startGameCommand.roomCode())).thenReturn(Optional.of(room));
 
     // Then
     final var roomException = assertThrows(

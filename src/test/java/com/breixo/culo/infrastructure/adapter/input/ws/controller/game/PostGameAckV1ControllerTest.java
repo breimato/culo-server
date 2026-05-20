@@ -2,7 +2,7 @@ package com.breixo.culo.infrastructure.adapter.input.ws.controller.game;
 
 import com.breixo.culo.domain.model.Player;
 import com.breixo.culo.domain.model.Room;
-import com.breixo.culo.domain.port.output.room.RoomPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
 import com.breixo.culo.infrastructure.adapter.input.ws.RoomAckCoordinator;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.PostGameAckV1RequestDto;
 import com.breixo.culo.infrastructure.config.WsInboundDestinationConstants;
@@ -43,9 +43,9 @@ class PostGameAckV1ControllerTest {
   @InjectMocks
   PostGameAckV1Controller postGameAckV1Controller;
 
-  /** The room persistence port. */
+  /** The room retrieval persistence port. */
   @Mock
-  RoomPersistencePort roomPersistencePort;
+  RoomRetrievalPersistencePort roomRetrievalPersistencePort;
 
   /** The room ack coordinator. */
   @Mock
@@ -78,7 +78,7 @@ class PostGameAckV1ControllerTest {
     final var eventId = postGameAckV1RequestDto.getEventId();
 
     // When
-    when(this.roomPersistencePort.findByCode(roomCode)).thenReturn(Optional.of(this.room));
+    when(this.roomRetrievalPersistencePort.findByCode(roomCode)).thenReturn(Optional.of(this.room));
     when(this.room.findPlayerByClientId(clientId)).thenReturn(Optional.of(player));
 
     this.mockMvc.perform(post(WsInboundDestinationConstants.POST_GAME_ACK_V1)
@@ -102,7 +102,7 @@ class PostGameAckV1ControllerTest {
     final var roomCode = postGameAckV1RequestDto.getRoomCode();
 
     // When
-    when(this.roomPersistencePort.findByCode(roomCode)).thenReturn(Optional.empty());
+    when(this.roomRetrievalPersistencePort.findByCode(roomCode)).thenReturn(Optional.empty());
 
     this.mockMvc.perform(post(WsInboundDestinationConstants.POST_GAME_ACK_V1)
             .contentType(MediaType.APPLICATION_JSON)

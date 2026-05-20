@@ -6,7 +6,8 @@ import com.breixo.culo.domain.command.game.CuloSwapInitiateCommand;
 import com.breixo.culo.domain.command.game.CuloSwapVoteCommand;
 import com.breixo.culo.domain.model.Player;
 import com.breixo.culo.domain.model.Room;
-import com.breixo.culo.domain.port.output.room.RoomPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomSavePersistencePort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,15 +25,22 @@ import static org.mockito.Mockito.when;
 class CuloSwapVoteUseCaseImplTest {
 
     @Mock
-    RoomPersistencePort roomPersistencePort;
+    RoomSavePersistencePort roomSavePersistencePort;
+
+    @Mock
+    RoomRetrievalPersistencePort roomRetrievalPersistencePort;
 
     CuloSwapInitiateUseCaseImpl initiateUseCase;
     CuloSwapVoteUseCaseImpl voteUseCase;
 
     @BeforeEach
     void setUp() {
-        this.initiateUseCase = new CuloSwapInitiateUseCaseImpl(this.roomPersistencePort);
-        this.voteUseCase = new CuloSwapVoteUseCaseImpl(this.roomPersistencePort);
+        this.initiateUseCase = new CuloSwapInitiateUseCaseImpl(
+            this.roomSavePersistencePort,
+            this.roomRetrievalPersistencePort);
+        this.voteUseCase = new CuloSwapVoteUseCaseImpl(
+            this.roomSavePersistencePort,
+            this.roomRetrievalPersistencePort);
     }
 
     @Test
@@ -49,8 +57,8 @@ class CuloSwapVoteUseCaseImplTest {
         room.getHands().put("culo-id", new java.util.ArrayList<>());
         room.getHands().put("other-id", new java.util.ArrayList<>());
 
-        when(this.roomPersistencePort.findByCode("ABCD")).thenReturn(Optional.of(room));
-        when(this.roomPersistencePort.save(any(Room.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(this.roomRetrievalPersistencePort.findByCode("ABCD")).thenReturn(Optional.of(room));
+        when(this.roomSavePersistencePort.save(any(Room.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         this.initiateUseCase.execute(CuloSwapInitiateCommand.builder()
                 .clientId("culo-client")

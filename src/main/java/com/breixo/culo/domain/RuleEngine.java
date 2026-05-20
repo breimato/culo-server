@@ -6,17 +6,17 @@ import com.breixo.culo.domain.model.Round;
 import java.util.List;
 
 /**
- * Motor de reglas puro del juego. Sin dependencias de framework.
+ * The Class RuleEngine.
  */
 public class RuleEngine {
 
     /**
-     * Determina si una jugada es legal dado el estado actual de la ronda.
-     *
-     * @param play  jugada que el jugador quiere realizar
-     * @param round estado actual de la ronda
-     * @return true si la jugada es legal
-     */
+	 * Checks if is legal.
+	 *
+	 * @param play  the play
+	 * @param round the round
+	 * @return true, if is legal
+	 */
     public boolean isLegal(final Play play, final Round round) {
         if (play.isAsOros()) {
             return true;
@@ -31,12 +31,12 @@ public class RuleEngine {
     }
 
     /**
-     * Detecta si la jugada es un "plin" (mismo número que la jugada anterior).
-     *
-     * @param play  jugada actual
-     * @param round estado actual de la ronda
-     * @return true si es plin
-     */
+	 * Checks if is plin.
+	 *
+	 * @param play  the play
+	 * @param round the round
+	 * @return true, if is plin
+	 */
     public boolean isPlin(final Play play, final Round round) {
         if (round.isOpen()) {
             return false;
@@ -45,13 +45,12 @@ public class RuleEngine {
     }
 
     /**
-     * Determina si la ronda ha terminado: todos los jugadores activos excepto
-     * quien hizo la última jugada han pasado al menos una vez.
-     *
-     * @param round            estado de la ronda
-     * @param activePlayerIds  ids de jugadores con cartas en mano
-     * @return true si la ronda debe cerrarse
-     */
+	 * Checks if is round over.
+	 *
+	 * @param round           the round
+	 * @param activePlayerIds the active player ids
+	 * @return true, if is round over
+	 */
     public boolean isRoundOver(final Round round, final List<String> activePlayerIds) {
         if (round.isOpen()) {
             return false;

@@ -7,21 +7,23 @@ import jakarta.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Optional;
 
-/** The Interface Room Retrieval Persistence Port. */
+/**
+ * The Interface RoomRetrievalPersistencePort.
+ */
 public interface RoomRetrievalPersistencePort {
 
   /**
-   * Find by code.
-   *
-   * @param roomCode the room code.
-   * @return the room, or empty if not found.
-   */
+	 * Find by code.
+	 *
+	 * @param roomCode the room code
+	 * @return the optional
+	 */
   Optional<Room> findByCode(@NotNull String roomCode);
 
   /**
-   * Find all.
-   *
-   * @return all persisted rooms.
-   */
+	 * Find all.
+	 *
+	 * @return the collection
+	 */
   Collection<Room> findAll();
 }

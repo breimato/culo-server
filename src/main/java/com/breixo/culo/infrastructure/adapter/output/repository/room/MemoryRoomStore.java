@@ -1,18 +1,27 @@
 package com.breixo.culo.infrastructure.adapter.output.repository.room;
 
 import com.breixo.culo.domain.model.Room;
-import com.breixo.culo.domain.port.output.room.RoomPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomDeletionPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomExistencePersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomSavePersistencePort;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
+/** The Class MemoryRoomStore. */
 @Component
-public class InMemoryRoomPersistenceRepository implements RoomPersistencePort {
+public class MemoryRoomStore implements
+    RoomSavePersistencePort,
+    RoomRetrievalPersistencePort,
+    RoomExistencePersistencePort,
+    RoomDeletionPersistencePort {
 
   private final ConcurrentHashMap<String, Room> rooms = new ConcurrentHashMap<>();
 
+  /** {@inheritDoc} */
   @Override
   public Room save(final Room room) {
     room.touch();
@@ -20,23 +29,27 @@ public class InMemoryRoomPersistenceRepository implements RoomPersistencePort {
     return room;
   }
 
+  /** {@inheritDoc} */
   @Override
   public Optional<Room> findByCode(final String roomCode) {
     return Optional.ofNullable(this.rooms.get(roomCode));
   }
 
+  /** {@inheritDoc} */
+  @Override
+  public Collection<Room> findAll() {
+    return this.rooms.values();
+  }
+
+  /** {@inheritDoc} */
   @Override
   public boolean existsByCode(final String roomCode) {
     return this.rooms.containsKey(roomCode);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void deleteByCode(final String roomCode) {
     this.rooms.remove(roomCode);
-  }
-
-  @Override
-  public Collection<Room> findAll() {
-    return this.rooms.values();
   }
 }

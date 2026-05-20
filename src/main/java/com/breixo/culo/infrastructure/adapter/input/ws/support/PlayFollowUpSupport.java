@@ -2,7 +2,7 @@ package com.breixo.culo.infrastructure.adapter.input.ws.support;
 
 import com.breixo.culo.domain.model.Room;
 import com.breixo.culo.domain.model.game.PlayResult;
-import com.breixo.culo.domain.port.output.room.RoomPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
 import com.breixo.culo.infrastructure.adapter.input.ws.RoomEventPublisher;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
@@ -18,8 +18,8 @@ public class PlayFollowUpSupport {
   /** The room event publisher. */
   private final RoomEventPublisher roomEventPublisher;
 
-  /** The room persistence port. */
-  private final RoomPersistencePort roomPersistencePort;
+  /** The room retrieval persistence port. */
+  private final RoomRetrievalPersistencePort roomRetrievalPersistencePort;
 
   /**
 	 * Play follow up task.
@@ -40,7 +40,7 @@ public class PlayFollowUpSupport {
 	 */
   public void publishPlayFollowUp(final String roomCode, final PlayResult playResult) {
  
-    final var room = this.roomPersistencePort.findByCode(roomCode).orElse(playResult.room());
+    final var room = this.roomRetrievalPersistencePort.findByCode(roomCode).orElse(playResult.room());
     this.roomEventPublisher.publishRoomState(room);
     this.publishPendingQuadDiscards(room);
     if (BooleanUtils.isTrue(playResult.gameEnded())) {
