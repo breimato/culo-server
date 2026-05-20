@@ -7,6 +7,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+/**
+ * The Class CorsConfig.
+ */
 @Configuration
 @RequiredArgsConstructor
 public class CorsConfig {
@@ -14,8 +17,14 @@ public class CorsConfig {
   /** The culo properties. */
   private final CuloProperties culoProperties;
 
+  /**
+	 * Cors filter.
+	 *
+	 * @return the cors filter
+	 */
   @Bean
   public CorsFilter corsFilter() {
+ 
     final var corsConfiguration = new CorsConfiguration();
     corsConfiguration.setAllowedOriginPatterns(this.culoProperties.getCors().getAllowedOrigins());
     corsConfiguration.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));

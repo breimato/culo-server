@@ -1,0 +1,16 @@
+description: "Post Game Ack V1 Request"
+type: object
+required:
+  - clientId
+  - roomCode
+  - eventId
+properties:
+  clientId:
+    type: string
+    description: "Client identifier"
+  roomCode:
+    type: string
+    description: "Room code"
+  eventId:
+    type: string
+    description: "Event identifier to acknowledge"

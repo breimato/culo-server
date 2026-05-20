@@ -1,0 +1,11 @@
+description: "Turn Changed V1 Response"
+type: object
+properties:
+  currentPlayerId:
+    type: string
+    description: "Current player identifier"
+  roundRequirement:
+    type: integer
+    description: "Round requirement"
+  lastRankName:
+    $ref: '../components/CardRankNameV1.yaml'

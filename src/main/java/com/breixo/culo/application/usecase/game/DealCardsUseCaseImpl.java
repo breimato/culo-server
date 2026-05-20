@@ -17,6 +17,9 @@ import org.springframework.stereotype.Component;
 import java.util.EnumMap;
 import java.util.Map;
 
+/**
+ * The Class DealCardsUseCaseImpl.
+ */
 @Component
 @RequiredArgsConstructor
 public class DealCardsUseCaseImpl implements DealCardsUseCase {
@@ -24,9 +27,16 @@ public class DealCardsUseCaseImpl implements DealCardsUseCase {
   /** The room persistence port. */
   private final RoomPersistencePort roomPersistencePort;
 
+  /**
+	 * Execute.
+	 *
+	 * @param dealCardsCommand the deal cards command
+	 * @return the room
+	 */
   @Override
   public Room execute(final DealCardsCommand dealCardsCommand) {
-    final var room = this.roomPersistencePort.findByCode(dealCardsCommand.roomCode())
+    
+final var room = this.roomPersistencePort.findByCode(dealCardsCommand.roomCode())
         .orElseThrow(() -> new RoomException(RoomExceptionConstants.ROOM_NOT_FOUND));
     final var player = room.findPlayerByClientId(dealCardsCommand.clientId())
         .orElseThrow(() -> new RoomException(RoomExceptionConstants.PLAYER_NOT_IN_ROOM));
@@ -65,8 +75,15 @@ public class DealCardsUseCaseImpl implements DealCardsUseCase {
     return this.roomPersistencePort.save(room);
   }
 
+  /**
+	 * Capture exchange roles.
+	 *
+	 * @param room the room
+	 * @return the map
+	 */
   private Map<PlayerRole, String> captureExchangeRoles(final Room room) {
-    final var roles = new EnumMap<PlayerRole, String>(PlayerRole.class);
+    
+final var roles = new EnumMap<PlayerRole, String>(PlayerRole.class);
     room.getPlayerIdByRole(PlayerRole.GANADOR).ifPresent(id -> roles.put(PlayerRole.GANADOR, id));
     room.getPlayerIdByRole(PlayerRole.CULO).ifPresent(id -> roles.put(PlayerRole.CULO, id));
     room.getPlayerIdByRole(PlayerRole.SUBCAMPEON).ifPresent(id -> roles.put(PlayerRole.SUBCAMPEON, id));
@@ -74,16 +91,31 @@ public class DealCardsUseCaseImpl implements DealCardsUseCase {
     return roles;
   }
 
+  /**
+	 * Restore exchange roles.
+	 *
+	 * @param room          the room
+	 * @param rolesByPlayer the roles by player
+	 */
   private void restoreExchangeRoles(final Room room, final Map<PlayerRole, String> rolesByPlayer) {
     rolesByPlayer.forEach((role, playerId) ->
         room.findPlayerById(playerId).ifPresent(p -> p.setRole(role)));
   }
 
+  /**
+	 * Transfer best cards.
+	 *
+	 * @param room       the room
+	 * @param giverId    the giver id
+	 * @param receiverId the receiver id
+	 * @param count      the count
+	 */
   private void transferBestCards(
       final Room room,
       final String giverId,
       final String receiverId,
       final int count) {
+ 
     final var giverHand = room.getHand(giverId);
     final var best = giverHand.stream()
         .sorted((a, b) -> Integer.compare(cardSortValue(b), cardSortValue(a)))
@@ -93,6 +125,12 @@ public class DealCardsUseCaseImpl implements DealCardsUseCase {
     room.getHand(receiverId).addAll(best);
   }
 
+  /**
+	 * Card sort value.
+	 *
+	 * @param card the card
+	 * @return the int
+	 */
   private static int cardSortValue(final Card card) {
     return card.number() == 1 ? 999 : card.number();
   }

@@ -1,0 +1,17 @@
+description: "Player V1"
+type: object
+properties:
+  id:
+    type: string
+    description: "Player identifier"
+  nick:
+    type: string
+    description: "Player nickname"
+  connected:
+    type: boolean
+    description: "Whether the player is connected"
+  role:
+    $ref: './PlayerRoleV1.yaml'
+  cardCount:
+    type: integer
+    description: "Number of cards in hand"

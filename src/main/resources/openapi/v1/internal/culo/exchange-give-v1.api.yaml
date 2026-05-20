@@ -1,0 +1,21 @@
+post:
+  summary: "Post Exchange Give V1"
+  description: "Give cards during exchange phase (STOMP /app/exchange.give)"
+  operationId: "PostExchangeGiveV1"
+  tags:
+    - post-exchange-give-v1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../requests/PostExchangeGiveV1Request.yaml'
+  responses:
+    '204':
+      description: "204 No Content"
+    '500':
+      description: "Internal Server Error"
+      content:
+        application/json:
+          schema:
+            $ref: '../components/ApiErrorV1.yaml'

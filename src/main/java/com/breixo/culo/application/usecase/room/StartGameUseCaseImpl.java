@@ -10,17 +10,28 @@ import com.breixo.culo.domain.port.output.room.RoomPersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+/**
+ * The Class StartGameUseCaseImpl.
+ */
 @Component
 @RequiredArgsConstructor
 public class StartGameUseCaseImpl implements StartGameUseCase {
 
+  /** The Constant MIN_PLAYERS. */
   private static final int MIN_PLAYERS = 2;
 
   /** The room persistence port. */
   private final RoomPersistencePort roomPersistencePort;
 
+  /**
+	 * Execute.
+	 *
+	 * @param startGameCommand the start game command
+	 * @return the room
+	 */
   @Override
   public Room execute(final StartGameCommand startGameCommand) {
+ 
     final var room = this.roomPersistencePort.findByCode(startGameCommand.roomCode())
         .orElseThrow(() -> new RoomException(RoomExceptionConstants.ROOM_NOT_FOUND));
     final var player = room.findPlayerByClientId(startGameCommand.clientId())

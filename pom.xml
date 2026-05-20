@@ -22,6 +22,9 @@
         <mapstruct.version>1.6.2</mapstruct.version>
         <openapi-generator.version>7.9.0</openapi-generator.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+        <springdoc.version>2.6.0</springdoc.version>
+        <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
+        <build-helper.version>3.6.0</build-helper.version>
     </properties>
 
     <dependencies>
@@ -63,6 +66,18 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${springdoc.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>${jackson-databind-nullable.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
@@ -83,24 +98,46 @@
                 <version>${openapi-generator.version}</version>
                 <executions>
                     <execution>
+                        <id>generate-culo-ws-schemas</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/openapi/culo-ws-messages.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/v1/internal/es-culo.api.yaml</inputSpec>
                             <generatorName>spring</generatorName>
+                            <output>${project.build.directory}/generated-sources/openapi</output>
+                            <apiPackage>com.breixo.culo.infrastructure.adapter.input.ws.api</apiPackage>
                             <modelPackage>com.breixo.culo.infrastructure.adapter.input.ws.dto</modelPackage>
-                            <modelNameSuffix>Dto</modelNameSuffix>
-                            <generateApis>false</generateApis>
-                            <generateModels>true</generateModels>
-                            <generateSupportingFiles>false</generateSupportingFiles>
+                            <modelNameMappings>ApiErrorV1=ApiErrorV1Dto,GamePhaseV1=GamePhaseV1Dto,PlayerRoleV1=PlayerRoleV1Dto,SuitV1=SuitV1Dto,CardRankNameV1=CardRankNameV1Dto,CardV1=CardV1Dto,PlayerV1=PlayerV1Dto,RankingEntryV1=RankingEntryV1Dto,PostRoomCreateV1Request=PostRoomCreateV1RequestDto,PostRoomJoinV1Request=PostRoomJoinV1RequestDto,PostRoomStartV1Request=PostRoomStartV1RequestDto,PostDealingConfirmV1Request=PostDealingConfirmV1RequestDto,PostGamePlayV1Request=PostGamePlayV1RequestDto,PostGameAckV1Request=PostGameAckV1RequestDto,PostGamePassV1Request=PostGamePassV1RequestDto,PostExchangeGiveV1Request=PostExchangeGiveV1RequestDto,PostCuloSwapInitiateV1Request=PostCuloSwapInitiateV1RequestDto,PostCuloSwapVoteV1Request=PostCuloSwapVoteV1RequestDto,JoinedRoomV1Response=JoinedRoomV1ResponseDto,RoomStateV1Response=RoomStateV1ResponseDto,HandUpdateV1Response=HandUpdateV1ResponseDto,PlayMadeV1Response=PlayMadeV1ResponseDto,RoundEndedV1Response=RoundEndedV1ResponseDto,GameEndedV1Response=GameEndedV1ResponseDto,TurnChangedV1Response=TurnChangedV1ResponseDto,CuloSwapRequestV1Response=CuloSwapRequestV1ResponseDto,CuloSwapResultV1Response=CuloSwapResultV1ResponseDto,QuadDiscardedV1Response=QuadDiscardedV1ResponseDto</modelNameMappings>
                             <configOptions>
-                                <useJakartaEe>true</useJakartaEe>
+                                <interfaceOnly>true</interfaceOnly>
                                 <useSpringBoot3>true</useSpringBoot3>
-                                <openApiNullable>false</openApiNullable>
-                                <lombok>true</lombok>
+                                <useTags>true</useTags>
+                                <dateLibrary>java8</dateLibrary>
+                                <openApiNullable>true</openApiNullable>
                                 <generateBuilders>true</generateBuilders>
+                                <useOptional>false</useOptional>
                             </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>${build-helper.version}</version>
+                <executions>
+                    <execution>
+                        <id>add-openapi-sources</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-sources/openapi/src/main/java</source>
+                            </sources>
                         </configuration>
                     </execution>
                 </executions>

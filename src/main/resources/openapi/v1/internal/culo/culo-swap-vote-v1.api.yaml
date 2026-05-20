@@ -1,0 +1,21 @@
+post:
+  summary: "Post Culo Swap Vote V1"
+  description: "Vote on culo swap (STOMP /app/culoSwap.vote)"
+  operationId: "PostCuloSwapVoteV1"
+  tags:
+    - post-culo-swap-vote-v1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../requests/PostCuloSwapVoteV1Request.yaml'
+  responses:
+    '204':
+      description: "204 No Content"
+    '500':
+      description: "Internal Server Error"
+      content:
+        application/json:
+          schema:
+            $ref: '../components/ApiErrorV1.yaml'

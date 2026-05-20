@@ -19,17 +19,28 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * The Class PlayCardsUseCaseImpl.
+ */
 @Component
 @RequiredArgsConstructor
 public class PlayCardsUseCaseImpl implements PlayCardsUseCase {
 
+  /** The Constant RULE_ENGINE. */
   private static final RuleEngine RULE_ENGINE = new RuleEngine();
 
   /** The room persistence port. */
   private final RoomPersistencePort roomPersistencePort;
 
+  /**
+	 * Execute.
+	 *
+	 * @param playCardsCommand the play cards command
+	 * @return the play result
+	 */
   @Override
   public PlayResult execute(final PlayCardsCommand playCardsCommand) {
+
     final var room = this.roomPersistencePort.findByCode(playCardsCommand.roomCode())
         .orElseThrow(() -> new RoomException(RoomExceptionConstants.ROOM_NOT_FOUND));
     final var player = room.findPlayerByClientId(playCardsCommand.clientId())
@@ -102,11 +113,14 @@ public class PlayCardsUseCaseImpl implements PlayCardsUseCase {
   }
 
   /**
-   * Cierra la ronda si no queda nadie por pasar (p. ej. plin en partida de 2).
-   *
-   * @return true si la ronda se cerró
-   */
+	 * Close round if others all passed.
+	 *
+	 * @param room  the room
+	 * @param round the round
+	 * @return true, if successful
+	 */
   private boolean closeRoundIfOthersAllPassed(final Room room, final Round round) {
+
     final var activePlayerIds = room.getPlayerOrder().stream()
         .filter(id -> !room.isPlayerOut(id))
         .toList();
@@ -117,7 +131,16 @@ public class PlayCardsUseCaseImpl implements PlayCardsUseCase {
     return true;
   }
 
+  /**
+	 * To cards.
+	 *
+	 * @param command  the command
+	 * @param room     the room
+	 * @param playerId the player id
+	 * @return the list
+	 */
   private List<Card> toCards(final PlayCardsCommand command, final Room room, final String playerId) {
+
     final var hand = room.getHand(playerId);
     final var cards = command.cards().stream()
         .map(input -> Card.builder().suit(input.suit()).number(input.number()).build())

@@ -8,10 +8,17 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * The Class RoomDiscardQuadsTest.
+ */
 class RoomDiscardQuadsTest {
 
+  /**
+	 * Discard quads removes four cards of same number.
+	 */
   @Test
   void discardQuads_removesFourCardsOfSameNumber() {
+ 
     final var room = new Room("ABCD", "p1");
     room.addPlayer(Player.builder().id("p1").clientId("c1").nick("A").build());
     room.getHands().put("p1", new java.util.ArrayList<>(java.util.List.of(
@@ -32,8 +39,12 @@ class RoomDiscardQuadsTest {
     assertThat(room.getHand("p1").getFirst().number()).isEqualTo(7);
   }
 
+  /**
+	 * Discard quads does nothing during exchange with three of A kind.
+	 */
   @Test
   void discardQuads_doesNothingDuringExchangeWithThreeOfAKind() {
+ 
     final var room = new Room("ABCD", "p1");
     room.addPlayer(Player.builder().id("p1").clientId("c1").nick("A").build());
     room.getHands().put("p1", new java.util.ArrayList<>(java.util.List.of(
@@ -49,6 +60,13 @@ class RoomDiscardQuadsTest {
     assertThat(room.getHand("p1")).hasSize(3);
   }
 
+  /**
+	 * Card.
+	 *
+	 * @param suit   the suit
+	 * @param number the number
+	 * @return the card
+	 */
   private static Card card(final Suit suit, final int number) {
     return Card.builder().suit(suit).number(number).build();
   }

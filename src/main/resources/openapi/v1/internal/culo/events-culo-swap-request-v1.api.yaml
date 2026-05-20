@@ -1,0 +1,13 @@
+get:
+  summary: "Culo Swap Request V1 Event (outbound documentation)"
+  description: "Published to room topic on /culoSwapRequest"
+  operationId: "GetCuloSwapRequestV1EventDoc"
+  tags:
+    - docs-culo-swap-request-v1
+  responses:
+    '200':
+      description: "200 OK"
+      content:
+        application/json:
+          schema:
+            $ref: '../responses/CuloSwapRequestV1Response.yaml'

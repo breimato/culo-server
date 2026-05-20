@@ -1,0 +1,13 @@
+get:
+  summary: "Turn Changed V1 Event (outbound documentation)"
+  description: "Published to room topic on /turnChanged"
+  operationId: "GetTurnChangedV1EventDoc"
+  tags:
+    - docs-turn-changed-v1
+  responses:
+    '200':
+      description: "200 OK"
+      content:
+        application/json:
+          schema:
+            $ref: '../responses/TurnChangedV1Response.yaml'

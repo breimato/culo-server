@@ -1,0 +1,18 @@
+description: "Post Game Play V1 Request"
+type: object
+required:
+  - clientId
+  - roomCode
+  - cards
+properties:
+  clientId:
+    type: string
+    description: "Client identifier"
+  roomCode:
+    type: string
+    description: "Room code"
+  cards:
+    type: array
+    description: "Cards to play"
+    items:
+      $ref: '../components/CardV1.yaml'

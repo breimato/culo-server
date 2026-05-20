@@ -1,0 +1,21 @@
+post:
+  summary: "Post Game Play V1"
+  description: "Play cards (STOMP /app/game.play)"
+  operationId: "PostGamePlayV1"
+  tags:
+    - post-game-play-v1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../requests/PostGamePlayV1Request.yaml'
+  responses:
+    '204':
+      description: "204 No Content"
+    '500':
+      description: "Internal Server Error"
+      content:
+        application/json:
+          schema:
+            $ref: '../components/ApiErrorV1.yaml'

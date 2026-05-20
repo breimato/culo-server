@@ -1,0 +1,8 @@
+description: "Card V1"
+type: object
+properties:
+  suit:
+    $ref: './SuitV1.yaml'
+  number:
+    type: integer
+    description: "Card rank value"

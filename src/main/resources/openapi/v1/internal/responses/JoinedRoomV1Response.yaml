@@ -1,0 +1,9 @@
+description: "Joined Room V1 Response"
+type: object
+properties:
+  roomCode:
+    type: string
+    description: "Room code"
+  playerId:
+    type: string
+    description: "Player identifier"

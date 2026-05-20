@@ -1,0 +1,23 @@
+description: "Post Room Join V1 Request"
+type: object
+required:
+  - clientId
+  - roomCode
+  - nick
+properties:
+  clientId:
+    type: string
+    description: "Client identifier"
+    example: "550e8400-e29b-41d4-a716-446655440000"
+  roomCode:
+    type: string
+    description: "Room code"
+    minLength: 4
+    maxLength: 4
+    example: "AB3X"
+  nick:
+    type: string
+    description: "Player nickname"
+    minLength: 1
+    maxLength: 20
+    example: "Breixo"

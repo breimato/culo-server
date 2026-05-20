@@ -1,0 +1,3 @@
+description: "Card Rank Name V1"
+type: string
+enum: [DOS, CUATRO, CINCO, SEIS, SIETE, SOTA, CABALLO, REY, TRES, AS_OTRO, AS_OROS]

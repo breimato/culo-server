@@ -1,0 +1,13 @@
+get:
+  summary: "Quad Discarded V1 Event (outbound documentation)"
+  description: "Published to room topic on /quadDiscarded"
+  operationId: "GetQuadDiscardedV1EventDoc"
+  tags:
+    - docs-quad-discarded-v1
+  responses:
+    '200':
+      description: "200 OK"
+      content:
+        application/json:
+          schema:
+            $ref: '../responses/QuadDiscardedV1Response.yaml'

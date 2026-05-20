@@ -1,0 +1,13 @@
+get:
+  summary: "Round Ended V1 Event (outbound documentation)"
+  description: "Published to room topic on /roundEnded"
+  operationId: "GetRoundEndedV1EventDoc"
+  tags:
+    - docs-round-ended-v1
+  responses:
+    '200':
+      description: "200 OK"
+      content:
+        application/json:
+          schema:
+            $ref: '../responses/RoundEndedV1Response.yaml'

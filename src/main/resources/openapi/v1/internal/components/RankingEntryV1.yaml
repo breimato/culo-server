@@ -1,0 +1,11 @@
+description: "Ranking Entry V1"
+type: object
+properties:
+  playerId:
+    type: string
+    description: "Player identifier"
+  nick:
+    type: string
+    description: "Player nickname"
+  role:
+    $ref: './PlayerRoleV1.yaml'

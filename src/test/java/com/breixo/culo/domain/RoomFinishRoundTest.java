@@ -11,10 +11,18 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * The Class RoomFinishRoundTest.
+ */
 class RoomFinishRoundTest {
 
+  /**
+	 * Finish round and set opener when last player is out opens with next active
+	 * player.
+	 */
   @Test
   void finishRoundAndSetOpener_whenLastPlayerIsOut_opensWithNextActivePlayer() {
+ 
     final var room = new Room("ABCD", "p1");
     addPlayer(room, "p1", "A");
     addPlayer(room, "p2", "B");
@@ -39,11 +47,24 @@ class RoomFinishRoundTest {
     assertThat(room.getCurrentRound().isOpen()).isTrue();
   }
 
+  /**
+	 * Adds the player.
+	 *
+	 * @param room the room
+	 * @param id   the id
+	 * @param nick the nick
+	 */
   private static void addPlayer(final Room room, final String id, final String nick) {
     room.addPlayer(Player.builder().id(id).clientId("c-" + id).nick(nick).build());
     room.getHands().put(id, new java.util.ArrayList<>());
   }
 
+  /**
+	 * Card.
+	 *
+	 * @param number the number
+	 * @return the card
+	 */
   private static Card card(final int number) {
     return Card.builder().suit(Suit.OROS).number(number).build();
   }

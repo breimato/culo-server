@@ -1,0 +1,21 @@
+post:
+  summary: "Post Dealing Confirm V1"
+  description: "Confirm dealing and reveal hands (STOMP /app/dealing.confirm)"
+  operationId: "PostDealingConfirmV1"
+  tags:
+    - post-dealing-confirm-v1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../requests/PostDealingConfirmV1Request.yaml'
+  responses:
+    '204':
+      description: "204 No Content"
+    '500':
+      description: "Internal Server Error"
+      content:
+        application/json:
+          schema:
+            $ref: '../components/ApiErrorV1.yaml'

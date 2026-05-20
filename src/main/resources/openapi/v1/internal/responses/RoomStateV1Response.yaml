@@ -1,0 +1,43 @@
+description: "Room State V1 Response"
+type: object
+properties:
+  roomCode:
+    type: string
+    description: "Room code"
+  hostPlayerId:
+    type: string
+    description: "Host player identifier"
+  phase:
+    $ref: '../components/GamePhaseV1.yaml'
+  players:
+    type: array
+    description: "Players in the room"
+    items:
+      $ref: '../components/PlayerV1.yaml'
+  currentPlayerId:
+    type: string
+    description: "Current player identifier"
+  lastPlayedCards:
+    type: array
+    description: "Last played cards"
+    items:
+      $ref: '../components/CardV1.yaml'
+  roundRequirement:
+    type: integer
+    description: "Round requirement"
+  lastRankName:
+    $ref: '../components/CardRankNameV1.yaml'
+  culoSwapInitiatorId:
+    type: string
+    description: "Culo swap initiator player identifier"
+  culoSwapTargetId:
+    type: string
+    description: "Culo swap target player identifier"
+  exchangeDonePlayerIds:
+    type: array
+    description: "Players who completed exchange"
+    items:
+      type: string
+  playEpoch:
+    type: integer
+    description: "Increments on each deal; invalidates plays from the previous hand"

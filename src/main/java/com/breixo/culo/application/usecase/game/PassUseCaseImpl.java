@@ -17,17 +17,28 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * The Class PassUseCaseImpl.
+ */
 @Component
 @RequiredArgsConstructor
 public class PassUseCaseImpl implements PassUseCase {
 
+  /** The Constant RULE_ENGINE. */
   private static final RuleEngine RULE_ENGINE = new RuleEngine();
 
   /** The room persistence port. */
   private final RoomPersistencePort roomPersistencePort;
 
+  /**
+	 * Execute.
+	 *
+	 * @param passCommand the pass command
+	 * @return the pass result
+	 */
   @Override
   public PassResult execute(final PassCommand passCommand) {
+ 
     final var room = this.roomPersistencePort.findByCode(passCommand.roomCode())
         .orElseThrow(() -> new RoomException(RoomExceptionConstants.ROOM_NOT_FOUND));
     final var player = room.findPlayerByClientId(passCommand.clientId())
@@ -62,6 +73,12 @@ public class PassUseCaseImpl implements PassUseCase {
         .build();
   }
 
+  /**
+	 * Active player ids.
+	 *
+	 * @param room the room
+	 * @return the list
+	 */
   private List<String> activePlayerIds(final Room room) {
     return room.getPlayerOrder().stream()
         .filter(id -> !room.isPlayerOut(id))
@@ -69,11 +86,13 @@ public class PassUseCaseImpl implements PassUseCase {
   }
 
   /**
-   * Cierra la ronda si todos los demás jugadores activos han pasado.
-   * El ganador (último en jugar) abre la siguiente ronda en libertad.
-   *
-   * @return true si la ronda se cerró
-   */
+	 * Close round if others all passed.
+	 *
+	 * @param room            the room
+	 * @param round           the round
+	 * @param activePlayerIds the active player ids
+	 * @return true, if successful
+	 */
   private boolean closeRoundIfOthersAllPassed(
       final Room room,
       final Round round,

@@ -75,4 +75,4 @@ Configuración típica:
 - Cliente → `/app/room.create`, `/app/room.join`, `/app/game.play`, …
 - Servidor → `/topic/room/{code}/…`, `/topic/client/{clientId}/…`
 
-Contrato OpenAPI: `src/main/resources/openapi/culo-ws-messages.yaml`
+Contrato OpenAPI: `src/main/resources/openapi/v1/internal/es-culo.api.yaml` (documentación en `/swagger-ui.html`)

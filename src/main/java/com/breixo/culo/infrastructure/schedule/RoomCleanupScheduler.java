@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.time.Instant;
 
+/**
+ * The Class RoomCleanupScheduler.
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -22,8 +25,12 @@ public class RoomCleanupScheduler {
   /** The culo properties. */
   private final CuloProperties culoProperties;
 
+  /**
+	 * Purge inactive rooms.
+	 */
   @Scheduled(fixedRate = 1_800_000)
   public void purgeInactiveRooms() {
+ 
     final var ttl = Duration.ofHours(this.culoProperties.getRoom().getTtlHours());
     final var cutoff = Instant.now().minus(ttl);
     this.roomPersistencePort.findAll().stream()

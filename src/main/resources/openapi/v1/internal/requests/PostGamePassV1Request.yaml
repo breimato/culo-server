@@ -1,0 +1,12 @@
+description: "Post Game Pass V1 Request"
+type: object
+required:
+  - clientId
+  - roomCode
+properties:
+  clientId:
+    type: string
+    description: "Client identifier"
+  roomCode:
+    type: string
+    description: "Room code"

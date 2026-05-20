@@ -13,6 +13,9 @@ import com.breixo.culo.domain.port.output.room.RoomPersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+/**
+ * The Class CuloSwapVoteUseCaseImpl.
+ */
 @Component
 @RequiredArgsConstructor
 public class CuloSwapVoteUseCaseImpl implements CuloSwapVoteUseCase {
@@ -20,6 +23,12 @@ public class CuloSwapVoteUseCaseImpl implements CuloSwapVoteUseCase {
   /** The room persistence port. */
   private final RoomPersistencePort roomPersistencePort;
 
+  /**
+	 * Execute.
+	 *
+	 * @param command the command
+	 * @return the culo swap vote result
+	 */
   @Override
   public CuloSwapVoteResult execute(final CuloSwapVoteCommand command) {
 

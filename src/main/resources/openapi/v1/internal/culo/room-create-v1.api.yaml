@@ -1,0 +1,21 @@
+post:
+  summary: "Post Room Create V1"
+  description: "Create a new room (STOMP /app/room.create)"
+  operationId: "PostRoomCreateV1"
+  tags:
+    - post-room-create-v1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../requests/PostRoomCreateV1Request.yaml'
+  responses:
+    '204':
+      description: "204 No Content"
+    '500':
+      description: "Internal Server Error"
+      content:
+        application/json:
+          schema:
+            $ref: '../components/ApiErrorV1.yaml'

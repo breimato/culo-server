@@ -14,6 +14,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+/**
+ * The Class JoinRoomUseCaseImpl.
+ */
 @Component
 @RequiredArgsConstructor
 public class JoinRoomUseCaseImpl implements JoinRoomUseCase {
@@ -21,6 +24,12 @@ public class JoinRoomUseCaseImpl implements JoinRoomUseCase {
   /** The room persistence port. */
   private final RoomPersistencePort roomPersistencePort;
 
+  /**
+	 * Execute.
+	 *
+	 * @param joinRoomCommand the join room command
+	 * @return the room join result
+	 */
   @Override
   public RoomJoinResult execute(final JoinRoomCommand joinRoomCommand) {
 
@@ -51,6 +60,13 @@ public class JoinRoomUseCaseImpl implements JoinRoomUseCase {
         .build();
   }
 
+  /**
+	 * Reconnect player.
+	 *
+	 * @param room   the room
+	 * @param player the player
+	 * @return the room join result
+	 */
   private RoomJoinResult reconnectPlayer(final Room room, final Player player) {
 
     player.setConnected(true);
@@ -64,6 +80,12 @@ public class JoinRoomUseCaseImpl implements JoinRoomUseCase {
         .build();
   }
 
+  /**
+	 * Find room or throw.
+	 *
+	 * @param roomCode the room code
+	 * @return the room
+	 */
   private Room findRoomOrThrow(final String roomCode) {
     return this.roomPersistencePort.findByCode(roomCode)
         .orElseThrow(() -> new RoomException(RoomExceptionConstants.ROOM_NOT_FOUND));

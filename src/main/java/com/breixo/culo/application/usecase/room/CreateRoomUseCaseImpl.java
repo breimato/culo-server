@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+/**
+ * The Class CreateRoomUseCaseImpl.
+ */
 @Component
 @RequiredArgsConstructor
 public class CreateRoomUseCaseImpl implements CreateRoomUseCase {
@@ -22,8 +25,15 @@ public class CreateRoomUseCaseImpl implements CreateRoomUseCase {
   /** The room code generation port. */
   private final RoomCodeGenerationPort roomCodeGenerationPort;
 
+  /**
+	 * Execute.
+	 *
+	 * @param createRoomCommand the create room command
+	 * @return the room join result
+	 */
   @Override
   public RoomJoinResult execute(final CreateRoomCommand createRoomCommand) {
+ 
     final var playerId = UUID.randomUUID().toString();
     final var player = Player.builder()
         .id(playerId)

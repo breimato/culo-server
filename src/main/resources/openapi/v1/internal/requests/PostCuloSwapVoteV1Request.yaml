@@ -1,0 +1,16 @@
+description: "Post Culo Swap Vote V1 Request"
+type: object
+required:
+  - clientId
+  - roomCode
+  - accept
+properties:
+  clientId:
+    type: string
+    description: "Client identifier"
+  roomCode:
+    type: string
+    description: "Room code"
+  accept:
+    type: boolean
+    description: "Whether the swap is accepted"

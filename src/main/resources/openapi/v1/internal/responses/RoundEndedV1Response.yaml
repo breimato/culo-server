@@ -1,0 +1,6 @@
+description: "Round Ended V1 Response"
+type: object
+properties:
+  winnerPlayerId:
+    type: string
+    description: "Winner player identifier"

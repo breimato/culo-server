@@ -1,0 +1,16 @@
+description: "Post Culo Swap Initiate V1 Request"
+type: object
+required:
+  - clientId
+  - roomCode
+  - targetPlayerId
+properties:
+  clientId:
+    type: string
+    description: "Client identifier"
+  roomCode:
+    type: string
+    description: "Room code"
+  targetPlayerId:
+    type: string
+    description: "Target player identifier"

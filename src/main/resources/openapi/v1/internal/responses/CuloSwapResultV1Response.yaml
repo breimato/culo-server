@@ -1,0 +1,6 @@
+description: "Culo Swap Result V1 Response"
+type: object
+properties:
+  accepted:
+    type: boolean
+    description: "Whether the swap was accepted"

@@ -1,0 +1,21 @@
+post:
+  summary: "Post Game Pass V1"
+  description: "Pass turn (STOMP /app/game.pass)"
+  operationId: "PostGamePassV1"
+  tags:
+    - post-game-pass-v1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../requests/PostGamePassV1Request.yaml'
+  responses:
+    '204':
+      description: "204 No Content"
+    '500':
+      description: "Internal Server Error"
+      content:
+        application/json:
+          schema:
+            $ref: '../components/ApiErrorV1.yaml'

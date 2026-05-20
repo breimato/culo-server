@@ -17,30 +17,44 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
- * Espera ACK de todos los jugadores conectados antes de ejecutar continuaciones
- * (p. ej. turnChanged tras una jugada).
+ * The Class RoomAckCoordinator.
  */
 @Slf4j
 @Component
 public class RoomAckCoordinator {
 
+  /** The ack timeout ms. */
   private final long ackTimeoutMs;
+  
+  /** The scheduler. */
   private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor(r -> {
+ 
     final var thread = new Thread(r, "room-ack-timeout");
     thread.setDaemon(true);
     return thread;
   });
 
+  /** The pending by event id. */
   private final ConcurrentHashMap<String, PendingAck> pendingByEventId = new ConcurrentHashMap<>();
 
+  /**
+	 * Instantiates a new room ack coordinator.
+	 *
+	 * @param culoProperties the culo properties
+	 */
   public RoomAckCoordinator(final CuloProperties culoProperties) {
     this.ackTimeoutMs = culoProperties.getRoom().getAckTimeoutMs();
   }
 
   /**
-   * Registra una continuación y devuelve el eventId que deben confirmar los clientes.
-   */
+	 * Await all connected.
+	 *
+	 * @param room         the room
+	 * @param continuation the continuation
+	 * @return the string
+	 */
   public String awaitAllConnected(final Room room, final Runnable continuation) {
+ 
     final var eventId = UUID.randomUUID().toString();
     final var expected = room.getPlayers().stream()
         .filter(Player::isConnected)
@@ -65,7 +79,15 @@ public class RoomAckCoordinator {
     return eventId;
   }
 
+  /**
+	 * Record ack.
+	 *
+	 * @param roomCode the room code
+	 * @param eventId  the event id
+	 * @param playerId the player id
+	 */
   public void recordAck(final String roomCode, final String eventId, final String playerId) {
+ 
     final var pending = this.pendingByEventId.get(eventId);
     if (pending == null || !pending.roomCode.equals(roomCode)) {
       return;
@@ -82,7 +104,14 @@ public class RoomAckCoordinator {
     }
   }
 
+  /**
+	 * Complete.
+	 *
+	 * @param eventId  the event id
+	 * @param timedOut the timed out
+	 */
   private void complete(final String eventId, final boolean timedOut) {
+ 
     final var pending = this.pendingByEventId.remove(eventId);
     if (pending == null) {
       return;
@@ -112,20 +141,44 @@ public class RoomAckCoordinator {
     pending.continuation.run();
   }
 
+  /**
+	 * Shutdown.
+	 */
   @PreDestroy
   void shutdown() {
     this.scheduler.shutdownNow();
   }
 
+  /**
+	 * The Class PendingAck.
+	 */
   private static final class PendingAck {
 
+    /** The room code. */
     private final String roomCode;
+    
+    /** The expected player ids. */
     private final Set<String> expectedPlayerIds;
+    
+    /** The received. */
     private final Set<String> received = ConcurrentHashMap.newKeySet();
+    
+    /** The continuation. */
     private final Runnable continuation;
+    
+    /** The timeout future. */
     private volatile ScheduledFuture<?> timeoutFuture;
+    
+    /** The completed. */
     private volatile boolean completed;
 
+    /**
+	 * Instantiates a new pending ack.
+	 *
+	 * @param roomCode          the room code
+	 * @param expectedPlayerIds the expected player ids
+	 * @param continuation      the continuation
+	 */
     private PendingAck(
         final String roomCode,
         final Set<String> expectedPlayerIds,

@@ -1,0 +1,8 @@
+description: "Hand Update V1 Response"
+type: object
+properties:
+  cards:
+    type: array
+    description: "Player hand cards"
+    items:
+      $ref: '../components/CardV1.yaml'

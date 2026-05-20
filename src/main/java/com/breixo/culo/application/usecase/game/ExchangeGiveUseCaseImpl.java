@@ -17,6 +17,9 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The Class ExchangeGiveUseCaseImpl.
+ */
 @Component
 @RequiredArgsConstructor
 public class ExchangeGiveUseCaseImpl implements ExchangeGiveUseCase {
@@ -24,8 +27,15 @@ public class ExchangeGiveUseCaseImpl implements ExchangeGiveUseCase {
   /** The room persistence port. */
   private final RoomPersistencePort roomPersistencePort;
 
+  /**
+	 * Execute.
+	 *
+	 * @param exchangeGiveCommand the exchange give command
+	 * @return the room
+	 */
   @Override
   public Room execute(final ExchangeGiveCommand exchangeGiveCommand) {
+ 
     final var room = this.roomPersistencePort.findByCode(exchangeGiveCommand.roomCode())
         .orElseThrow(() -> new RoomException(RoomExceptionConstants.ROOM_NOT_FOUND));
     final var player = room.findPlayerByClientId(exchangeGiveCommand.clientId())
@@ -57,10 +67,18 @@ public class ExchangeGiveUseCaseImpl implements ExchangeGiveUseCase {
     return this.roomPersistencePort.save(room);
   }
 
+  /**
+	 * Process ganador give.
+	 *
+	 * @param room      the room
+	 * @param ganadorId the ganador id
+	 * @param command   the command
+	 */
   private void processGanadorGive(
       final Room room,
       final String ganadorId,
       final ExchangeGiveCommand command) {
+ 
     final var cards = this.toCards(command, room, ganadorId);
     if (cards.size() != 2) {
       throw new GameException(GameExceptionConstants.INVALID_EXCHANGE);
@@ -70,10 +88,18 @@ public class ExchangeGiveUseCaseImpl implements ExchangeGiveUseCase {
     room.getHand(culoId).addAll(cards);
   }
 
+  /**
+	 * Process subcampeon give.
+	 *
+	 * @param room         the room
+	 * @param subcampeonId the subcampeon id
+	 * @param command      the command
+	 */
   private void processSubcampeonGive(
       final Room room,
       final String subcampeonId,
       final ExchangeGiveCommand command) {
+ 
     final var cards = this.toCards(command, room, subcampeonId);
     if (cards.size() != 1) {
       throw new GameException(GameExceptionConstants.INVALID_EXCHANGE);
@@ -83,7 +109,16 @@ public class ExchangeGiveUseCaseImpl implements ExchangeGiveUseCase {
     room.getHand(penultimoId).addAll(cards);
   }
 
+  /**
+	 * To cards.
+	 *
+	 * @param command  the command
+	 * @param room     the room
+	 * @param playerId the player id
+	 * @return the list
+	 */
   private List<Card> toCards(final ExchangeGiveCommand command, final Room room, final String playerId) {
+ 
     final var hand = room.getHand(playerId);
     final var cards = command.cards().stream()
         .map(input -> Card.builder().suit(input.suit()).number(input.number()).build())
@@ -94,7 +129,14 @@ public class ExchangeGiveUseCaseImpl implements ExchangeGiveUseCase {
     return cards;
   }
 
+  /**
+	 * Checks if is exchange complete.
+	 *
+	 * @param room the room
+	 * @return true, if is exchange complete
+	 */
   private boolean isExchangeComplete(final Room room) {
+ 
     final var ganadorDone = room.getExchangeDone().contains(
         room.getPlayerIdByRole(PlayerRole.GANADOR).orElse(""));
     final var subcampeonRole = room.getPlayerIdByRole(PlayerRole.SUBCAMPEON);

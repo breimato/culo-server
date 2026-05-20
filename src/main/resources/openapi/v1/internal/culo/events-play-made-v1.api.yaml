@@ -1,0 +1,13 @@
+get:
+  summary: "Play Made V1 Event (outbound documentation)"
+  description: "Published to room topic on /playMade"
+  operationId: "GetPlayMadeV1EventDoc"
+  tags:
+    - docs-play-made-v1
+  responses:
+    '200':
+      description: "200 OK"
+      content:
+        application/json:
+          schema:
+            $ref: '../responses/PlayMadeV1Response.yaml'

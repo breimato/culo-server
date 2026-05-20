@@ -1,0 +1,3 @@
+description: "Game Phase V1"
+type: string
+enum: [LOBBY, DEALING, CULO_SWAP_VOTE, PLAYING, EXCHANGE, FINISHED]

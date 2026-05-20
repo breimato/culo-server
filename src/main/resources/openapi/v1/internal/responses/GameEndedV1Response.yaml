@@ -1,0 +1,8 @@
+description: "Game Ended V1 Response"
+type: object
+properties:
+  ranking:
+    type: array
+    description: "Final ranking"
+    items:
+      $ref: '../components/RankingEntryV1.yaml'

@@ -1,0 +1,13 @@
+get:
+  summary: "Hand Update V1 Event (outbound documentation)"
+  description: "Published to client topic on /handUpdate"
+  operationId: "GetHandUpdateV1EventDoc"
+  tags:
+    - docs-hand-update-v1
+  responses:
+    '200':
+      description: "200 OK"
+      content:
+        application/json:
+          schema:
+            $ref: '../responses/HandUpdateV1Response.yaml'

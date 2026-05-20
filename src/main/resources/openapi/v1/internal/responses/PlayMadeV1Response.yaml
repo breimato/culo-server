@@ -1,0 +1,23 @@
+description: "Play Made V1 Response"
+type: object
+properties:
+  eventId:
+    type: string
+    description: "Event identifier; all clients must ACK before turn/state is published"
+  playEpoch:
+    type: integer
+    description: "Play epoch"
+  playerId:
+    type: string
+    description: "Player identifier"
+  cards:
+    type: array
+    description: "Played cards"
+    items:
+      $ref: '../components/CardV1.yaml'
+  plin:
+    type: boolean
+    description: "Whether plin was declared"
+  isAsOros:
+    type: boolean
+    description: "Whether the play is as de oros"

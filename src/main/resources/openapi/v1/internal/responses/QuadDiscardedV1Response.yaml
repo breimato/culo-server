@@ -1,0 +1,14 @@
+description: "Quad Discarded V1 Response"
+type: object
+properties:
+  playerId:
+    type: string
+    description: "Player identifier"
+  value:
+    type: integer
+    description: "Discarded card rank value"
+  cards:
+    type: array
+    description: "Discarded cards"
+    items:
+      $ref: '../components/CardV1.yaml'

@@ -1,0 +1,21 @@
+post:
+  summary: "Post Culo Swap Initiate V1"
+  description: "Initiate culo swap (STOMP /app/culoSwap.initiate)"
+  operationId: "PostCuloSwapInitiateV1"
+  tags:
+    - post-culo-swap-initiate-v1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../requests/PostCuloSwapInitiateV1Request.yaml'
+  responses:
+    '204':
+      description: "204 No Content"
+    '500':
+      description: "Internal Server Error"
+      content:
+        application/json:
+          schema:
+            $ref: '../components/ApiErrorV1.yaml'

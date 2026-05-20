@@ -1,0 +1,13 @@
+get:
+  summary: "Game Ended V1 Event (outbound documentation)"
+  description: "Published to room topic on /gameEnded"
+  operationId: "GetGameEndedV1EventDoc"
+  tags:
+    - docs-game-ended-v1
+  responses:
+    '200':
+      description: "200 OK"
+      content:
+        application/json:
+          schema:
+            $ref: '../responses/GameEndedV1Response.yaml'

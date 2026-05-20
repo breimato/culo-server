@@ -1,0 +1,16 @@
+description: "Post Room Create V1 Request"
+type: object
+required:
+  - clientId
+  - nick
+properties:
+  clientId:
+    type: string
+    description: "Client identifier"
+    example: "550e8400-e29b-41d4-a716-446655440000"
+  nick:
+    type: string
+    description: "Player nickname"
+    minLength: 1
+    maxLength: 20
+    example: "Breixo"

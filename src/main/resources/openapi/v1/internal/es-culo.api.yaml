@@ -1,0 +1,123 @@
+openapi: 3.0.3
+info:
+  title: es-culo-api
+  version: 1.0.0
+  description: Culo card game WebSocket message contract
+
+paths:
+  /app/room.create:
+    $ref: './culo/room-create-v1.api.yaml'
+  /app/room.join:
+    $ref: './culo/room-join-v1.api.yaml'
+  /app/room.start:
+    $ref: './culo/room-start-v1.api.yaml'
+  /app/dealing.confirm:
+    $ref: './culo/dealing-confirm-v1.api.yaml'
+  /app/game.play:
+    $ref: './culo/game-play-v1.api.yaml'
+  /app/game.ack:
+    $ref: './culo/game-ack-v1.api.yaml'
+  /app/game.pass:
+    $ref: './culo/game-pass-v1.api.yaml'
+  /app/exchange.give:
+    $ref: './culo/exchange-give-v1.api.yaml'
+  /app/culoSwap.initiate:
+    $ref: './culo/culo-swap-initiate-v1.api.yaml'
+  /app/culoSwap.vote:
+    $ref: './culo/culo-swap-vote-v1.api.yaml'
+  # Outbound event documentation (not HTTP/WS endpoints — for schema resolution)
+  /docs/v1/events/play-made:
+    $ref: './culo/events-play-made-v1.api.yaml'
+  /docs/v1/events/hand-update:
+    $ref: './culo/events-hand-update-v1.api.yaml'
+  /docs/v1/events/game-ended:
+    $ref: './culo/events-game-ended-v1.api.yaml'
+  /docs/v1/events/round-ended:
+    $ref: './culo/events-round-ended-v1.api.yaml'
+  /docs/v1/events/turn-changed:
+    $ref: './culo/events-turn-changed-v1.api.yaml'
+  /docs/v1/events/culo-swap-request:
+    $ref: './culo/events-culo-swap-request-v1.api.yaml'
+  /docs/v1/events/culo-swap-result:
+    $ref: './culo/events-culo-swap-result-v1.api.yaml'
+  /docs/v1/events/quad-discarded:
+    $ref: './culo/events-quad-discarded-v1.api.yaml'
+
+components:
+  schemas:
+    ApiErrorV1:
+      $ref: './components/ApiErrorV1.yaml'
+    GamePhaseV1:
+      $ref: './components/GamePhaseV1.yaml'
+    PlayerRoleV1:
+      $ref: './components/PlayerRoleV1.yaml'
+    SuitV1:
+      $ref: './components/SuitV1.yaml'
+    CardRankNameV1:
+      $ref: './components/CardRankNameV1.yaml'
+    CardV1:
+      $ref: './components/CardV1.yaml'
+    PlayerV1:
+      $ref: './components/PlayerV1.yaml'
+    RankingEntryV1:
+      $ref: './components/RankingEntryV1.yaml'
+    PostRoomCreateV1Request:
+      $ref: './requests/PostRoomCreateV1Request.yaml'
+    PostRoomJoinV1Request:
+      $ref: './requests/PostRoomJoinV1Request.yaml'
+    PostRoomStartV1Request:
+      $ref: './requests/PostRoomStartV1Request.yaml'
+    PostDealingConfirmV1Request:
+      $ref: './requests/PostDealingConfirmV1Request.yaml'
+    PostGamePlayV1Request:
+      $ref: './requests/PostGamePlayV1Request.yaml'
+    PostGameAckV1Request:
+      $ref: './requests/PostGameAckV1Request.yaml'
+    PostGamePassV1Request:
+      $ref: './requests/PostGamePassV1Request.yaml'
+    PostExchangeGiveV1Request:
+      $ref: './requests/PostExchangeGiveV1Request.yaml'
+    PostCuloSwapInitiateV1Request:
+      $ref: './requests/PostCuloSwapInitiateV1Request.yaml'
+    PostCuloSwapVoteV1Request:
+      $ref: './requests/PostCuloSwapVoteV1Request.yaml'
+    JoinedRoomV1Response:
+      $ref: './responses/JoinedRoomV1Response.yaml'
+    RoomStateV1Response:
+      $ref: './responses/RoomStateV1Response.yaml'
+    HandUpdateV1Response:
+      $ref: './responses/HandUpdateV1Response.yaml'
+    PlayMadeV1Response:
+      $ref: './responses/PlayMadeV1Response.yaml'
+    RoundEndedV1Response:
+      $ref: './responses/RoundEndedV1Response.yaml'
+    GameEndedV1Response:
+      $ref: './responses/GameEndedV1Response.yaml'
+    TurnChangedV1Response:
+      $ref: './responses/TurnChangedV1Response.yaml'
+    CuloSwapRequestV1Response:
+      $ref: './responses/CuloSwapRequestV1Response.yaml'
+    CuloSwapResultV1Response:
+      $ref: './responses/CuloSwapResultV1Response.yaml'
+    QuadDiscardedV1Response:
+      $ref: './responses/QuadDiscardedV1Response.yaml'
+
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorV1'
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorV1'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiErrorV1'

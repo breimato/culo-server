@@ -1,0 +1,9 @@
+description: "Culo Swap Request V1 Response"
+type: object
+properties:
+  initiatorPlayerId:
+    type: string
+    description: "Initiator player identifier"
+  targetPlayerId:
+    type: string
+    description: "Target player identifier"
