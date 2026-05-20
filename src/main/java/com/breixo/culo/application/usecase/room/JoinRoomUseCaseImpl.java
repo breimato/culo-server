@@ -8,7 +8,8 @@ import com.breixo.culo.domain.model.Player;
 import com.breixo.culo.domain.model.Room;
 import com.breixo.culo.domain.model.room.RoomJoinResult;
 import com.breixo.culo.domain.port.input.room.JoinRoomUseCase;
-import com.breixo.culo.domain.port.output.room.RoomPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomSavePersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -21,8 +22,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class JoinRoomUseCaseImpl implements JoinRoomUseCase {
 
-  /** The room persistence port. */
-  private final RoomPersistencePort roomPersistencePort;
+  /** The room save persistence port. */
+  private final RoomSavePersistencePort roomSavePersistencePort;
+
+  /** The room retrieval persistence port. */
+  private final RoomRetrievalPersistencePort roomRetrievalPersistencePort;
 
   /**
 	 * Execute.
@@ -52,7 +56,7 @@ public class JoinRoomUseCaseImpl implements JoinRoomUseCase {
         .build();
     room.addPlayer(player);
 
-    final var savedRoom = this.roomPersistencePort.save(room);
+    final var savedRoom = this.roomSavePersistencePort.save(room);
     return RoomJoinResult.builder()
         .roomCode(savedRoom.getCode())
         .playerId(playerId)
@@ -71,7 +75,7 @@ public class JoinRoomUseCaseImpl implements JoinRoomUseCase {
 
     player.setConnected(true);
 
-    final var savedRoom = this.roomPersistencePort.save(room);
+    final var savedRoom = this.roomSavePersistencePort.save(room);
 
     return RoomJoinResult.builder()
         .roomCode(savedRoom.getCode())
@@ -87,7 +91,7 @@ public class JoinRoomUseCaseImpl implements JoinRoomUseCase {
 	 * @return the room
 	 */
   private Room findRoomOrThrow(final String roomCode) {
-    return this.roomPersistencePort.findByCode(roomCode)
+    return this.roomRetrievalPersistencePort.findByCode(roomCode)
         .orElseThrow(() -> new RoomException(RoomExceptionConstants.ROOM_NOT_FOUND));
   }
 }

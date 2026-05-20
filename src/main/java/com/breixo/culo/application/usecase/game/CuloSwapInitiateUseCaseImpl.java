@@ -9,7 +9,8 @@ import com.breixo.culo.domain.exception.constants.GameExceptionConstants;
 import com.breixo.culo.domain.exception.constants.RoomExceptionConstants;
 import com.breixo.culo.domain.model.Room;
 import com.breixo.culo.domain.port.input.game.CuloSwapInitiateUseCase;
-import com.breixo.culo.domain.port.output.room.RoomPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomSavePersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -20,10 +21,9 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CuloSwapInitiateUseCaseImpl implements CuloSwapInitiateUseCase {
 
-    /**
-     * The room persistence port.
-     */
-    private final RoomPersistencePort roomPersistencePort;
+    private final RoomSavePersistencePort roomSavePersistencePort;
+
+    private final RoomRetrievalPersistencePort roomRetrievalPersistencePort;
 
     /**
      * Execute.
@@ -34,7 +34,7 @@ public class CuloSwapInitiateUseCaseImpl implements CuloSwapInitiateUseCase {
     @Override
     public Room execute(final CuloSwapInitiateCommand command) {
 
-        final var room = this.roomPersistencePort.findByCode(command.roomCode())
+        final var room = this.roomRetrievalPersistencePort.findByCode(command.roomCode())
                 .orElseThrow(() -> new RoomException(RoomExceptionConstants.ROOM_NOT_FOUND));
 
         final var player = room.findPlayerByClientId(command.clientId())
@@ -56,6 +56,6 @@ public class CuloSwapInitiateUseCaseImpl implements CuloSwapInitiateUseCase {
         room.setCuloSwapTargetId(command.targetPlayerId());
         room.registerCuloSwapVote(player.getId(), true);
         room.setPhase(GamePhase.CULO_SWAP_VOTE);
-        return this.roomPersistencePort.save(room);
+        return this.roomSavePersistencePort.save(room);
     }
 }

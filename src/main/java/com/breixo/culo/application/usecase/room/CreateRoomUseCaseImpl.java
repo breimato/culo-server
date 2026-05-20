@@ -6,7 +6,7 @@ import com.breixo.culo.domain.model.Room;
 import com.breixo.culo.domain.model.room.RoomJoinResult;
 import com.breixo.culo.domain.port.input.room.CreateRoomUseCase;
 import com.breixo.culo.domain.port.output.room.RoomCodeGenerationPort;
-import com.breixo.culo.domain.port.output.room.RoomPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomSavePersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +19,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CreateRoomUseCaseImpl implements CreateRoomUseCase {
 
-  /** The room persistence port. */
-  private final RoomPersistencePort roomPersistencePort;
+  /** The room save persistence port. */
+  private final RoomSavePersistencePort roomSavePersistencePort;
 
   /** The room code generation port. */
   private final RoomCodeGenerationPort roomCodeGenerationPort;
@@ -40,10 +40,10 @@ public class CreateRoomUseCaseImpl implements CreateRoomUseCase {
         .clientId(createRoomCommand.clientId())
         .nick(createRoomCommand.nick())
         .build();
-    final var roomCode = this.roomCodeGenerationPort.generateUnique();
+    final var roomCode = this.roomCodeGenerationPort.execute();
     final var room = new Room(roomCode, playerId);
     room.addPlayer(player);
-    final var savedRoom = this.roomPersistencePort.save(room);
+    final var savedRoom = this.roomSavePersistencePort.save(room);
     return RoomJoinResult.builder()
         .roomCode(roomCode)
         .playerId(playerId)

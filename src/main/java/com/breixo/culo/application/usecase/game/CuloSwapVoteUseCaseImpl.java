@@ -6,10 +6,10 @@ import com.breixo.culo.domain.exception.GameException;
 import com.breixo.culo.domain.exception.RoomException;
 import com.breixo.culo.domain.exception.constants.GameExceptionConstants;
 import com.breixo.culo.domain.exception.constants.RoomExceptionConstants;
-import com.breixo.culo.domain.model.Room;
 import com.breixo.culo.domain.model.game.CuloSwapVoteResult;
 import com.breixo.culo.domain.port.input.game.CuloSwapVoteUseCase;
-import com.breixo.culo.domain.port.output.room.RoomPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomSavePersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -20,8 +20,9 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CuloSwapVoteUseCaseImpl implements CuloSwapVoteUseCase {
 
-  /** The room persistence port. */
-  private final RoomPersistencePort roomPersistencePort;
+  private final RoomSavePersistencePort roomSavePersistencePort;
+
+  private final RoomRetrievalPersistencePort roomRetrievalPersistencePort;
 
   /**
 	 * Execute.
@@ -32,7 +33,7 @@ public class CuloSwapVoteUseCaseImpl implements CuloSwapVoteUseCase {
   @Override
   public CuloSwapVoteResult execute(final CuloSwapVoteCommand command) {
 
-    final var room = this.roomPersistencePort.findByCode(command.roomCode())
+    final var room = this.roomRetrievalPersistencePort.findByCode(command.roomCode())
         .orElseThrow(() -> new RoomException(RoomExceptionConstants.ROOM_NOT_FOUND));
 
     final var player = room.findPlayerByClientId(command.clientId())
@@ -59,7 +60,7 @@ public class CuloSwapVoteUseCaseImpl implements CuloSwapVoteUseCase {
       completed = true;
     }
 
-    final var savedRoom = this.roomPersistencePort.save(room);
+    final var savedRoom = this.roomSavePersistencePort.save(room);
 
     return CuloSwapVoteResult.builder()
         .room(savedRoom)

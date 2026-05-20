@@ -13,7 +13,8 @@ import com.breixo.culo.domain.model.Round;
 import com.breixo.culo.domain.model.Room;
 import com.breixo.culo.domain.model.game.PlayResult;
 import com.breixo.culo.domain.port.input.game.PlayCardsUseCase;
-import com.breixo.culo.domain.port.output.room.RoomPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomSavePersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -29,8 +30,9 @@ public class PlayCardsUseCaseImpl implements PlayCardsUseCase {
   /** The Constant RULE_ENGINE. */
   private static final RuleEngine RULE_ENGINE = new RuleEngine();
 
-  /** The room persistence port. */
-  private final RoomPersistencePort roomPersistencePort;
+  private final RoomSavePersistencePort roomSavePersistencePort;
+
+  private final RoomRetrievalPersistencePort roomRetrievalPersistencePort;
 
   /**
 	 * Execute.
@@ -41,7 +43,7 @@ public class PlayCardsUseCaseImpl implements PlayCardsUseCase {
   @Override
   public PlayResult execute(final PlayCardsCommand playCardsCommand) {
 
-    final var room = this.roomPersistencePort.findByCode(playCardsCommand.roomCode())
+    final var room = this.roomRetrievalPersistencePort.findByCode(playCardsCommand.roomCode())
         .orElseThrow(() -> new RoomException(RoomExceptionConstants.ROOM_NOT_FOUND));
     final var player = room.findPlayerByClientId(playCardsCommand.clientId())
         .orElseThrow(() -> new RoomException(RoomExceptionConstants.PLAYER_NOT_IN_ROOM));
@@ -101,7 +103,7 @@ public class PlayCardsUseCaseImpl implements PlayCardsUseCase {
       }
     }
 
-    final var savedRoom = this.roomPersistencePort.save(room);
+    final var savedRoom = this.roomSavePersistencePort.save(room);
     return PlayResult.builder()
         .room(savedRoom)
         .playerId(player.getId())

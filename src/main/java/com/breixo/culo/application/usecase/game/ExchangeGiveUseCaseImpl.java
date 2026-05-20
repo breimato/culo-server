@@ -10,11 +10,11 @@ import com.breixo.culo.domain.exception.constants.RoomExceptionConstants;
 import com.breixo.culo.domain.model.Card;
 import com.breixo.culo.domain.model.Room;
 import com.breixo.culo.domain.port.input.game.ExchangeGiveUseCase;
-import com.breixo.culo.domain.port.output.room.RoomPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomSavePersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,8 +24,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ExchangeGiveUseCaseImpl implements ExchangeGiveUseCase {
 
-  /** The room persistence port. */
-  private final RoomPersistencePort roomPersistencePort;
+  private final RoomSavePersistencePort roomSavePersistencePort;
+
+  private final RoomRetrievalPersistencePort roomRetrievalPersistencePort;
 
   /**
 	 * Execute.
@@ -36,7 +37,7 @@ public class ExchangeGiveUseCaseImpl implements ExchangeGiveUseCase {
   @Override
   public Room execute(final ExchangeGiveCommand exchangeGiveCommand) {
  
-    final var room = this.roomPersistencePort.findByCode(exchangeGiveCommand.roomCode())
+    final var room = this.roomRetrievalPersistencePort.findByCode(exchangeGiveCommand.roomCode())
         .orElseThrow(() -> new RoomException(RoomExceptionConstants.ROOM_NOT_FOUND));
     final var player = room.findPlayerByClientId(exchangeGiveCommand.clientId())
         .orElseThrow(() -> new RoomException(RoomExceptionConstants.PLAYER_NOT_IN_ROOM));
@@ -64,7 +65,7 @@ public class ExchangeGiveUseCaseImpl implements ExchangeGiveUseCase {
       room.discardQuadsForAllPlayers();
     }
 
-    return this.roomPersistencePort.save(room);
+    return this.roomSavePersistencePort.save(room);
   }
 
   /**

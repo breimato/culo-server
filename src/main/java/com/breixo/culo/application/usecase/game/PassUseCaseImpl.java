@@ -11,7 +11,8 @@ import com.breixo.culo.domain.model.Room;
 import com.breixo.culo.domain.model.Round;
 import com.breixo.culo.domain.model.game.PassResult;
 import com.breixo.culo.domain.port.input.game.PassUseCase;
-import com.breixo.culo.domain.port.output.room.RoomPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomSavePersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -27,8 +28,9 @@ public class PassUseCaseImpl implements PassUseCase {
   /** The Constant RULE_ENGINE. */
   private static final RuleEngine RULE_ENGINE = new RuleEngine();
 
-  /** The room persistence port. */
-  private final RoomPersistencePort roomPersistencePort;
+  private final RoomSavePersistencePort roomSavePersistencePort;
+
+  private final RoomRetrievalPersistencePort roomRetrievalPersistencePort;
 
   /**
 	 * Execute.
@@ -39,7 +41,7 @@ public class PassUseCaseImpl implements PassUseCase {
   @Override
   public PassResult execute(final PassCommand passCommand) {
  
-    final var room = this.roomPersistencePort.findByCode(passCommand.roomCode())
+    final var room = this.roomRetrievalPersistencePort.findByCode(passCommand.roomCode())
         .orElseThrow(() -> new RoomException(RoomExceptionConstants.ROOM_NOT_FOUND));
     final var player = room.findPlayerByClientId(passCommand.clientId())
         .orElseThrow(() -> new RoomException(RoomExceptionConstants.PLAYER_NOT_IN_ROOM));
@@ -65,7 +67,7 @@ public class PassUseCaseImpl implements PassUseCase {
       roundEnded = this.closeRoundIfOthersAllPassed(room, round, activePlayerIds);
     }
 
-    final var savedRoom = this.roomPersistencePort.save(room);
+    final var savedRoom = this.roomSavePersistencePort.save(room);
     return PassResult.builder()
         .room(savedRoom)
         .playerId(player.getId())

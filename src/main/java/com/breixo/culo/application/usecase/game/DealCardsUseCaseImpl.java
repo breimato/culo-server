@@ -10,7 +10,8 @@ import com.breixo.culo.domain.exception.constants.RoomExceptionConstants;
 import com.breixo.culo.domain.model.Card;
 import com.breixo.culo.domain.model.Room;
 import com.breixo.culo.domain.port.input.game.DealCardsUseCase;
-import com.breixo.culo.domain.port.output.room.RoomPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomSavePersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -24,8 +25,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class DealCardsUseCaseImpl implements DealCardsUseCase {
 
-  /** The room persistence port. */
-  private final RoomPersistencePort roomPersistencePort;
+  private final RoomSavePersistencePort roomSavePersistencePort;
+
+  private final RoomRetrievalPersistencePort roomRetrievalPersistencePort;
 
   /**
 	 * Execute.
@@ -36,7 +38,7 @@ public class DealCardsUseCaseImpl implements DealCardsUseCase {
   @Override
   public Room execute(final DealCardsCommand dealCardsCommand) {
     
-final var room = this.roomPersistencePort.findByCode(dealCardsCommand.roomCode())
+final var room = this.roomRetrievalPersistencePort.findByCode(dealCardsCommand.roomCode())
         .orElseThrow(() -> new RoomException(RoomExceptionConstants.ROOM_NOT_FOUND));
     final var player = room.findPlayerByClientId(dealCardsCommand.clientId())
         .orElseThrow(() -> new RoomException(RoomExceptionConstants.PLAYER_NOT_IN_ROOM));
@@ -72,7 +74,7 @@ final var room = this.roomPersistencePort.findByCode(dealCardsCommand.roomCode()
       room.discardQuadsForAllPlayers();
     }
 
-    return this.roomPersistencePort.save(room);
+    return this.roomSavePersistencePort.save(room);
   }
 
   /**

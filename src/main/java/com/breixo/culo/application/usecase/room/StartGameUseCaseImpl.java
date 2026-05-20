@@ -6,7 +6,8 @@ import com.breixo.culo.domain.exception.RoomException;
 import com.breixo.culo.domain.exception.constants.RoomExceptionConstants;
 import com.breixo.culo.domain.model.Room;
 import com.breixo.culo.domain.port.input.room.StartGameUseCase;
-import com.breixo.culo.domain.port.output.room.RoomPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
+import com.breixo.culo.domain.port.output.room.RoomSavePersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -20,8 +21,11 @@ public class StartGameUseCaseImpl implements StartGameUseCase {
   /** The Constant MIN_PLAYERS. */
   private static final int MIN_PLAYERS = 2;
 
-  /** The room persistence port. */
-  private final RoomPersistencePort roomPersistencePort;
+  /** The room save persistence port. */
+  private final RoomSavePersistencePort roomSavePersistencePort;
+
+  /** The room retrieval persistence port. */
+  private final RoomRetrievalPersistencePort roomRetrievalPersistencePort;
 
   /**
 	 * Execute.
@@ -32,7 +36,7 @@ public class StartGameUseCaseImpl implements StartGameUseCase {
   @Override
   public Room execute(final StartGameCommand startGameCommand) {
  
-    final var room = this.roomPersistencePort.findByCode(startGameCommand.roomCode())
+    final var room = this.roomRetrievalPersistencePort.findByCode(startGameCommand.roomCode())
         .orElseThrow(() -> new RoomException(RoomExceptionConstants.ROOM_NOT_FOUND));
     final var player = room.findPlayerByClientId(startGameCommand.clientId())
         .orElseThrow(() -> new RoomException(RoomExceptionConstants.PLAYER_NOT_IN_ROOM));
@@ -46,6 +50,6 @@ public class StartGameUseCaseImpl implements StartGameUseCase {
       throw new RoomException(RoomExceptionConstants.NOT_ENOUGH_PLAYERS);
     }
     room.setPhase(GamePhase.DEALING);
-    return this.roomPersistencePort.save(room);
+    return this.roomSavePersistencePort.save(room);
   }
 }
