@@ -1,6 +1,6 @@
 package com.breixo.culo.infrastructure.mapper;
 
-import com.breixo.culo.domain.PlayerRole;
+import com.breixo.culo.domain.model.room.enums.PlayerRole;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.PlayerRoleV1Dto;
 import org.mapstruct.Mapper;
 

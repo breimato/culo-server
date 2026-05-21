@@ -1,7 +1,7 @@
 package com.breixo.culo.infrastructure.adapter.input.ws.controller.culoswap;
 
 import com.breixo.culo.domain.command.game.CuloSwapInitiateCommand;
-import com.breixo.culo.domain.model.Room;
+import com.breixo.culo.domain.model.room.Room;
 import com.breixo.culo.domain.port.input.game.CuloSwapInitiateUseCase;
 import com.breixo.culo.infrastructure.adapter.input.ws.RoomEventPublisher;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.PostCuloSwapInitiateV1RequestDto;

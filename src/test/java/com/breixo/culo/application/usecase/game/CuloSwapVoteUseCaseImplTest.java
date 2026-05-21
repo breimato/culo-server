@@ -1,80 +1,106 @@
 package com.breixo.culo.application.usecase.game;
 
-import com.breixo.culo.domain.GamePhase;
-import com.breixo.culo.domain.PlayerRole;
+import com.breixo.culo.application.usecase.culoswap.CuloSwapInitiateUseCaseImpl;
+import com.breixo.culo.application.usecase.culoswap.CuloSwapVoteUseCaseImpl;
 import com.breixo.culo.domain.command.game.CuloSwapInitiateCommand;
 import com.breixo.culo.domain.command.game.CuloSwapVoteCommand;
-import com.breixo.culo.domain.model.Player;
-import com.breixo.culo.domain.model.Room;
-import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
-import com.breixo.culo.domain.port.output.room.RoomSavePersistencePort;
+import com.breixo.culo.domain.model.card.Card;
+import com.breixo.culo.domain.model.room.enums.GamePhase;
+import com.breixo.culo.domain.model.room.enums.PlayerRole;
+import com.breixo.culo.domain.service.culoswap.CuloSwapPolicyValidationServiceImpl;
+import com.breixo.culo.domain.service.culoswap.CuloSwapServiceImpl;
+import com.breixo.culo.domain.service.room.PlayerLookupServiceImpl;
+import com.breixo.culo.domain.service.room.RoomPhaseServiceImpl;
+import com.breixo.culo.domain.service.session.GameSessionContextServiceImpl;
+import com.breixo.culo.testsupport.InMemoryRoomStore;
+import com.breixo.culo.testsupport.RoomTestFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
+/** The Class Culo Swap Vote Use Case Impl Test. */
 @ExtendWith(MockitoExtension.class)
 class CuloSwapVoteUseCaseImplTest {
 
-    @Mock
-    RoomSavePersistencePort roomSavePersistencePort;
+    final InMemoryRoomStore inMemoryRoomStore = new InMemoryRoomStore();
 
-    @Mock
-    RoomRetrievalPersistencePort roomRetrievalPersistencePort;
+    final PlayerLookupServiceImpl playerLookupService = new PlayerLookupServiceImpl();
+
+    final RoomPhaseServiceImpl roomPhaseService = new RoomPhaseServiceImpl();
 
     CuloSwapInitiateUseCaseImpl initiateUseCase;
+
     CuloSwapVoteUseCaseImpl voteUseCase;
 
     @BeforeEach
     void setUp() {
+        final var culoSwapService = new CuloSwapServiceImpl(this.playerLookupService);
+        final var gameSessionContextService = new GameSessionContextServiceImpl(
+                this.inMemoryRoomStore,
+                this.playerLookupService,
+                this.roomPhaseService);
+        final var culoSwapPolicyValidationService = new CuloSwapPolicyValidationServiceImpl(this.playerLookupService);
         this.initiateUseCase = new CuloSwapInitiateUseCaseImpl(
-            this.roomSavePersistencePort,
-            this.roomRetrievalPersistencePort);
+                this.inMemoryRoomStore,
+                gameSessionContextService,
+                culoSwapPolicyValidationService,
+                culoSwapService,
+                this.roomPhaseService);
         this.voteUseCase = new CuloSwapVoteUseCaseImpl(
-            this.roomSavePersistencePort,
-            this.roomRetrievalPersistencePort);
+                this.inMemoryRoomStore,
+                gameSessionContextService,
+                culoSwapPolicyValidationService,
+                culoSwapService,
+                this.roomPhaseService);
     }
 
+    /** Test vote when two players and target accepts then completes and approves. */
     @Test
     void testVote_whenTwoPlayersAndTargetAccepts_thenCompletesAndApproves() {
-        final var room = new Room("ABCD", "culo-id");
-        final var culo = Player.builder().id("culo-id").clientId("culo-client").nick("Culo").build();
-        final var other = Player.builder().id("other-id").clientId("other-client").nick("Other").build();
-        room.addPlayer(culo);
-        room.addPlayer(other);
-        culo.setRole(PlayerRole.CULO);
-        other.setRole(PlayerRole.GANADOR);
-        room.setPhase(GamePhase.DEALING);
-        room.setLastCuloId("culo-id");
-        room.getHands().put("culo-id", new java.util.ArrayList<>());
-        room.getHands().put("other-id", new java.util.ArrayList<>());
+        // Given
+        final var culo = RoomTestFactory.player("culo-id", "culo-client", "Culo")
+                .toBuilder().role(PlayerRole.CULO).build();
+        final var other = RoomTestFactory.player("other-id", "other-client", "Other")
+                .toBuilder().role(PlayerRole.GANADOR).build();
+        final Map<String, List<Card>> hands = new HashMap<>();
+        hands.put("culo-id", new ArrayList<>());
+        hands.put("other-id", new ArrayList<>());
+        var room = RoomTestFactory.roomWithPlayers("ABCD", "culo-id", List.of(culo, other));
+        room = RoomTestFactory.withPhase(room, GamePhase.DEALING);
+        room = RoomTestFactory.withHands(room, hands);
+        room = room.toBuilder()
+                .gameSession(room.gameSession().toBuilder().lastCuloId("culo-id").build())
+                .build();
+        this.inMemoryRoomStore.seed(room);
 
-        when(this.roomRetrievalPersistencePort.findByCode("ABCD")).thenReturn(Optional.of(room));
-        when(this.roomSavePersistencePort.save(any(Room.class))).thenAnswer(invocation -> invocation.getArgument(0));
-
-        this.initiateUseCase.execute(CuloSwapInitiateCommand.builder()
+        final var culoSwapInitiateCommand = CuloSwapInitiateCommand.builder()
                 .clientId("culo-client")
                 .roomCode("ABCD")
                 .targetPlayerId("other-id")
-                .build());
-
-        final var result = this.voteUseCase.execute(CuloSwapVoteCommand.builder()
+                .build();
+        final var culoSwapVoteCommand = CuloSwapVoteCommand.builder()
                 .clientId("other-client")
                 .roomCode("ABCD")
                 .accept(true)
-                .build());
+                .build();
 
-        assertTrue(result.completed());
-        assertTrue(result.accepted());
-        assertEquals(GamePhase.DEALING, result.room().getPhase());
-        assertEquals("other-id", result.room().getLastCuloId());
+        // When
+        this.initiateUseCase.execute(culoSwapInitiateCommand);
+        final var culoSwapVoteResult = this.voteUseCase.execute(culoSwapVoteCommand);
+
+        // Then
+        assertTrue(culoSwapVoteResult.completed());
+        assertTrue(culoSwapVoteResult.accepted());
+        assertEquals(GamePhase.DEALING, culoSwapVoteResult.room().roomLobby().phase());
+        assertEquals("other-id", culoSwapVoteResult.room().gameSession().lastCuloId());
     }
 }

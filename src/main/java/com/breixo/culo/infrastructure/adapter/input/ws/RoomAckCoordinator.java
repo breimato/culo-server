@@ -1,12 +1,15 @@
 package com.breixo.culo.infrastructure.adapter.input.ws;
 
-import com.breixo.culo.domain.model.Player;
-import com.breixo.culo.domain.model.Room;
+import com.breixo.culo.domain.model.room.Player;
+import com.breixo.culo.domain.model.room.Room;
 import com.breixo.culo.infrastructure.config.CuloProperties;
 import jakarta.annotation.PreDestroy;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,11 +24,12 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class RoomAckCoordinator {
 
-  /** The ack timeout ms. */
-  private final long ackTimeoutMs;
-  
+  /** The culo properties. */
+  private final CuloProperties culoProperties;
+
   /** The scheduler. */
   private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor(r -> {
  
@@ -38,15 +42,6 @@ public class RoomAckCoordinator {
   private final ConcurrentHashMap<String, PendingAck> pendingByEventId = new ConcurrentHashMap<>();
 
   /**
-	 * Instantiates a new room ack coordinator.
-	 *
-	 * @param culoProperties the culo properties
-	 */
-  public RoomAckCoordinator(final CuloProperties culoProperties) {
-    this.ackTimeoutMs = culoProperties.getRoom().getAckTimeoutMs();
-  }
-
-  /**
 	 * Await all connected.
 	 *
 	 * @param room         the room
@@ -56,9 +51,9 @@ public class RoomAckCoordinator {
   public String awaitAllConnected(final Room room, final Runnable continuation) {
  
     final var eventId = UUID.randomUUID().toString();
-    final var expected = room.getPlayers().stream()
-        .filter(Player::isConnected)
-        .map(Player::getId)
+    final var expected = room.roomLobby().players().stream()
+        .filter(Player::connected)
+        .map(Player::id)
         .collect(Collectors.toUnmodifiableSet());
 
     if (expected.isEmpty()) {
@@ -66,16 +61,16 @@ public class RoomAckCoordinator {
       return eventId;
     }
 
-    final var pending = new PendingAck(room.getCode(), expected, continuation);
+    final var pending = new PendingAck(room.roomLobby().code(), expected, continuation);
     this.pendingByEventId.put(eventId, pending);
 
     final ScheduledFuture<?> timeout = this.scheduler.schedule(
         () -> this.complete(eventId, true),
-        this.ackTimeoutMs,
+        this.culoProperties.getRoom().getAckTimeoutMs(),
         TimeUnit.MILLISECONDS);
     pending.timeoutFuture = timeout;
 
-    log.debug("ACK gate {} room {} waiting for {} player(s)", eventId, room.getCode(), expected.size());
+    log.debug("ACK gate {} room {} waiting for {} player(s)", eventId, room.roomLobby().code(), expected.size());
     return eventId;
   }
 
@@ -89,7 +84,7 @@ public class RoomAckCoordinator {
   public void recordAck(final String roomCode, final String eventId, final String playerId) {
  
     final var pending = this.pendingByEventId.get(eventId);
-    if (pending == null || !pending.roomCode.equals(roomCode)) {
+    if (Objects.isNull(pending) || BooleanUtils.isFalse(pending.roomCode.equals(roomCode))) {
       return;
     }
 
@@ -113,7 +108,7 @@ public class RoomAckCoordinator {
   private void complete(final String eventId, final boolean timedOut) {
  
     final var pending = this.pendingByEventId.remove(eventId);
-    if (pending == null) {
+    if (Objects.isNull(pending)) {
       return;
     }
 
@@ -122,7 +117,7 @@ public class RoomAckCoordinator {
         return;
       }
       pending.completed = true;
-      if (pending.timeoutFuture != null) {
+      if (Objects.nonNull(pending.timeoutFuture)) {
         pending.timeoutFuture.cancel(false);
       }
     }

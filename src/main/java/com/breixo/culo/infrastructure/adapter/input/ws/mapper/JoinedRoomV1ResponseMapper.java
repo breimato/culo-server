@@ -17,6 +17,6 @@ public interface JoinedRoomV1ResponseMapper {
 	 * @param roomJoinResult the room join result
 	 * @return the joined room V 1 response dto
 	 */
-  @Mapping(target = "roomCode", source = "room.code")
+  @Mapping(target = "roomCode", source = "roomCode")
   JoinedRoomV1ResponseDto toJoinedRoomV1ResponseDto(RoomJoinResult roomJoinResult);
 }

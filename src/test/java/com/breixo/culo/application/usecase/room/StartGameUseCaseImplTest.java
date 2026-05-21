@@ -1,127 +1,112 @@
 package com.breixo.culo.application.usecase.room;
 
-import com.breixo.culo.domain.GamePhase;
 import com.breixo.culo.domain.command.room.StartGameCommand;
 import com.breixo.culo.domain.exception.RoomException;
 import com.breixo.culo.domain.exception.constants.RoomExceptionConstants;
-import com.breixo.culo.domain.model.Player;
-import com.breixo.culo.domain.model.Room;
-import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
-import com.breixo.culo.domain.port.output.room.RoomSavePersistencePort;
+import com.breixo.culo.domain.model.room.enums.GamePhase;
+import com.breixo.culo.domain.service.room.PlayerLookupServiceImpl;
+import com.breixo.culo.domain.service.room.RoomPhaseServiceImpl;
+import com.breixo.culo.domain.service.room.RoomStartPolicyValidationServiceImpl;
+import com.breixo.culo.domain.service.session.GameSessionContextServiceImpl;
+import com.breixo.culo.testsupport.InMemoryRoomStore;
+import com.breixo.culo.testsupport.RoomTestFactory;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /** The Class Start Game Use Case Impl Test. */
 @ExtendWith(MockitoExtension.class)
 class StartGameUseCaseImplTest {
 
-  @Mock
-  RoomSavePersistencePort roomSavePersistencePort;
+    final InMemoryRoomStore inMemoryRoomStore = new InMemoryRoomStore();
 
-  @Mock
-  RoomRetrievalPersistencePort roomRetrievalPersistencePort;
+    final PlayerLookupServiceImpl playerLookupService = new PlayerLookupServiceImpl();
 
-  @InjectMocks
-  StartGameUseCaseImpl startGameUseCaseImpl;
+    final RoomPhaseServiceImpl roomPhaseService = new RoomPhaseServiceImpl();
 
-  /** Test execute when host and enough players then phase is dealing. */
-  @Test
-  void testExecute_whenHostAndEnoughPlayers_thenPhaseIsDealing() {
-    // Given
-    final var startGameCommand = StartGameCommand.builder()
-        .clientId("client-host")
-        .roomCode("ABCD")
-        .build();
-    final var hostPlayer = Player.builder()
-        .id("host-id")
-        .clientId("client-host")
-        .nick("Host")
-        .build();
-    final var guestPlayer = Player.builder()
-        .id("guest-id")
-        .clientId("client-guest")
-        .nick("Guest")
-        .build();
-    final var room = new Room(startGameCommand.roomCode(), "host-id");
-    room.addPlayer(hostPlayer);
-    room.addPlayer(guestPlayer);
+    StartGameUseCaseImpl startGameUseCaseImpl;
 
-    // When
-    when(this.roomRetrievalPersistencePort.findByCode(startGameCommand.roomCode())).thenReturn(Optional.of(room));
-    when(this.roomSavePersistencePort.save(room)).thenReturn(room);
-    final var savedRoom = this.startGameUseCaseImpl.execute(startGameCommand);
+    @BeforeEach
+    void setUp() {
+        final var gameSessionContextService = new GameSessionContextServiceImpl(
+                this.inMemoryRoomStore,
+                this.playerLookupService,
+                this.roomPhaseService);
+        this.startGameUseCaseImpl = new StartGameUseCaseImpl(
+                this.inMemoryRoomStore,
+                gameSessionContextService,
+                this.roomPhaseService,
+                new RoomStartPolicyValidationServiceImpl());
+    }
 
-    // Then
-    verify(this.roomSavePersistencePort, times(1)).save(room);
-    assertEquals(GamePhase.DEALING, savedRoom.getPhase());
-  }
+    /** Test execute when host and enough players then phase is dealing. */
+    @Test
+    void testExecute_whenHostAndEnoughPlayers_thenPhaseIsDealing() {
+        // Given
+        final var startGameCommand = StartGameCommand.builder()
+                .clientId("client-host")
+                .roomCode("ABCD")
+                .build();
+        final var hostPlayer = RoomTestFactory.player("host-id", "client-host", "Host");
+        final var guestPlayer = RoomTestFactory.player("guest-id", "client-guest", "Guest");
+        final var room = RoomTestFactory.roomWithPlayers("ABCD", "host-id", List.of(hostPlayer, guestPlayer));
+        this.inMemoryRoomStore.seed(room);
 
-  /** Test execute when not host then throw room exception. */
-  @Test
-  void testExecute_whenNotHost_thenThrowRoomException() {
-    // Given
-    final var startGameCommand = StartGameCommand.builder()
-        .clientId("client-guest")
-        .roomCode("ABCD")
-        .build();
-    final var hostPlayer = Player.builder()
-        .id("host-id")
-        .clientId("client-host")
-        .nick("Host")
-        .build();
-    final var guestPlayer = Player.builder()
-        .id("guest-id")
-        .clientId("client-guest")
-        .nick("Guest")
-        .build();
-    final var room = new Room(startGameCommand.roomCode(), "host-id");
-    room.addPlayer(hostPlayer);
-    room.addPlayer(guestPlayer);
+        // When
+        final var savedRoom = this.startGameUseCaseImpl.execute(startGameCommand);
 
-    // When
-    when(this.roomRetrievalPersistencePort.findByCode(startGameCommand.roomCode())).thenReturn(Optional.of(room));
+        // Then
+        final var roomInStore = this.inMemoryRoomStore.findByCode(startGameCommand.roomCode()).orElseThrow();
+        assertEquals(GamePhase.DEALING, savedRoom.roomLobby().phase());
+        assertEquals(GamePhase.DEALING, roomInStore.roomLobby().phase());
+    }
 
-    // Then
-    final var roomException = assertThrows(
-        RoomException.class,
-        () -> this.startGameUseCaseImpl.execute(startGameCommand));
-    assertEquals(RoomExceptionConstants.NOT_HOST, roomException.getMessage());
-  }
+    /** Test execute when not host then throw room exception. */
+    @Test
+    void testExecute_whenNotHost_thenThrowRoomException() {
+        // Given
+        final var startGameCommand = StartGameCommand.builder()
+                .clientId("client-guest")
+                .roomCode("ABCD")
+                .build();
+        final var hostPlayer = RoomTestFactory.player("host-id", "client-host", "Host");
+        final var guestPlayer = RoomTestFactory.player("guest-id", "client-guest", "Guest");
+        final var room = RoomTestFactory.roomWithPlayers("ABCD", "host-id", List.of(hostPlayer, guestPlayer));
+        this.inMemoryRoomStore.seed(room);
 
-  /** Test execute when not enough players then throw room exception. */
-  @Test
-  void testExecute_whenNotEnoughPlayers_thenThrowRoomException() {
-    // Given
-    final var startGameCommand = StartGameCommand.builder()
-        .clientId("client-host")
-        .roomCode("ABCD")
-        .build();
-    final var hostPlayer = Player.builder()
-        .id("host-id")
-        .clientId("client-host")
-        .nick("Host")
-        .build();
-    final var room = new Room(startGameCommand.roomCode(), "host-id");
-    room.addPlayer(hostPlayer);
+        // When
+        final var roomException = assertThrows(
+                RoomException.class,
+                () -> this.startGameUseCaseImpl.execute(startGameCommand));
 
-    // When
-    when(this.roomRetrievalPersistencePort.findByCode(startGameCommand.roomCode())).thenReturn(Optional.of(room));
+        // Then
+        assertEquals(RoomExceptionConstants.NOT_HOST, roomException.getMessage());
+    }
 
-    // Then
-    final var roomException = assertThrows(
-        RoomException.class,
-        () -> this.startGameUseCaseImpl.execute(startGameCommand));
-    assertEquals(RoomExceptionConstants.NOT_ENOUGH_PLAYERS, roomException.getMessage());
-  }
+    /** Test execute when not enough players then throw room exception. */
+    @Test
+    void testExecute_whenNotEnoughPlayers_thenThrowRoomException() {
+        // Given
+        final var startGameCommand = StartGameCommand.builder()
+                .clientId("client-host")
+                .roomCode("ABCD")
+                .build();
+        final var hostPlayer = RoomTestFactory.player("host-id", "client-host", "Host");
+        final var room = RoomTestFactory.roomWithPlayers("ABCD", "host-id", List.of(hostPlayer));
+        this.inMemoryRoomStore.seed(room);
+
+        // When
+        final var roomException = assertThrows(
+                RoomException.class,
+                () -> this.startGameUseCaseImpl.execute(startGameCommand));
+
+        // Then
+        assertEquals(RoomExceptionConstants.NOT_ENOUGH_PLAYERS, roomException.getMessage());
+    }
 }

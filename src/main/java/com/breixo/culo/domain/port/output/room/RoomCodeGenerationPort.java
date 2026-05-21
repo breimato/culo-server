@@ -1,12 +1,14 @@
 package com.breixo.culo.domain.port.output.room;
 
-/** The Interface Room Code Generation Port. */
+/**
+ * The Interface RoomCodeGenerationPort.
+ */
 public interface RoomCodeGenerationPort {
 
   /**
-   * Execute.
-   *
-   * @return a unique room code.
-   */
+	 * Execute.
+	 *
+	 * @return the string
+	 */
   String execute();
 }

@@ -2,14 +2,16 @@ package com.breixo.culo.domain.port.output.room;
 
 import jakarta.validation.constraints.NotNull;
 
-/** The Interface Room Existence Persistence Port. */
+/**
+ * The Interface RoomExistencePersistencePort.
+ */
 public interface RoomExistencePersistencePort {
 
   /**
-   * Exists by code.
-   *
-   * @param roomCode the room code.
-   * @return true if a room with the given code exists.
-   */
+	 * Exists by code.
+	 *
+	 * @param roomCode the room code
+	 * @return true, if successful
+	 */
   boolean existsByCode(@NotNull String roomCode);
 }

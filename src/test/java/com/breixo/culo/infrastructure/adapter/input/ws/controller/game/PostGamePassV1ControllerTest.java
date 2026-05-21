@@ -1,8 +1,8 @@
 package com.breixo.culo.infrastructure.adapter.input.ws.controller.game;
 
 import com.breixo.culo.domain.command.game.PassCommand;
-import com.breixo.culo.domain.model.Room;
-import com.breixo.culo.domain.model.game.PassResult;
+import com.breixo.culo.domain.model.room.Room;
+import com.breixo.culo.domain.model.play.PassResult;
 import com.breixo.culo.domain.port.input.game.PassUseCase;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.PostGamePassV1RequestDto;
 import com.breixo.culo.infrastructure.adapter.input.ws.mapper.game.PostGamePassV1RequestMapper;

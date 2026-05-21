@@ -1,5 +1,6 @@
 package com.breixo.culo.infrastructure.adapter.input.ws.controller.game;
 
+import com.breixo.culo.domain.port.input.room.PlayerLookupService;
 import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
 import com.breixo.culo.infrastructure.adapter.input.ws.RoomAckCoordinator;
 import com.breixo.culo.infrastructure.adapter.input.ws.api.PostGameAckV1Api;
@@ -24,6 +25,9 @@ public class PostGameAckV1Controller implements PostGameAckV1Api {
     /** The room ack coordinator. */
     private final RoomAckCoordinator roomAckCoordinator;
 
+    /** The player lookup service. */
+    private final PlayerLookupService playerLookupService;
+
     /**
      * {@inheritDoc}
      */
@@ -33,11 +37,11 @@ public class PostGameAckV1Controller implements PostGameAckV1Api {
             @Payload @Valid final PostGameAckV1RequestDto postGameAckV1RequestDto) {
 
         this.roomRetrievalPersistencePort.findByCode(postGameAckV1RequestDto.getRoomCode())
-                .flatMap(room -> room.findPlayerByClientId(postGameAckV1RequestDto.getClientId()))
+                .flatMap(room -> this.playerLookupService.findPlayerByClientId(room, postGameAckV1RequestDto.getClientId()))
                 .ifPresent(player -> this.roomAckCoordinator.recordAck(
                         postGameAckV1RequestDto.getRoomCode(),
                         postGameAckV1RequestDto.getEventId(),
-                        player.getId()));
+                        player.id()));
 
         return ResponseEntity.noContent().build();
     }

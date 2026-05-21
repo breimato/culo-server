@@ -88,7 +88,7 @@ public class WsInboundRequestPayloadSupport {
 	 * @return the optional
 	 */
   private Optional<JsonNode> readJsonFromBytes(final byte[] content) {
-    if (Objects.isNull(content) || content.length == 0) {
+    if (Objects.isNull(content) || Integer.valueOf(0).equals(content.length)) {
       return Optional.empty();
     }
     try {

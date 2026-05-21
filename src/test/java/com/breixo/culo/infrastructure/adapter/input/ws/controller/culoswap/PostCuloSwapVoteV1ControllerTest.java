@@ -1,7 +1,7 @@
 package com.breixo.culo.infrastructure.adapter.input.ws.controller.culoswap;
 
 import com.breixo.culo.domain.command.game.CuloSwapVoteCommand;
-import com.breixo.culo.domain.model.game.CuloSwapVoteResult;
+import com.breixo.culo.domain.model.culoswap.CuloSwapVoteResult;
 import com.breixo.culo.domain.port.input.game.CuloSwapVoteUseCase;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.PostCuloSwapVoteV1RequestDto;
 import com.breixo.culo.infrastructure.adapter.input.ws.mapper.game.PostCuloSwapVoteV1RequestMapper;

@@ -1,8 +1,8 @@
 package com.breixo.culo.infrastructure.adapter.input.ws.mapper;
 
-import com.breixo.culo.domain.model.CardRank;
-import com.breixo.culo.domain.model.Player;
-import com.breixo.culo.domain.model.Room;
+import com.breixo.culo.domain.model.card.enums.CardRank;
+import com.breixo.culo.domain.model.room.Player;
+import com.breixo.culo.domain.model.room.Room;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.CardRankNameV1Dto;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.PlayerV1Dto;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.RoomStateV1ResponseDto;
@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The Class RoomStateV1ResponseMapper.
@@ -20,76 +21,67 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RoomStateV1ResponseMapper {
 
-  /** The game phase mapper. */
-  private final GamePhaseMapper gamePhaseMapper;
+    /** The game phase mapper. */
+    private final GamePhaseMapper gamePhaseMapper;
 
-  /** The player role mapper. */
-  private final PlayerRoleMapper playerRoleMapper;
+    /** The player role mapper. */
+    private final PlayerRoleMapper playerRoleMapper;
 
-  /** The card V 1 dto mapper. */
-  private final CardV1DtoMapper cardV1DtoMapper;
+    /** The card V 1 dto mapper. */
+    private final CardV1DtoMapper cardV1DtoMapper;
 
-  /**
-	 * To room state V 1 response dto.
-	 *
-	 * @param room the room
-	 * @return the room state V 1 response dto
-	 */
-  public RoomStateV1ResponseDto toRoomStateV1ResponseDto(final Room room) {
- 
-    final var round = room.getCurrentRound();
-    final var lastRankName = this.toCardRankNameV1Dto(round == null ? null : round.getLastRank());
-    final var players = room.getPlayers().stream()
-        .map(player -> this.toPlayerV1Dto(player, room))
-        .toList();
+    /**
+     * To room state V 1 response dto.
+     *
+     * @param room the room
+     * @return the room state V 1 response dto
+     */
+    public RoomStateV1ResponseDto toRoomStateV1ResponseDto(final Room room) {
+        final var round = room.gameSession().currentRound();
+        final var lastRankName = this.toCardRankNameV1Dto(round.lastRank());
+        final var players = room.roomLobby().players().stream()
+                .map(player -> this.toPlayerV1Dto(player, room))
+                .toList();
 
-    return RoomStateV1ResponseDto.builder()
-        .roomCode(room.getCode())
-        .hostPlayerId(room.getHostPlayerId())
-        .phase(this.gamePhaseMapper.toGamePhaseV1Dto(room.getPhase()))
-        .players(players)
-        .currentPlayerId(room.getCurrentPlayerId())
-        .roundRequirement(round == null ? 0 : round.getRequirement())
-        .lastRankName(lastRankName)
-        .lastPlayedCards(round == null
-            ? List.of()
-            : this.cardV1DtoMapper.toCardV1DtoList(round.getLastPlayedCards()))
-        .culoSwapInitiatorId(room.getCuloSwapInitiatorId())
-        .culoSwapTargetId(room.getCuloSwapTargetId())
-        .exchangeDonePlayerIds(List.copyOf(room.getExchangeDone()))
-        .playEpoch(room.getPlayEpoch())
-        .build();
-  }
+        final String currentPlayerId;
 
-  /**
-	 * To player V 1 dto.
-	 *
-	 * @param player the player
-	 * @param room   the room
-	 * @return the player V 1 dto
-	 */
-  private PlayerV1Dto toPlayerV1Dto(final Player player, final Room room) {
- 
-    final var hand = room.getHand(player.getId());
-    return PlayerV1Dto.builder()
-        .id(player.getId())
-        .nick(player.getNick())
-        .connected(player.isConnected())
-        .role(this.playerRoleMapper.toPlayerRoleV1Dto(player.getRole()))
-        .cardCount(hand.size())
-        .build();
-  }
+        if (room.gameSession().playerOrder().isEmpty()) {
+            currentPlayerId = null;
+        } else {
+            currentPlayerId = room.gameSession().playerOrder().get(room.gameSession().currentPlayerIndex());
+        }
 
-  /**
-	 * To card rank name V 1 dto.
-	 *
-	 * @param cardRank the card rank
-	 * @return the card rank name V 1 dto
-	 */
-  private CardRankNameV1Dto toCardRankNameV1Dto(final CardRank cardRank) {
-    if (cardRank == null) {
-      return null;
+        return RoomStateV1ResponseDto.builder()
+                .roomCode(room.roomLobby().code())
+                .hostPlayerId(room.roomLobby().hostPlayerId())
+                .phase(this.gamePhaseMapper.toGamePhaseV1Dto(room.roomLobby().phase()))
+                .players(players)
+                .currentPlayerId(currentPlayerId)
+                .roundRequirement(round.requirement())
+                .lastRankName(lastRankName)
+                .lastPlayedCards(this.cardV1DtoMapper.toCardV1DtoList(round.lastPlayedCards()))
+                .culoSwapInitiatorId(room.culoSwapState().initiatorId())
+                .culoSwapTargetId(room.culoSwapState().targetId())
+                .exchangeDonePlayerIds(List.copyOf(room.exchangeState().exchangeDone()))
+                .playEpoch(room.gameSession().playEpoch())
+                .build();
     }
-    return CardRankNameV1Dto.valueOf(cardRank.name());
-  }
+
+    private PlayerV1Dto toPlayerV1Dto(final Player player, final Room room) {
+        final var hand = room.gameSession().hands().getOrDefault(player.id(), List.of());
+        return PlayerV1Dto.builder()
+                .id(player.id())
+                .nick(player.nick())
+                .connected(player.connected())
+                .role(this.playerRoleMapper.toPlayerRoleV1Dto(player.role()))
+                .cardCount(hand.size())
+                .build();
+    }
+
+    private CardRankNameV1Dto toCardRankNameV1Dto(final CardRank cardRank) {
+        if (Objects.isNull(cardRank)) {
+            return null;
+        }
+        return CardRankNameV1Dto.valueOf(cardRank.name());
+    }
 }

@@ -1,55 +1,48 @@
 package com.breixo.culo.application.usecase.room;
 
-import com.breixo.culo.domain.GamePhase;
 import com.breixo.culo.domain.command.room.StartGameCommand;
-import com.breixo.culo.domain.exception.RoomException;
-import com.breixo.culo.domain.exception.constants.RoomExceptionConstants;
-import com.breixo.culo.domain.model.Room;
+import com.breixo.culo.domain.model.room.Room;
+import com.breixo.culo.domain.model.room.enums.GamePhase;
+import com.breixo.culo.domain.port.input.room.RoomPhaseService;
+import com.breixo.culo.domain.port.input.room.RoomStartPolicyValidationService;
 import com.breixo.culo.domain.port.input.room.StartGameUseCase;
-import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
+import com.breixo.culo.domain.port.input.session.GameSessionContextService;
 import com.breixo.culo.domain.port.output.room.RoomSavePersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-/**
- * The Class StartGameUseCaseImpl.
- */
+/** The Class StartGameUseCaseImpl. */
 @Component
 @RequiredArgsConstructor
 public class StartGameUseCaseImpl implements StartGameUseCase {
 
-  /** The Constant MIN_PLAYERS. */
-  private static final int MIN_PLAYERS = 2;
+    /** The room save persistence port. */
+    private final RoomSavePersistencePort roomSavePersistencePort;
 
-  /** The room save persistence port. */
-  private final RoomSavePersistencePort roomSavePersistencePort;
+    /** The game session context service. */
+    private final GameSessionContextService gameSessionContextService;
 
-  /** The room retrieval persistence port. */
-  private final RoomRetrievalPersistencePort roomRetrievalPersistencePort;
+    /** The room phase service. */
+    private final RoomPhaseService roomPhaseService;
 
-  /**
-	 * Execute.
-	 *
-	 * @param startGameCommand the start game command
-	 * @return the room
-	 */
-  @Override
-  public Room execute(final StartGameCommand startGameCommand) {
- 
-    final var room = this.roomRetrievalPersistencePort.findByCode(startGameCommand.roomCode())
-        .orElseThrow(() -> new RoomException(RoomExceptionConstants.ROOM_NOT_FOUND));
-    final var player = room.findPlayerByClientId(startGameCommand.clientId())
-        .orElseThrow(() -> new RoomException(RoomExceptionConstants.PLAYER_NOT_IN_ROOM));
-    if (!room.isHost(player.getId())) {
-      throw new RoomException(RoomExceptionConstants.NOT_HOST);
+    /** The room start policy validation service. */
+    private final RoomStartPolicyValidationService roomStartPolicyValidationService;
+
+    /** {@inheritDoc} */
+    @Override
+    public Room execute(final StartGameCommand startGameCommand) {
+
+        final var gameSessionContext = this.gameSessionContextService.load(
+                startGameCommand.roomCode(),
+                startGameCommand.clientId());
+
+        this.roomPhaseService.requireLobbyPhase(gameSessionContext.room());
+        this.roomStartPolicyValidationService.validateCanStart(
+                gameSessionContext.room(),
+                gameSessionContext.player());
+
+        final var roomWithPhase = this.roomPhaseService.withPhase(gameSessionContext.room(), GamePhase.DEALING);
+
+        return this.roomSavePersistencePort.save(roomWithPhase);
     }
-    if (!room.getPhase().equals(GamePhase.LOBBY)) {
-      throw new RoomException(RoomExceptionConstants.GAME_ALREADY_STARTED);
-    }
-    if (room.getPlayers().size() < MIN_PLAYERS) {
-      throw new RoomException(RoomExceptionConstants.NOT_ENOUGH_PLAYERS);
-    }
-    room.setPhase(GamePhase.DEALING);
-    return this.roomSavePersistencePort.save(room);
-  }
 }

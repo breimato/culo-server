@@ -1,7 +1,8 @@
 package com.breixo.culo.infrastructure.adapter.input.ws.controller.game;
 
-import com.breixo.culo.domain.model.Player;
-import com.breixo.culo.domain.model.Room;
+import com.breixo.culo.domain.model.room.Player;
+import com.breixo.culo.domain.model.room.Room;
+import com.breixo.culo.domain.port.input.room.PlayerLookupService;
 import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
 import com.breixo.culo.infrastructure.adapter.input.ws.RoomAckCoordinator;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.PostGameAckV1RequestDto;
@@ -51,6 +52,10 @@ class PostGameAckV1ControllerTest {
   @Mock
   RoomAckCoordinator roomAckCoordinator;
 
+  /** The room service. */
+  @Mock
+  PlayerLookupService playerLookupService;
+
   /** The room. */
   @Mock
   Room room;
@@ -79,7 +84,7 @@ class PostGameAckV1ControllerTest {
 
     // When
     when(this.roomRetrievalPersistencePort.findByCode(roomCode)).thenReturn(Optional.of(this.room));
-    when(this.room.findPlayerByClientId(clientId)).thenReturn(Optional.of(player));
+    when(this.playerLookupService.findPlayerByClientId(this.room, clientId)).thenReturn(Optional.of(player));
 
     this.mockMvc.perform(post(WsInboundDestinationConstants.POST_GAME_ACK_V1)
             .contentType(MediaType.APPLICATION_JSON)
@@ -87,7 +92,7 @@ class PostGameAckV1ControllerTest {
         .andExpect(status().isNoContent());
 
     // Then
-    verify(this.roomAckCoordinator, times(1)).recordAck(roomCode, eventId, player.getId());
+    verify(this.roomAckCoordinator, times(1)).recordAck(roomCode, eventId, player.id());
   }
 
   /**

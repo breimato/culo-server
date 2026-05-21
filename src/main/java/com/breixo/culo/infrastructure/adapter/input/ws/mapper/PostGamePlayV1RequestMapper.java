@@ -2,12 +2,13 @@ package com.breixo.culo.infrastructure.adapter.input.ws.mapper;
 
 import com.breixo.culo.domain.command.game.CardInput;
 import com.breixo.culo.domain.command.game.PlayCardsCommand;
-import com.breixo.culo.domain.model.Suit;
+import com.breixo.culo.domain.model.card.enums.Suit;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.CardV1Dto;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.PostGamePlayV1RequestDto;
 import org.mapstruct.Mapper;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The Interface PostGamePlayV1RequestMapper.
@@ -30,7 +31,7 @@ public interface PostGamePlayV1RequestMapper {
 	 * @return the list
 	 */
   default List<CardInput> toCardInputList(final List<CardV1Dto> cardV1Dtos) {
-    if (cardV1Dtos == null) {
+    if (Objects.isNull(cardV1Dtos)) {
       return List.of();
     }
     return cardV1Dtos.stream()

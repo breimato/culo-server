@@ -47,7 +47,7 @@ public class PostGamePlayV1Controller implements PostGamePlayV1Api {
     final var playResult = this.playCardsUseCase.execute(playCardsCommand);
 
     final var room = playResult.room();
-    final var playFollowUpTask = this.playFollowUpSupport.playFollowUpTask(room.getCode(), playResult);
+    final var playFollowUpTask = this.playFollowUpSupport.playFollowUpTask(room.roomLobby().code(), playResult);
     final var eventId = this.roomAckCoordinator.awaitAllConnected(room, playFollowUpTask);
 
     this.roomEventPublisher.publishPlayMade(room, playResult, eventId);

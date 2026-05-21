@@ -1,7 +1,7 @@
 package com.breixo.culo.infrastructure.adapter.input.ws.controller.game;
 
 import com.breixo.culo.domain.command.game.PlayCardsCommand;
-import com.breixo.culo.domain.model.game.PlayResult;
+import com.breixo.culo.domain.model.play.PlayResult;
 import com.breixo.culo.domain.port.input.game.PlayCardsUseCase;
 import com.breixo.culo.infrastructure.adapter.input.ws.RoomAckCoordinator;
 import com.breixo.culo.infrastructure.adapter.input.ws.RoomEventPublisher;
@@ -90,7 +90,7 @@ class PostGamePlayV1ControllerTest {
     final var playResult = Instancio.create(PlayResult.class);
     final var eventId = Instancio.create(String.class);
     final var room = playResult.room();
-    final var roomCode = room.getCode();
+    final var roomCode = room.roomLobby().code();
     final Runnable playFollowUpTask = () -> this.playFollowUpSupport.publishPlayFollowUp(roomCode, playResult);
 
     // When

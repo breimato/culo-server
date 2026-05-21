@@ -13,6 +13,8 @@ public final class GameExceptionConstants {
     public static final String INVALID_EXCHANGE    = "CULO-GAME-008 | Selección de cartas inválida para el intercambio";
     public static final String EXCHANGE_ALREADY_DONE = "CULO-GAME-010 | Ya has completado el intercambio";
     public static final String PLAYER_OUT          = "CULO-GAME-011 | Ya no tienes cartas en mano";
+    public static final String INVALID_CARD_NUMBER = "CULO-GAME-012 | Número de carta inválido";
+    public static final String INVALID_PLAY        = "CULO-GAME-013 | Jugada inválida";
 
     private GameExceptionConstants() {
     }

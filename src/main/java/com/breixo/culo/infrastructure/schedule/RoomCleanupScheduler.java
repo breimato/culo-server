@@ -1,6 +1,6 @@
 package com.breixo.culo.infrastructure.schedule;
 
-import com.breixo.culo.domain.model.Room;
+import com.breixo.culo.domain.model.room.Room;
 import com.breixo.culo.domain.port.output.room.RoomDeletionPersistencePort;
 import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
 import com.breixo.culo.infrastructure.config.CuloProperties;
@@ -36,8 +36,8 @@ public class RoomCleanupScheduler {
     final var cutoff = Instant.now().minus(ttl);
 
     this.roomRetrievalPersistencePort.findAll().stream()
-        .filter(room -> room.getLastActivity().isBefore(cutoff))
-        .map(Room::getCode)
+        .filter(room -> room.roomLobby().lastActivity().isBefore(cutoff))
+        .map(room -> room.roomLobby().code())
         .forEach(this.roomDeletionPersistencePort::deleteByCode);
   }
 }

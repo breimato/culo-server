@@ -1,8 +1,8 @@
 package com.breixo.culo.infrastructure.adapter.input.ws.mapper;
 
-import com.breixo.culo.domain.model.Card;
-import com.breixo.culo.domain.model.CardRank;
-import com.breixo.culo.domain.model.Suit;
+import com.breixo.culo.domain.model.card.Card;
+import com.breixo.culo.domain.model.card.enums.CardRank;
+import com.breixo.culo.domain.model.card.enums.Suit;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.CardRankNameV1Dto;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.CardV1Dto;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.SuitV1Dto;
@@ -10,6 +10,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Named;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The Interface CardV1DtoMapper.
@@ -78,7 +79,7 @@ public interface CardV1DtoMapper {
 	 * @return the card rank name V 1 dto
 	 */
   default CardRankNameV1Dto toCardRankNameV1Dto(final CardRank cardRank) {
-    if (cardRank == null) {
+    if (Objects.isNull(cardRank)) {
       return null;
     }
     return CardRankNameV1Dto.valueOf(cardRank.name());

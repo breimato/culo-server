@@ -3,7 +3,7 @@ package com.breixo.culo.infrastructure.adapter.input.ws.controller.room;
 import com.breixo.culo.domain.command.room.StartGameCommand;
 import com.breixo.culo.domain.exception.RoomException;
 import com.breixo.culo.domain.exception.constants.RoomExceptionConstants;
-import com.breixo.culo.domain.model.Room;
+import com.breixo.culo.domain.model.room.Room;
 import com.breixo.culo.domain.port.input.room.StartGameUseCase;
 import com.breixo.culo.infrastructure.adapter.input.ws.RoomEventPublisher;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.PostRoomStartV1RequestDto;

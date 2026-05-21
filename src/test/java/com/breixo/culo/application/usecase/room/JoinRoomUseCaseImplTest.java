@@ -1,101 +1,109 @@
 package com.breixo.culo.application.usecase.room;
 
-import com.breixo.culo.domain.GamePhase;
 import com.breixo.culo.domain.command.room.JoinRoomCommand;
 import com.breixo.culo.domain.exception.RoomException;
 import com.breixo.culo.domain.exception.constants.RoomExceptionConstants;
-import com.breixo.culo.domain.model.Player;
-import com.breixo.culo.domain.model.Room;
-import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
-import com.breixo.culo.domain.port.output.room.RoomSavePersistencePort;
+import com.breixo.culo.domain.model.room.enums.GamePhase;
+import com.breixo.culo.domain.service.room.PlayerLookupServiceImpl;
+import com.breixo.culo.domain.service.room.RoomMembershipServiceImpl;
+import com.breixo.culo.domain.service.room.RoomPhaseServiceImpl;
+import com.breixo.culo.testsupport.InMemoryRoomStore;
+import com.breixo.culo.testsupport.RoomTestFactory;
 import org.instancio.Instancio;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /** The Class Join Room Use Case Impl Test. */
 @ExtendWith(MockitoExtension.class)
 class JoinRoomUseCaseImplTest {
 
-  @Mock
-  RoomSavePersistencePort roomSavePersistencePort;
+    final InMemoryRoomStore inMemoryRoomStore = new InMemoryRoomStore();
 
-  @Mock
-  RoomRetrievalPersistencePort roomRetrievalPersistencePort;
+    final PlayerLookupServiceImpl playerLookupService = new PlayerLookupServiceImpl();
 
-  @InjectMocks
-  JoinRoomUseCaseImpl joinRoomUseCaseImpl;
+    final RoomPhaseServiceImpl roomPhaseService = new RoomPhaseServiceImpl();
 
-  /** Test execute when room not found then throw room exception. */
-  @Test
-  void testExecute_whenRoomNotFound_thenThrowRoomException() {
-    // Given
-    final var joinRoomCommand = Instancio.create(JoinRoomCommand.class);
+    final RoomMembershipServiceImpl roomMembershipService = new RoomMembershipServiceImpl();
 
-    // When
-    when(this.roomRetrievalPersistencePort.findByCode(joinRoomCommand.roomCode())).thenReturn(Optional.empty());
+    JoinRoomUseCaseImpl joinRoomUseCaseImpl;
 
-    // Then
-    final var roomException = assertThrows(
-        RoomException.class,
-        () -> this.joinRoomUseCaseImpl.execute(joinRoomCommand));
-    verify(this.roomRetrievalPersistencePort, times(1)).findByCode(joinRoomCommand.roomCode());
-    assertEquals(RoomExceptionConstants.ROOM_NOT_FOUND, roomException.getMessage());
-  }
+    @BeforeEach
+    void setUp() {
+        this.joinRoomUseCaseImpl = new JoinRoomUseCaseImpl(
+                this.inMemoryRoomStore,
+                this.inMemoryRoomStore,
+                this.playerLookupService,
+                this.roomPhaseService,
+                this.roomMembershipService);
+    }
 
-  /** Test execute when game already started then throw room exception. */
-  @Test
-  void testExecute_whenGameAlreadyStarted_thenThrowRoomException() {
-    // Given
-    final var joinRoomCommand = Instancio.create(JoinRoomCommand.class);
-    final var room = new Room(joinRoomCommand.roomCode(), Instancio.create(String.class));
-    room.setPhase(GamePhase.PLAYING);
+    /** Test execute when room not found then throw room exception. */
+    @Test
+    void testExecute_whenRoomNotFound_thenThrowRoomException() {
+        // Given
+        final var joinRoomCommand = Instancio.create(JoinRoomCommand.class);
 
-    // When
-    when(this.roomRetrievalPersistencePort.findByCode(joinRoomCommand.roomCode())).thenReturn(Optional.of(room));
+        // When
+        final var roomException = assertThrows(
+                RoomException.class,
+                () -> this.joinRoomUseCaseImpl.execute(joinRoomCommand));
 
-    // Then
-    final var roomException = assertThrows(
-        RoomException.class,
-        () -> this.joinRoomUseCaseImpl.execute(joinRoomCommand));
-    assertEquals(RoomExceptionConstants.GAME_ALREADY_STARTED, roomException.getMessage());
-  }
+        // Then
+        assertEquals(RoomExceptionConstants.ROOM_NOT_FOUND, roomException.getMessage());
+        assertTrue(this.inMemoryRoomStore.findByCode(joinRoomCommand.roomCode()).isEmpty());
+    }
 
-  /** Test execute when client reconnects then return existing player. */
-  @Test
-  void testExecute_whenClientReconnects_thenReturnExistingPlayer() {
-    // Given
-    final var joinRoomCommand = JoinRoomCommand.builder()
-        .clientId("client-1")
-        .roomCode("WXYZ")
-        .nick("Ana")
-        .build();
-    final var player = Player.builder()
-        .id("player-1")
-        .clientId("client-1")
-        .nick("Ana")
-        .build();
-    final var room = new Room(joinRoomCommand.roomCode(), "host-1");
-    room.addPlayer(player);
+    /** Test execute when game already started then throw room exception. */
+    @Test
+    void testExecute_whenGameAlreadyStarted_thenThrowRoomException() {
+        // Given
+        final var joinRoomCommand = Instancio.create(JoinRoomCommand.class);
+        final var room = RoomTestFactory.withPhase(
+                RoomTestFactory.emptyRoom(joinRoomCommand.roomCode(), Instancio.create(String.class)),
+                GamePhase.PLAYING);
+        this.inMemoryRoomStore.seed(room);
 
-    // When
-    when(this.roomRetrievalPersistencePort.findByCode(joinRoomCommand.roomCode())).thenReturn(Optional.of(room));
-    when(this.roomSavePersistencePort.save(room)).thenReturn(room);
-    final var roomJoinResult = this.joinRoomUseCaseImpl.execute(joinRoomCommand);
+        // When
+        final var roomException = assertThrows(
+                RoomException.class,
+                () -> this.joinRoomUseCaseImpl.execute(joinRoomCommand));
 
-    // Then
-    verify(this.roomSavePersistencePort, times(1)).save(room);
-    assertEquals("player-1", roomJoinResult.playerId());
-    assertEquals(joinRoomCommand.roomCode(), roomJoinResult.roomCode());
-  }
+        // Then
+        assertEquals(RoomExceptionConstants.GAME_ALREADY_STARTED, roomException.getMessage());
+    }
+
+    /** Test execute when client reconnects then return existing player. */
+    @Test
+    void testExecute_whenClientReconnects_thenReturnExistingPlayer() {
+        // Given
+        final var joinRoomCommand = JoinRoomCommand.builder()
+                .clientId("client-1")
+                .roomCode("WXYZ")
+                .nick("Ana")
+                .build();
+        final var player = RoomTestFactory.player("player-1", "client-1", "Ana");
+        final var room = RoomTestFactory.roomWithPlayers("WXYZ", "host-1", List.of(player));
+        this.inMemoryRoomStore.seed(room);
+
+        // When
+        final var roomJoinResult = this.joinRoomUseCaseImpl.execute(joinRoomCommand);
+
+        // Then
+        final var savedRoom = this.inMemoryRoomStore.findByCode(joinRoomCommand.roomCode()).orElseThrow();
+        assertEquals("player-1", roomJoinResult.playerId());
+        assertEquals(joinRoomCommand.roomCode(), roomJoinResult.roomCode());
+        assertTrue(savedRoom.roomLobby().players().stream()
+                .filter(playerInRoom -> playerInRoom.id().equals("player-1"))
+                .findFirst()
+                .orElseThrow()
+                .connected());
+    }
 }
