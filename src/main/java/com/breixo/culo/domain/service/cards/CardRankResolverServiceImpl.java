@@ -22,21 +22,19 @@ public class CardRankResolverServiceImpl implements CardRankResolverService {
     @Override
     public CardRank resolve(final Card card) {
 
-        final var number = card.number();
-
-        if (BooleanUtils.isFalse(DeckConstants.DECK_NUMBERS.contains(number))) {
+        if (BooleanUtils.isFalse(DeckConstants.DECK_NUMBERS.contains(card.number()))) {
             throw new GameException(GameExceptionConstants.INVALID_CARD_NUMBER);
         }
 
-        if (AS_NUMBER.equals(number) && Suit.OROS.equals(card.suit())) {
+        if (AS_NUMBER.equals(card.number()) && Suit.OROS.equals(card.suit())) {
             return CardRank.AS_OROS;
         }
 
-        if (AS_NUMBER.equals(number)) {
+        if (AS_NUMBER.equals(card.number())) {
             return CardRank.AS_OTRO;
         }
 
-        return this.rankForNumber(number);
+        return this.rankForNumber(card.number());
     }
 
     private CardRank rankForNumber(final Integer number) {
