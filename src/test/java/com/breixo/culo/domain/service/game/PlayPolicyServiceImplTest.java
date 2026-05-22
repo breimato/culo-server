@@ -22,7 +22,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Play Policy Service Impl Test. */
+/**
+ * The Class PlayPolicyServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class PlayPolicyServiceImplTest {
 
@@ -38,9 +40,12 @@ class PlayPolicyServiceImplTest {
     @Mock
     PlayRuleService playRuleService;
 
-    /** Test validate player can play when context is valid then no exception. */
+    /**
+	 * Test validate player can play when context is valid then no exception.
+	 */
     @Test
     void testValidatePlayerCanPlay_whenContextIsValid_thenNoException() {
+        
         // Given
         final var gameSessionContext = Instancio.create(GameSessionContext.class);
 
@@ -58,9 +63,12 @@ class PlayPolicyServiceImplTest {
                 .requirePlayerHasCards(gameSessionContext.room(), gameSessionContext.player());
     }
 
-    /** Test validate legal play when play is illegal then throw game exception. */
+    /**
+	 * Test validate legal play when play is illegal then throw game exception.
+	 */
     @Test
     void testValidateLegalPlay_whenPlayIsIllegal_thenThrowGameException() {
+        
         // Given
         final var play = Instancio.create(Play.class);
         final var room = Instancio.create(Room.class);

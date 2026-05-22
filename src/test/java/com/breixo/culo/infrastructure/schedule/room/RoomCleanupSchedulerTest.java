@@ -21,7 +21,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Room Cleanup Scheduler Test. */
+/**
+ * The Class RoomCleanupSchedulerTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class RoomCleanupSchedulerTest {
 
@@ -41,7 +43,9 @@ class RoomCleanupSchedulerTest {
   @Mock
   CuloProperties culoProperties;
 
-  /** Test purge inactive rooms when room expired then delete by code. */
+  /**
+	 * Test purge inactive rooms when room expired then delete by code.
+	 */
   @Test
   void testPurgeInactiveRooms_whenRoomExpired_thenDeleteByCode() {
     // Given
@@ -74,7 +78,9 @@ class RoomCleanupSchedulerTest {
     verify(this.roomDeletionPersistencePort, never()).deleteByCode("NEW1");
   }
 
-  /** Test purge inactive rooms when all rooms active then no delete. */
+  /**
+	 * Test purge inactive rooms when all rooms active then no delete.
+	 */
   @Test
   void testPurgeInactiveRooms_whenAllRoomsActive_thenNoDelete() {
     // Given

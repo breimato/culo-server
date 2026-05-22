@@ -26,7 +26,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Player Elimination Service Impl Test. */
+/**
+ * The Class PlayerEliminationServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class PlayerEliminationServiceImplTest {
 
@@ -40,6 +42,9 @@ class PlayerEliminationServiceImplTest {
     /** The player elimination service. */
     PlayerEliminationServiceImpl playerEliminationService;
 
+    /**
+	 * Sets the up.
+	 */
     @BeforeEach
     void setUp() {
         this.playerEliminationService = new PlayerEliminationServiceImpl(
@@ -47,9 +52,12 @@ class PlayerEliminationServiceImplTest {
                 this.playerRoleService);
     }
 
-    /** Test register player out when multiple active players then game not finished. */
+    /**
+	 * Test register player out when multiple active players then game not finished.
+	 */
     @Test
     void testRegisterPlayerOut_whenMultipleActivePlayers_thenGameNotFinished() {
+        
         // Given
         final var playerId = Instancio.create(String.class);
         final var gameSession = Instancio.of(GameSession.class)
@@ -71,9 +79,12 @@ class PlayerEliminationServiceImplTest {
         assertEquals(List.of(playerId), playerElimination.room().gameSession().finishOrder());
     }
 
-    /** Test register player out when last active player then finish game with roles. */
+    /**
+	 * Test register player out when last active player then finish game with roles.
+	 */
     @Test
     void testRegisterPlayerOut_whenLastActivePlayer_thenFinishGameWithRoles() {
+        
         // Given
         final var eliminatedPlayerId = "player-eliminated";
         final var secondPlayerId = "player-second";

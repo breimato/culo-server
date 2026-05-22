@@ -12,7 +12,9 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Controller;
 
-/** STOMP controller for leaving a room. */
+/**
+ * The Class PostRoomLeaveV1Controller.
+ */
 @Controller
 @RequiredArgsConstructor
 public class PostRoomLeaveV1Controller implements PostRoomLeaveV1Api {

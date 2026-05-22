@@ -18,7 +18,9 @@ import static org.instancio.Select.field;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/** The Class Hand Management Service Impl Test. */
+/**
+ * The Class HandManagementServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class HandManagementServiceImplTest {
 
@@ -26,9 +28,12 @@ class HandManagementServiceImplTest {
     @InjectMocks
     HandManagementServiceImpl handManagementService;
 
-    /** Test remove cards from hand when cards exist then remove them. */
+    /**
+	 * Test remove cards from hand when cards exist then remove them.
+	 */
     @Test
     void testRemoveCardsFromHand_whenCardsExist_thenRemoveThem() {
+        
         // Given
         final var playerId = "player-id";
         final var cardToRemove = Card.builder().suit(Suit.COPAS).number(3).build();
@@ -52,9 +57,12 @@ class HandManagementServiceImplTest {
         assertEquals(cardToKeep, hand.getFirst());
     }
 
-    /** Test add cards to hand when called then append cards. */
+    /**
+	 * Test add cards to hand when called then append cards.
+	 */
     @Test
     void testAddCardsToHand_whenCalled_thenAppendCards() {
+        
         // Given
         final var playerId = "player-id";
         final var existingCard = Card.builder().suit(Suit.BASTOS).number(5).build();

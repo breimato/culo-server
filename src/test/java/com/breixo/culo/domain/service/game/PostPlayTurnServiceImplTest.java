@@ -24,7 +24,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Post Play Turn Service Impl Test. */
+/**
+ * The Class PostPlayTurnServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class PostPlayTurnServiceImplTest {
 
@@ -52,9 +54,12 @@ class PostPlayTurnServiceImplTest {
     @Mock
     RoundClosingService roundClosingService;
 
-    /** Test apply when game finished then phase is dealing. */
+    /**
+	 * Test apply when game finished then phase is dealing.
+	 */
     @Test
     void testApply_whenGameFinished_thenPhaseIsDealing() {
+        
         // Given
         final var player = Instancio.create(Player.class);
         final var room = Instancio.create(Room.class);
@@ -81,9 +86,12 @@ class PostPlayTurnServiceImplTest {
         assertEquals(roomWithPhase, turnAfterPlay.room());
     }
 
-    /** Test apply when as oros and player was out then advances turn. */
+    /**
+	 * Test apply when as oros and player was out then advances turn.
+	 */
     @Test
     void testApply_whenAsOrosAndPlayerWasOut_thenAdvancesTurn() {
+        
         // Given
         final var player = Instancio.create(Player.class);
         final var room = Instancio.create(Room.class);

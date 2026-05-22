@@ -28,9 +28,7 @@ public class PostGameAckV1Controller implements PostGameAckV1Api {
     /** The player lookup service. */
     private final PlayerLookupService playerLookupService;
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     @MessageMapping("/game.ack")
     public ResponseEntity<Void> postGameAckV1(

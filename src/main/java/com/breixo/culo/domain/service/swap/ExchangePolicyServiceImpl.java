@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/** The Class ExchangePolicyServiceImpl. */
+/**
+ * The Class ExchangePolicyServiceImpl.
+ */
 @Service
 public class ExchangePolicyServiceImpl implements ExchangePolicyService {
 

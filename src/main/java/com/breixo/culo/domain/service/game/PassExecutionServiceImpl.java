@@ -13,7 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Service;
 
-/** The Class PassExecutionServiceImpl. */
+/**
+ * The Class PassExecutionServiceImpl.
+ */
 @Service
 @RequiredArgsConstructor
 public class PassExecutionServiceImpl implements PassExecutionService {
@@ -43,6 +45,13 @@ public class PassExecutionServiceImpl implements PassExecutionService {
         return this.buildPassResult(roundClose.room(), playerId, roundClose.roundClosed());
     }
 
+    /**
+	 * Register pass in round.
+	 *
+	 * @param room     the room
+	 * @param playerId the player id
+	 * @return the room
+	 */
     private Room registerPassInRound(final Room room, final String playerId) {
 
         final var currentRound = room.gameSession().currentRound();
@@ -55,6 +64,12 @@ public class PassExecutionServiceImpl implements PassExecutionService {
                 .build();
     }
 
+    /**
+	 * Resolve round close after pass.
+	 *
+	 * @param roomAfterPass the room after pass
+	 * @return the round closure
+	 */
     private RoundClosure resolveRoundCloseAfterPass(final Room roomAfterPass) {
 
         var room = roomAfterPass;
@@ -75,6 +90,14 @@ public class PassExecutionServiceImpl implements PassExecutionService {
                 .build();
     }
 
+    /**
+	 * Builds the pass result.
+	 *
+	 * @param room        the room
+	 * @param playerId    the player id
+	 * @param roundClosed the round closed
+	 * @return the pass result
+	 */
     private PassResult buildPassResult(final Room room, final String playerId, final boolean roundClosed) {
 
         return PassResult.builder()

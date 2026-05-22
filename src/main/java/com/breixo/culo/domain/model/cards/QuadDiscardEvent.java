@@ -5,7 +5,13 @@ import lombok.Builder;
 
 import java.util.List;
 
-/** The Record QuadDiscardEvent. */
+/**
+ * The Record QuadDiscardEvent.
+ *
+ * @param playerId the player id
+ * @param value    the value
+ * @param cards    the cards
+ */
 @Builder
 public record QuadDiscardEvent(
         String playerId,
@@ -13,6 +19,13 @@ public record QuadDiscardEvent(
         List<Card> cards
 ) {
 
+    /**
+	 * Instantiates a new quad discard event.
+	 *
+	 * @param playerId the player id
+	 * @param value    the value
+	 * @param cards    the cards
+	 */
     public QuadDiscardEvent {
         cards = List.copyOf(cards);
     }

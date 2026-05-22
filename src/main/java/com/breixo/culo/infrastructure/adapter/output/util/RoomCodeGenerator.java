@@ -34,11 +34,7 @@ public class RoomCodeGenerator implements RoomCodeGenerationPort {
   /** The secure random. */
   private final SecureRandom secureRandom;
 
-  /**
-	 * Execute.
-	 *
-	 * @return the string
-	 */
+  /** {@inheritDoc} */
   @Override
   public String execute() {
 

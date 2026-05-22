@@ -22,7 +22,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Round Service Impl Test. */
+/**
+ * The Class RoundServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class RoundServiceImplTest {
 
@@ -34,9 +36,12 @@ class RoundServiceImplTest {
     @Mock
     CardRankResolverService cardRankResolverService;
 
-    /** Test register play when play is valid then update round state. */
+    /**
+	 * Test register play when play is valid then update round state.
+	 */
     @Test
     void testRegisterPlay_whenPlayIsValid_thenUpdateRoundState() {
+        
         // Given
         final var card = Card.builder().suit(Suit.OROS).number(7).build();
         final var cardOne = Card.builder().suit(Suit.COPAS).number(7).build();
@@ -60,9 +65,12 @@ class RoundServiceImplTest {
         assertTrue(updatedRound.playersPassedSinceLastPlay().isEmpty());
     }
 
-    /** Test reset when round has state then clear round. */
+    /**
+	 * Test reset when round has state then clear round.
+	 */
     @Test
     void testReset_whenRoundHasState_thenClearRound() {
+        
         // Given
         final var round = Round.builder()
                 .requirement(2)

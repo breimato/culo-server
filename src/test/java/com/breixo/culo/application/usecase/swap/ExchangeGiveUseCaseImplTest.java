@@ -33,11 +33,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Exchange Give Use Case Impl Test. */
+/**
+ * The Class ExchangeGiveUseCaseImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class ExchangeGiveUseCaseImplTest {
 
-    /** The exchange give use case. */
+    /** The exchange give use case impl. */
     @InjectMocks
     ExchangeGiveUseCaseImpl exchangeGiveUseCaseImpl;
 
@@ -61,9 +63,12 @@ class ExchangeGiveUseCaseImplTest {
     @Mock
     ExchangeService exchangeService;
 
-    /** Test execute when command is valid then save and return room. */
+    /**
+	 * Test execute when command is valid then save and return room.
+	 */
     @Test
     void testExecute_whenCommandIsValid_thenSaveAndReturnRoom() {
+        
         // Given
         final var exchangeGiveCommand = Instancio.create(ExchangeGiveCommand.class);
         final var gameSessionContext = Instancio.create(GameSessionContext.class);
@@ -124,9 +129,12 @@ class ExchangeGiveUseCaseImplTest {
                 .contains(gameSessionContext.player().id()));
     }
 
-    /** Test execute when exchange already done then throw game exception. */
+    /**
+	 * Test execute when exchange already done then throw game exception.
+	 */
     @Test
     void testExecute_whenExchangeAlreadyDone_thenThrowGameException() {
+        
         // Given
         final var exchangeGiveCommand = Instancio.create(ExchangeGiveCommand.class);
         final var gameSessionContext = Instancio.create(GameSessionContext.class);

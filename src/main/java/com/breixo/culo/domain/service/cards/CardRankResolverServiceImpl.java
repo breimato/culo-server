@@ -11,7 +11,9 @@ import com.breixo.culo.domain.port.input.cards.CardRankResolverService;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Service;
 
-/** The Class CardRankResolverServiceImpl. */
+/**
+ * The Class CardRankResolverServiceImpl.
+ */
 @Service
 public class CardRankResolverServiceImpl implements CardRankResolverService {
 
@@ -37,6 +39,12 @@ public class CardRankResolverServiceImpl implements CardRankResolverService {
         return this.rankForNumber(card.number());
     }
 
+    /**
+	 * Rank for number.
+	 *
+	 * @param number the number
+	 * @return the card rank
+	 */
     private CardRank rankForNumber(final Integer number) {
 
         return switch (number) {

@@ -18,22 +18,14 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
   /** The culo properties. */
   private final CuloProperties culoProperties;
 
-  /**
-	 * Configure message broker.
-	 *
-	 * @param messageBrokerRegistry the message broker registry
-	 */
+  /** {@inheritDoc} */
   @Override
   public void configureMessageBroker(final MessageBrokerRegistry messageBrokerRegistry) {
     messageBrokerRegistry.enableSimpleBroker("/topic", "/queue");
     messageBrokerRegistry.setApplicationDestinationPrefixes("/app");
   }
 
-  /**
-	 * Register stomp endpoints.
-	 *
-	 * @param stompEndpointRegistry the stomp endpoint registry
-	 */
+  /** {@inheritDoc} */
   @Override
   public void registerStompEndpoints(final StompEndpointRegistry stompEndpointRegistry) {
     stompEndpointRegistry

@@ -22,7 +22,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/** The Class Room Membership Service Impl Test. */
+/**
+ * The Class RoomMembershipServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class RoomMembershipServiceImplTest {
 
@@ -30,9 +32,12 @@ class RoomMembershipServiceImplTest {
     @InjectMocks
     RoomMembershipServiceImpl roomMembershipService;
 
-    /** Test add player when room has space then add player and touch. */
+    /**
+	 * Test add player when room has space then add player and touch.
+	 */
     @Test
     void testAddPlayer_whenRoomHasSpace_thenAddPlayerAndTouch() {
+        
         // Given
         final var existingPlayer = Instancio.create(Player.class);
         final var newPlayer = Instancio.create(Player.class);
@@ -54,9 +59,12 @@ class RoomMembershipServiceImplTest {
         assertTrue(roomWithNewPlayer.roomLobby().lastActivity().isAfter(lastActivity));
     }
 
-    /** Test add player when room is full then throw room exception. */
+    /**
+	 * Test add player when room is full then throw room exception.
+	 */
     @Test
     void testAddPlayer_whenRoomIsFull_thenThrowRoomException() {
+        
         // Given
         final var players = new ArrayList<Player>();
         for (int playerIndex = 0; playerIndex < RoomConstants.MAX_PLAYERS; playerIndex++) {
@@ -79,9 +87,12 @@ class RoomMembershipServiceImplTest {
         assertEquals(RoomExceptionConstants.ROOM_FULL, roomException.getMessage());
     }
 
-    /** Test reconnect player when player exists then mark connected and touch. */
+    /**
+	 * Test reconnect player when player exists then mark connected and touch.
+	 */
     @Test
     void testReconnectPlayer_whenPlayerExists_thenMarkConnectedAndTouch() {
+        
         // Given
         final var disconnectedPlayer = Instancio.of(Player.class)
                 .set(field(Player::id), "player-id")
@@ -110,9 +121,12 @@ class RoomMembershipServiceImplTest {
         assertTrue(roomAfterReconnect.roomLobby().lastActivity().isAfter(lastActivity));
     }
 
-    /** Test touch when called then update last activity. */
+    /**
+	 * Test touch when called then update last activity.
+	 */
     @Test
     void testTouch_whenCalled_thenUpdateLastActivity() {
+        
         // Given
         final var lastActivity = Instant.parse("2020-01-01T00:00:00Z");
         final var roomLobby = Instancio.of(RoomLobby.class)

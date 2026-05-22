@@ -103,7 +103,8 @@ class PostCuloSwapVoteV1ControllerTest {
   }
 
   /**
-	 * Test post culo swap vote V 1 when use case fails then publish error to client.
+	 * Test post culo swap vote V 1 when use case fails then publish error to
+	 * client.
 	 *
 	 * @throws Exception the exception
 	 */

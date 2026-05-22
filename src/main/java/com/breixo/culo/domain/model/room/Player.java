@@ -7,6 +7,12 @@ import lombok.Builder;
 
 /**
  * The Record Player.
+ *
+ * @param id        the id
+ * @param clientId  the client id
+ * @param nick      the nick
+ * @param connected the connected
+ * @param role      the role
  */
 @Builder(toBuilder = true)
 public record Player(

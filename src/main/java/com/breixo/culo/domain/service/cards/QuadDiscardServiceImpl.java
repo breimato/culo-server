@@ -15,7 +15,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-/** The Class QuadDiscardServiceImpl. */
+/**
+ * The Class QuadDiscardServiceImpl.
+ */
 @Service
 public class QuadDiscardServiceImpl implements QuadDiscardService {
 
@@ -71,6 +73,12 @@ public class QuadDiscardServiceImpl implements QuadDiscardService {
                 .build();
     }
 
+    /**
+	 * Empty discard result.
+	 *
+	 * @param room the room
+	 * @return the quad discard applied
+	 */
     private QuadDiscardApplied emptyDiscardResult(final Room room) {
 
         return QuadDiscardApplied.builder()
@@ -79,6 +87,13 @@ public class QuadDiscardServiceImpl implements QuadDiscardService {
                 .build();
     }
 
+    /**
+	 * Detect quad events.
+	 *
+	 * @param hand     the hand
+	 * @param playerId the player id
+	 * @return the quad in hand
+	 */
     private QuadInHand detectQuadEvents(final List<Card> hand, final String playerId) {
 
         final var cardsByNumber = hand.stream()
@@ -97,6 +112,15 @@ public class QuadDiscardServiceImpl implements QuadDiscardService {
                 .build();
     }
 
+    /**
+	 * Discard quad if present.
+	 *
+	 * @param playerId      the player id
+	 * @param cardNumber    the card number
+	 * @param cardsOfNumber the cards of number
+	 * @param updatedHand   the updated hand
+	 * @param events        the events
+	 */
     private void discardQuadIfPresent(
             final String playerId,
             final Integer cardNumber,
@@ -117,6 +141,15 @@ public class QuadDiscardServiceImpl implements QuadDiscardService {
                 .build());
     }
 
+    /**
+	 * Apply quad discard to room.
+	 *
+	 * @param room        the room
+	 * @param playerId    the player id
+	 * @param updatedHand the updated hand
+	 * @param events      the events
+	 * @return the quad discard applied
+	 */
     private QuadDiscardApplied applyQuadDiscardToRoom(
             final Room room,
             final String playerId,

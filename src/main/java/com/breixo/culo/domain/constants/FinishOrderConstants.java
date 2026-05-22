@@ -2,7 +2,9 @@ package com.breixo.culo.domain.constants;
 
 import lombok.NoArgsConstructor;
 
-/** The Class FinishOrderConstants. */
+/**
+ * The Class FinishOrderConstants.
+ */
 @NoArgsConstructor
 public final class FinishOrderConstants {
 

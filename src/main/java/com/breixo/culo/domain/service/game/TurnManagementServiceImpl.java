@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
-/** The Class TurnManagementServiceImpl. */
+/**
+ * The Class TurnManagementServiceImpl.
+ */
 @Service
 @RequiredArgsConstructor
 public class TurnManagementServiceImpl implements TurnManagementService {
@@ -138,11 +140,24 @@ public class TurnManagementServiceImpl implements TurnManagementService {
         return this.ensureCurrentPlayerIsActive(roomWithOpener);
     }
 
+    /**
+	 * Checks if is active hand.
+	 *
+	 * @param hand the hand
+	 * @return true, if is active hand
+	 */
     private boolean isActiveHand(final List<com.breixo.culo.domain.model.cards.Card> hand) {
 
         return Objects.nonNull(hand) && BooleanUtils.isFalse(hand.isEmpty());
     }
 
+    /**
+	 * Advance one step.
+	 *
+	 * @param room        the room
+	 * @param playerCount the player count
+	 * @return the room
+	 */
     private Room advanceOneStep(final Room room, final int playerCount) {
 
         return room.toBuilder()
@@ -152,6 +167,12 @@ public class TurnManagementServiceImpl implements TurnManagementService {
                 .build();
     }
 
+    /**
+	 * Reset round state.
+	 *
+	 * @param room the room
+	 * @return the room
+	 */
     private Room resetRoundState(final Room room) {
 
         final var resetRound = this.roundService.reset(room.gameSession().currentRound());
@@ -163,6 +184,13 @@ public class TurnManagementServiceImpl implements TurnManagementService {
                 .build();
     }
 
+    /**
+	 * Resolve opener index.
+	 *
+	 * @param room         the room
+	 * @param lastPlayerId the last player id
+	 * @return the integer
+	 */
     private Integer resolveOpenerIndex(final Room room, final String lastPlayerId) {
 
         final var lastPlayerHand = room.gameSession().hands().get(lastPlayerId);
@@ -175,6 +203,13 @@ public class TurnManagementServiceImpl implements TurnManagementService {
         return room.gameSession().playerOrder().indexOf(lastPlayerId);
     }
 
+    /**
+	 * Apply opener index.
+	 *
+	 * @param room        the room
+	 * @param openerIndex the opener index
+	 * @return the room
+	 */
     private Room applyOpenerIndex(final Room room, final Integer openerIndex) {
 
         if (openerIndex < TurnConstants.FIRST_PLAYER_INDEX) {

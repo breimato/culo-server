@@ -10,6 +10,12 @@ import java.util.List;
 
 /**
  * The Record RoomLobby.
+ *
+ * @param code         the code
+ * @param hostPlayerId the host player id
+ * @param players      the players
+ * @param phase        the phase
+ * @param lastActivity the last activity
  */
 @Builder(toBuilder = true)
 public record RoomLobby(
@@ -20,6 +26,15 @@ public record RoomLobby(
         @NotNull Instant lastActivity
 ) {
 
+    /**
+	 * Instantiates a new room lobby.
+	 *
+	 * @param code         the code
+	 * @param hostPlayerId the host player id
+	 * @param players      the players
+	 * @param phase        the phase
+	 * @param lastActivity the last activity
+	 */
     public RoomLobby {
         players = List.copyOf(players);
     }

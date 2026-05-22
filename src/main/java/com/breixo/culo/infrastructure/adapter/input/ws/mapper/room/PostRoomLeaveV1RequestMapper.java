@@ -4,7 +4,9 @@ import com.breixo.culo.domain.command.room.LeaveRoomCommand;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.PostRoomLeaveV1RequestDto;
 import org.mapstruct.Mapper;
 
-/** Maps leave room WS request to domain command. */
+/**
+ * The Interface PostRoomLeaveV1RequestMapper.
+ */
 @Mapper(componentModel = "spring")
 public interface PostRoomLeaveV1RequestMapper {
 

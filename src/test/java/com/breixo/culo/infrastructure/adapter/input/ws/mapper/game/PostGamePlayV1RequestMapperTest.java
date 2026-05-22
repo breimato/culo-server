@@ -10,7 +10,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-/** The Class Post Game Play V 1 Request Mapper Test. */
+/**
+ * The Class PostGamePlayV1RequestMapperTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class PostGamePlayV1RequestMapperTest {
 
@@ -18,9 +20,12 @@ class PostGamePlayV1RequestMapperTest {
     @InjectMocks
     PostGamePlayV1RequestMapperImpl postGamePlayV1RequestMapper;
 
-    /** Test to play cards command when request is valid then return mapped command. */
+    /**
+	 * Test to play cards command when request is valid then return mapped command.
+	 */
     @Test
     void testToPlayCardsCommand_whenRequestIsValid_thenReturnMappedCommand() {
+        
         // Given
         final var postGamePlayV1RequestDto = Instancio.create(PostGamePlayV1RequestDto.class);
 
@@ -33,7 +38,9 @@ class PostGamePlayV1RequestMapperTest {
         assertEquals(postGamePlayV1RequestDto.getCards().size(), playCardsCommand.cards().size());
     }
 
-    /** Test to play cards command when request is null then return null. */
+    /**
+	 * Test to play cards command when request is null then return null.
+	 */
     @Test
     void testToPlayCardsCommand_whenRequestIsNull_thenReturnNull() {
         // When / Then

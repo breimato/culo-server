@@ -10,7 +10,9 @@ import com.breixo.culo.domain.port.input.room.RoomPhaseService;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Service;
 
-/** The Class RoomPhaseServiceImpl. */
+/**
+ * The Class RoomPhaseServiceImpl.
+ */
 @Service
 public class RoomPhaseServiceImpl implements RoomPhaseService {
 

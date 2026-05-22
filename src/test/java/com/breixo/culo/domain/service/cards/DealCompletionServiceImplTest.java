@@ -22,7 +22,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Deal Completion Service Impl Test. */
+/**
+ * The Class DealCompletionServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class DealCompletionServiceImplTest {
 
@@ -46,9 +48,12 @@ class DealCompletionServiceImplTest {
     @Mock
     RoomPhaseService roomPhaseService;
 
-    /** Test execute when exchange needed then phase is exchange. */
+    /**
+	 * Test execute when exchange needed then phase is exchange.
+	 */
     @Test
     void testExecute_whenExchangeNeeded_thenPhaseIsExchange() {
+        
         // Given
         final var room = Instancio.create(Room.class);
         final var dealtRoom = Instancio.create(Room.class);
@@ -87,9 +92,12 @@ class DealCompletionServiceImplTest {
         assertEquals(roomWithExchangePhase, result);
     }
 
-    /** Test execute when exchange not needed then phase is playing. */
+    /**
+	 * Test execute when exchange not needed then phase is playing.
+	 */
     @Test
     void testExecute_whenExchangeNotNeeded_thenPhaseIsPlaying() {
+        
         // Given
         final var room = Instancio.create(Room.class);
         final var dealtRoom = Instancio.create(Room.class);

@@ -113,7 +113,8 @@ class PostDealingConfirmV1ControllerTest {
   }
 
   /**
-	 * Test post dealing confirm V 1 when use case fails then publish error to client.
+	 * Test post dealing confirm V 1 when use case fails then publish error to
+	 * client.
 	 *
 	 * @throws Exception the exception
 	 */

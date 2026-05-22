@@ -6,14 +6,16 @@ import com.breixo.culo.domain.model.room.Room;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
-/** The Interface Start Game Use Case. */
+/**
+ * The Interface StartGameUseCase.
+ */
 public interface StartGameUseCase {
 
   /**
-   * Execute.
-   *
-   * @param startGameCommand the start game command.
-   * @return the room.
-   */
+	 * Execute.
+	 *
+	 * @param startGameCommand the start game command
+	 * @return the room
+	 */
   Room execute(@Valid @NotNull StartGameCommand startGameCommand);
 }

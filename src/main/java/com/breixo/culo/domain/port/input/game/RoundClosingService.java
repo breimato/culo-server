@@ -3,14 +3,16 @@ package com.breixo.culo.domain.port.input.game;
 import com.breixo.culo.domain.model.game.RoundClosure;
 import com.breixo.culo.domain.model.room.Room;
 
-/** The Interface RoundClosingService. */
+/**
+ * The Interface RoundClosingService.
+ */
 public interface RoundClosingService {
 
     /**
-     * Close round if others all passed.
-     *
-     * @param room the room
-     * @return the round close result
-     */
+	 * Close round if others all passed.
+	 *
+	 * @param room the room
+	 * @return the round closure
+	 */
     RoundClosure closeRoundIfOthersAllPassed(Room room);
 }

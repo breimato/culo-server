@@ -11,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Component;
 
-/** The Class PlayFollowUpSupport. */
+/**
+ * The Class PlayFollowUpSupport.
+ */
 @Component
 @RequiredArgsConstructor
 public class PlayFollowUpSupport {
@@ -32,22 +34,22 @@ public class PlayFollowUpSupport {
     private final GameContextService gameSessionContextService;
 
     /**
-     * Play follow up task.
-     *
-     * @param roomCode   the room code
-     * @param playResult the play result
-     * @return the runnable
-     */
+	 * Play follow up task.
+	 *
+	 * @param roomCode   the room code
+	 * @param playResult the play result
+	 * @return the runnable
+	 */
     public Runnable playFollowUpTask(final String roomCode, final PlayResult playResult) {
         return () -> this.publishPlayFollowUp(roomCode, playResult);
     }
 
     /**
-     * Publish play follow up.
-     *
-     * @param roomCode   the room code
-     * @param playResult the play result
-     */
+	 * Publish play follow up.
+	 *
+	 * @param roomCode   the room code
+	 * @param playResult the play result
+	 */
     public void publishPlayFollowUp(final String roomCode, final PlayResult playResult) {
         final var room = this.roomRetrievalPersistencePort.findByCode(roomCode).orElse(playResult.room());
         this.roomEventPublisher.publishRoomState(room);
@@ -68,11 +70,11 @@ public class PlayFollowUpSupport {
     }
 
     /**
-     * Publish pending quad discards.
-     *
-     * @param room the room
-     * @return the room
-     */
+	 * Publish pending quad discards.
+	 *
+	 * @param room the room
+	 * @return the room
+	 */
     public Room publishPendingQuadDiscards(final Room room) {
         final var discardQuadsResult = this.quadDiscardService.drainQuadDiscards(room);
         final var drainedRoom = this.roomSavePersistencePort.save(discardQuadsResult.room());
@@ -84,11 +86,11 @@ public class PlayFollowUpSupport {
     }
 
     /**
-     * Publish pass follow up.
-     *
-     * @param room       the room
-     * @param roundEnded the round ended
-     */
+	 * Publish pass follow up.
+	 *
+	 * @param room        the room
+	 * @param roundClosed the round closed
+	 */
     public void publishPassFollowUp(final Room room, final boolean roundClosed) {
         this.roomEventPublisher.publishRoomState(room);
         final var roomAfterDrain = this.publishPendingQuadDiscards(room);
@@ -100,10 +102,10 @@ public class PlayFollowUpSupport {
     }
 
     /**
-     * Publish exchange follow up.
-     *
-     * @param room the room
-     */
+	 * Publish exchange follow up.
+	 *
+	 * @param room the room
+	 */
     public void publishExchangeFollowUp(final Room room) {
         this.roomEventPublisher.publishRoomState(room);
         final var roomAfterDrain = this.publishPendingQuadDiscards(room);

@@ -2,7 +2,9 @@ package com.breixo.culo.domain.constants;
 
 import lombok.NoArgsConstructor;
 
-/** The Class RoomConstants. */
+/**
+ * The Class RoomConstants.
+ */
 @NoArgsConstructor
 public final class RoomConstants {
 

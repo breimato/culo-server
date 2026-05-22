@@ -10,7 +10,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-/** The Class Post Exchange Give V 1 Request Mapper Test. */
+/**
+ * The Class PostExchangeGiveV1RequestMapperTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class PostExchangeGiveV1RequestMapperTest {
 
@@ -18,9 +20,13 @@ class PostExchangeGiveV1RequestMapperTest {
     @InjectMocks
     PostExchangeGiveV1RequestMapperImpl postExchangeGiveV1RequestMapper;
 
-    /** Test to exchange give command when request is valid then return mapped command. */
+    /**
+	 * Test to exchange give command when request is valid then return mapped
+	 * command.
+	 */
     @Test
     void testToExchangeGiveCommand_whenRequestIsValid_thenReturnMappedCommand() {
+        
         // Given
         final var postExchangeGiveV1RequestDto = Instancio.create(PostExchangeGiveV1RequestDto.class);
 
@@ -34,7 +40,9 @@ class PostExchangeGiveV1RequestMapperTest {
         assertEquals(postExchangeGiveV1RequestDto.getCards().size(), exchangeGiveCommand.cards().size());
     }
 
-    /** Test to exchange give command when request is null then return null. */
+    /**
+	 * Test to exchange give command when request is null then return null.
+	 */
     @Test
     void testToExchangeGiveCommand_whenRequestIsNull_thenReturnNull() {
         // When / Then

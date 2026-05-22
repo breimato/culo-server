@@ -3,6 +3,12 @@ package com.breixo.culo.domain.command.room;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 
+/**
+ * The Record StartGameCommand.
+ *
+ * @param clientId the client id
+ * @param roomCode the room code
+ */
 @Builder
 public record StartGameCommand(
         @NotBlank String clientId,

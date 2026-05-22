@@ -19,7 +19,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/** The Class Culo Service Impl Test. */
+/**
+ * The Class CuloServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class CuloServiceImplTest {
 
@@ -27,9 +29,13 @@ class CuloServiceImplTest {
     @InjectMocks
     CuloServiceImpl culoService;
 
-    /** Test register vote when not all players voted then all players have voted is false. */
+    /**
+	 * Test register vote when not all players voted then all players have voted is
+	 * false.
+	 */
     @Test
     void testRegisterVote_whenNotAllPlayersVoted_thenAllPlayersHaveVotedIsFalse() {
+        
         // Given
         final var voter = Instancio.of(Player.class)
                 .set(field(Player::id), "voter-id")
@@ -57,9 +63,13 @@ class CuloServiceImplTest {
         assertTrue(culoSwapVoteCast.room().culoSwapState().votes().get(voter.id()));
     }
 
-    /** Test register vote when all players voted then all players have voted is true. */
+    /**
+	 * Test register vote when all players voted then all players have voted is
+	 * true.
+	 */
     @Test
     void testRegisterVote_whenAllPlayersVoted_thenAllPlayersHaveVotedIsTrue() {
+        
         // Given
         final var voter = Instancio.of(Player.class)
                 .set(field(Player::id), "voter-id")
@@ -88,9 +98,12 @@ class CuloServiceImplTest {
         assertEquals(2, culoSwapVoteCast.room().culoSwapState().votes().size());
     }
 
-    /** Test is swap approved when votes empty then return false. */
+    /**
+	 * Test is swap approved when votes empty then return false.
+	 */
     @Test
     void testIsSwapApproved_whenVotesEmpty_thenReturnFalse() {
+        
         // Given
         final var culoSwapState = Instancio.of(CuloSwapState.class)
                 .set(field(CuloSwapState::votes), Map.of())
@@ -103,9 +116,12 @@ class CuloServiceImplTest {
         assertFalse(this.culoService.isSwapApproved(room));
     }
 
-    /** Test is swap approved when all votes accept then return true. */
+    /**
+	 * Test is swap approved when all votes accept then return true.
+	 */
     @Test
     void testIsSwapApproved_whenAllVotesAccept_thenReturnTrue() {
+        
         // Given
         final var votes = Map.of("p1", true, "p2", true);
         final var culoSwapState = Instancio.of(CuloSwapState.class)
@@ -119,9 +135,12 @@ class CuloServiceImplTest {
         assertTrue(this.culoService.isSwapApproved(room));
     }
 
-    /** Test is swap approved when one vote rejects then return false. */
+    /**
+	 * Test is swap approved when one vote rejects then return false.
+	 */
     @Test
     void testIsSwapApproved_whenOneVoteRejects_thenReturnFalse() {
+        
         // Given
         final var votes = Map.of("p1", true, "p2", false);
         final var culoSwapState = Instancio.of(CuloSwapState.class)
@@ -135,9 +154,12 @@ class CuloServiceImplTest {
         assertFalse(this.culoService.isSwapApproved(room));
     }
 
-    /** Test initiate swap when called then set initiator and target. */
+    /**
+	 * Test initiate swap when called then set initiator and target.
+	 */
     @Test
     void testInitiateSwap_whenCalled_thenSetInitiatorAndTarget() {
+        
         // Given
         final var room = Instancio.create(Room.class);
 
@@ -149,9 +171,12 @@ class CuloServiceImplTest {
         assertEquals("target-id", roomAfterInitiate.culoSwapState().targetId());
     }
 
-    /** Test clear swap when called then reset swap state. */
+    /**
+	 * Test clear swap when called then reset swap state.
+	 */
     @Test
     void testClearSwap_whenCalled_thenResetSwapState() {
+        
         // Given
         final var votes = new HashMap<String, Boolean>();
         votes.put("p1", true);

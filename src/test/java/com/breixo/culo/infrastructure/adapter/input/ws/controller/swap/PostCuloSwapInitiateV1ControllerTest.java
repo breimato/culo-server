@@ -105,7 +105,8 @@ class PostCuloSwapInitiateV1ControllerTest {
   }
 
   /**
-	 * Test post culo swap initiate V 1 when use case fails then publish error to client.
+	 * Test post culo swap initiate V 1 when use case fails then publish error to
+	 * client.
 	 *
 	 * @throws Exception the exception
 	 */

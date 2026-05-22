@@ -13,7 +13,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-/** The Class PlayerRoleServiceImpl. */
+/**
+ * The Class PlayerRoleServiceImpl.
+ */
 @Service
 public class PlayerRoleServiceImpl implements PlayerRoleService {
 
@@ -106,6 +108,13 @@ public class PlayerRoleServiceImpl implements PlayerRoleService {
         return BooleanUtils.isTrue(hasGanador) && BooleanUtils.isTrue(hasCulo);
     }
 
+    /**
+	 * Apply role from map.
+	 *
+	 * @param player        the player
+	 * @param rolesByPlayer the roles by player
+	 * @return the player
+	 */
     private Player applyRoleFromMap(final Player player, final Map<PlayerRole, String> rolesByPlayer) {
 
         for (final var entry : rolesByPlayer.entrySet()) {
@@ -117,6 +126,13 @@ public class PlayerRoleServiceImpl implements PlayerRoleService {
         return player;
     }
 
+    /**
+	 * Capture role if present.
+	 *
+	 * @param room       the room
+	 * @param playerRole the player role
+	 * @param roles      the roles
+	 */
     private void captureRoleIfPresent(
             final Room room,
             final PlayerRole playerRole,
@@ -126,6 +142,14 @@ public class PlayerRoleServiceImpl implements PlayerRoleService {
         playerId.ifPresent(id -> roles.put(playerRole, id));
     }
 
+    /**
+	 * Assign role from finish order.
+	 *
+	 * @param player          the player
+	 * @param finishOrder     the finish order
+	 * @param finishOrderSize the finish order size
+	 * @return the player
+	 */
     private Player assignRoleFromFinishOrder(
             final Player player,
             final List<String> finishOrder,
@@ -141,6 +165,13 @@ public class PlayerRoleServiceImpl implements PlayerRoleService {
         return player.toBuilder().role(playerRole).build();
     }
 
+    /**
+	 * Resolve role for finish index.
+	 *
+	 * @param finishIndex     the finish index
+	 * @param finishOrderSize the finish order size
+	 * @return the player role
+	 */
     private PlayerRole resolveRoleForFinishIndex(final int finishIndex, final int finishOrderSize) {
 
         if (finishIndex == FinishOrderConstants.GANADOR_FINISH_INDEX) {

@@ -16,7 +16,9 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/** The Class PlayerRemovalFromRoomServiceImpl. */
+/**
+ * The Class PlayerRemovalFromRoomServiceImpl.
+ */
 @Service
 @RequiredArgsConstructor
 public class PlayerRemovalFromRoomServiceImpl implements PlayerRemovalFromRoomService {
@@ -40,6 +42,13 @@ public class PlayerRemovalFromRoomServiceImpl implements PlayerRemovalFromRoomSe
         return this.realignTurnAfterRemoval(room, roomWithoutPlayer, playerId);
     }
 
+    /**
+	 * Builds the room without player.
+	 *
+	 * @param room     the room
+	 * @param playerId the player id
+	 * @return the room
+	 */
     private Room buildRoomWithoutPlayer(final Room room, final String playerId) {
 
         final var handsWithoutPlayer = new HashMap<>(room.gameSession().hands());
@@ -62,6 +71,14 @@ public class PlayerRemovalFromRoomServiceImpl implements PlayerRemovalFromRoomSe
                 .build();
     }
 
+    /**
+	 * Realign turn after removal.
+	 *
+	 * @param roomBeforeRemoval the room before removal
+	 * @param roomWithoutPlayer the room without player
+	 * @param playerId          the player id
+	 * @return the room
+	 */
     private Room realignTurnAfterRemoval(
             final Room roomBeforeRemoval,
             final Room roomWithoutPlayer,
@@ -89,6 +106,13 @@ public class PlayerRemovalFromRoomServiceImpl implements PlayerRemovalFromRoomSe
                 this.applyCurrentPlayerIndex(roomWithoutPlayer, newIndex));
     }
 
+    /**
+	 * Without player.
+	 *
+	 * @param playerIds the player ids
+	 * @param playerId  the player id
+	 * @return the list
+	 */
     private List<String> withoutPlayer(final List<String> playerIds, final String playerId) {
 
         return playerIds.stream()
@@ -96,6 +120,13 @@ public class PlayerRemovalFromRoomServiceImpl implements PlayerRemovalFromRoomSe
                 .toList();
     }
 
+    /**
+	 * Without player.
+	 *
+	 * @param playerIds the player ids
+	 * @param playerId  the player id
+	 * @return the sets the
+	 */
     private Set<String> withoutPlayer(final Set<String> playerIds, final String playerId) {
 
         return playerIds.stream()
@@ -103,6 +134,13 @@ public class PlayerRemovalFromRoomServiceImpl implements PlayerRemovalFromRoomSe
                 .collect(Collectors.toUnmodifiableSet());
     }
 
+    /**
+	 * Clear culo swap if involved.
+	 *
+	 * @param culoSwapState the culo swap state
+	 * @param playerId      the player id
+	 * @return the culo swap state
+	 */
     private CuloSwapState clearCuloSwapIfInvolved(final CuloSwapState culoSwapState, final String playerId) {
 
         if (playerId.equals(culoSwapState.initiatorId()) || playerId.equals(culoSwapState.targetId())) {
@@ -119,6 +157,13 @@ public class PlayerRemovalFromRoomServiceImpl implements PlayerRemovalFromRoomSe
                 .build();
     }
 
+    /**
+	 * Apply current player index.
+	 *
+	 * @param room        the room
+	 * @param playerIndex the player index
+	 * @return the room
+	 */
     private Room applyCurrentPlayerIndex(final Room room, final Integer playerIndex) {
 
         return room.toBuilder()

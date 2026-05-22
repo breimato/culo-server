@@ -4,7 +4,12 @@ import com.breixo.culo.domain.model.cards.enums.Suit;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
-/** The Record CardInput. */
+/**
+ * The Record CardInput.
+ *
+ * @param suit   the suit
+ * @param number the number
+ */
 @Builder
 public record CardInput(
         @NotNull Suit suit,

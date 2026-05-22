@@ -28,8 +28,8 @@ public class CuloProperties {
   private Room room = new Room();
 
   /**
-   * The Class Cors.
-   */
+	 * The Class Cors.
+	 */
   @Getter
   @Setter
   @NoArgsConstructor
@@ -43,8 +43,8 @@ public class CuloProperties {
   }
 
   /**
-   * The Class Room.
-   */
+	 * The Class Room.
+	 */
   @Getter
   @Setter
   @NoArgsConstructor

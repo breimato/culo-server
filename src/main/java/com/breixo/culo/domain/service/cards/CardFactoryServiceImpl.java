@@ -9,7 +9,9 @@ import com.breixo.culo.domain.port.input.cards.CardFactoryService;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Service;
 
-/** The Class CardFactoryServiceImpl. */
+/**
+ * The Class CardFactoryServiceImpl.
+ */
 @Service
 public class CardFactoryServiceImpl implements CardFactoryService {
 

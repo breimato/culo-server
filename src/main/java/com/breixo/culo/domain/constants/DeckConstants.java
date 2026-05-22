@@ -4,7 +4,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
-/** The Class DeckConstants. */
+/**
+ * The Class DeckConstants.
+ */
 @NoArgsConstructor
 public final class DeckConstants {
 

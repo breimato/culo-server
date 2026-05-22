@@ -10,7 +10,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-/** The Class Post Room Start V 1 Request Mapper Test. */
+/**
+ * The Class PostRoomStartV1RequestMapperTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class PostRoomStartV1RequestMapperTest {
 
@@ -18,9 +20,12 @@ class PostRoomStartV1RequestMapperTest {
     @InjectMocks
     PostRoomStartV1RequestMapperImpl postRoomStartV1RequestMapper;
 
-    /** Test to start game command when request is valid then return mapped command. */
+    /**
+	 * Test to start game command when request is valid then return mapped command.
+	 */
     @Test
     void testToStartGameCommand_whenRequestIsValid_thenReturnMappedCommand() {
+        
         // Given
         final var postRoomStartV1RequestDto = Instancio.create(PostRoomStartV1RequestDto.class);
 
@@ -32,7 +37,9 @@ class PostRoomStartV1RequestMapperTest {
         assertEquals(postRoomStartV1RequestDto.getRoomCode(), startGameCommand.roomCode());
     }
 
-    /** Test to start game command when request is null then return null. */
+    /**
+	 * Test to start game command when request is null then return null.
+	 */
     @Test
     void testToStartGameCommand_whenRequestIsNull_thenReturnNull() {
         // When / Then

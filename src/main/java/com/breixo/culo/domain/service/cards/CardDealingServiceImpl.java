@@ -24,7 +24,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/** The Class CardDealingServiceImpl. */
+/**
+ * The Class CardDealingServiceImpl.
+ */
 @Service
 @RequiredArgsConstructor
 public class CardDealingServiceImpl implements CardDealingService {
@@ -98,6 +100,12 @@ public class CardDealingServiceImpl implements CardDealingService {
         return this.handManagementService.addCardsToHand(roomWithoutCards, receiverId, bestCards);
     }
 
+    /**
+	 * Builds the dealer rotated player order.
+	 *
+	 * @param room the room
+	 * @return the list
+	 */
     private List<String> buildDealerRotatedPlayerOrder(final Room room) {
 
         final var playerOrder = room.roomLobby().players().stream()
@@ -114,6 +122,13 @@ public class CardDealingServiceImpl implements CardDealingService {
         return playerOrder;
     }
 
+    /**
+	 * Distribute hands.
+	 *
+	 * @param deck        the deck
+	 * @param playerOrder the player order
+	 * @return the map
+	 */
     private Map<String, List<Card>> distributeHands(final List<Card> deck, final List<String> playerOrder) {
 
         final var hands = new HashMap<String, List<Card>>();
@@ -135,6 +150,12 @@ public class CardDealingServiceImpl implements CardDealingService {
                         entry -> List.copyOf(entry.getValue())));
     }
 
+    /**
+	 * Reset players to none.
+	 *
+	 * @param room the room
+	 * @return the list
+	 */
     private List<Player> resetPlayersToNone(final Room room) {
 
         return room.roomLobby().players().stream()
@@ -142,6 +163,14 @@ public class CardDealingServiceImpl implements CardDealingService {
                 .toList();
     }
 
+    /**
+	 * Resolve opening player index.
+	 *
+	 * @param room        the room
+	 * @param playerOrder the player order
+	 * @param hands       the hands
+	 * @return the integer
+	 */
     private Integer resolveOpeningPlayerIndex(
             final Room room, final List<String> playerOrder, final Map<String, List<Card>> hands) {
 
@@ -159,6 +188,16 @@ public class CardDealingServiceImpl implements CardDealingService {
         return this.findTwoOfOrosPlayerIndex(roomWithHands);
     }
 
+    /**
+	 * Assemble room after deal.
+	 *
+	 * @param room                the room
+	 * @param playerOrder         the player order
+	 * @param hands               the hands
+	 * @param playersWithoutRoles the players without roles
+	 * @param currentPlayerIndex  the current player index
+	 * @return the room
+	 */
     private Room assembleRoomAfterDeal(
             final Room room, final List<String> playerOrder, final Map<String, List<Card>> hands,
             final List<Player> playersWithoutRoles, final Integer currentPlayerIndex) {
@@ -184,6 +223,11 @@ public class CardDealingServiceImpl implements CardDealingService {
                 .build();
     }
 
+    /**
+	 * Builds the fresh round.
+	 *
+	 * @return the round
+	 */
     private Round buildFreshRound() {
 
         return Round.builder()
@@ -194,6 +238,12 @@ public class CardDealingServiceImpl implements CardDealingService {
                 .build();
     }
 
+    /**
+	 * Card sort value.
+	 *
+	 * @param card the card
+	 * @return the integer
+	 */
     private Integer cardSortValue(final Card card) {
 
         if (AS_CARD_NUMBER.equals(card.number())) {

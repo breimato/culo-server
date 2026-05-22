@@ -18,7 +18,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Room Code Generator Test. */
+/**
+ * The Class RoomCodeGeneratorTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class RoomCodeGeneratorTest {
 
@@ -42,14 +44,18 @@ class RoomCodeGeneratorTest {
   /** The room code generator. */
   RoomCodeGenerator roomCodeGenerator;
 
-  /** Init. */
+  /**
+	 * Inits the.
+	 */
   @BeforeEach
   void init() {
     this.roomCodeGenerator = new RoomCodeGenerator(this.roomExistencePersistencePort, this.secureRandom);
     when(this.secureRandom.nextInt(CODE_CHARS.length())).thenReturn(0);
   }
 
-  /** Test execute when code available then return four char code from charset. */
+  /**
+	 * Test execute when code available then return four char code from charset.
+	 */
   @Test
   void testExecute_whenCodeAvailable_thenReturnFourCharCodeFromCharset() {
     // Given
@@ -65,7 +71,9 @@ class RoomCodeGeneratorTest {
     assertEquals("AAAA", roomCode);
   }
 
-  /** Test execute when all attempts collide then throw room exception. */
+  /**
+	 * Test execute when all attempts collide then throw room exception.
+	 */
   @Test
   void testExecute_whenAllAttemptsCollide_thenThrowRoomException() {
     // Given
@@ -79,7 +87,9 @@ class RoomCodeGeneratorTest {
     assertEquals(RoomExceptionConstants.UNIQUE_CODE_GENERATION_FAILED, roomException.getMessage());
   }
 
-  /** Test execute when first attempt collides then retry and return code. */
+  /**
+	 * Test execute when first attempt collides then retry and return code.
+	 */
   @Test
   void testExecute_whenFirstAttemptCollides_thenRetryAndReturnCode() {
     // Given

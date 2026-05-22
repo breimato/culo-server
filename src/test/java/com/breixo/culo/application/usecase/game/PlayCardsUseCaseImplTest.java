@@ -31,11 +31,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Play Cards Use Case Impl Test. */
+/**
+ * The Class PlayCardsUseCaseImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class PlayCardsUseCaseImplTest {
 
-    /** The play cards use case. */
+    /** The play cards use case impl. */
     @InjectMocks
     PlayCardsUseCaseImpl playCardsUseCaseImpl;
 
@@ -59,9 +61,12 @@ class PlayCardsUseCaseImplTest {
     @Mock
     PlayExecutionService playExecutionService;
 
-    /** Test execute when command is valid then return play result. */
+    /**
+	 * Test execute when command is valid then return play result.
+	 */
     @Test
     void testExecute_whenCommandIsValid_thenReturnPlayResult() {
+        
         // Given
         final var playCardsCommand = Instancio.create(PlayCardsCommand.class);
         final var gameSessionContext = Instancio.create(GameSessionContext.class);
@@ -114,9 +119,12 @@ class PlayCardsUseCaseImplTest {
         assertEquals(playExecutionResult.gameFinished(), playResult.gameFinished());
     }
 
-    /** Test execute when play is illegal then throw game exception. */
+    /**
+	 * Test execute when play is illegal then throw game exception.
+	 */
     @Test
     void testExecute_whenPlayIsIllegal_thenThrowGameException() {
+        
         // Given
         final var playCardsCommand = Instancio.create(PlayCardsCommand.class);
         final var gameSessionContext = Instancio.create(GameSessionContext.class);

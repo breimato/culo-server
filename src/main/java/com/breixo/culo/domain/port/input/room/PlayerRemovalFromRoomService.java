@@ -2,15 +2,17 @@ package com.breixo.culo.domain.port.input.room;
 
 import com.breixo.culo.domain.model.room.Room;
 
-/** Cleans game state when a player leaves mid-session. */
+/**
+ * The Interface PlayerRemovalFromRoomService.
+ */
 public interface PlayerRemovalFromRoomService {
 
     /**
-     * Removes player data from hands, turn order and auxiliary state.
-     *
-     * @param room     the room
-     * @param playerId the player id
-     * @return the room
-     */
+	 * Removes the player from game state.
+	 *
+	 * @param room     the room
+	 * @param playerId the player id
+	 * @return the room
+	 */
     Room removePlayerFromGameState(Room room, String playerId);
 }

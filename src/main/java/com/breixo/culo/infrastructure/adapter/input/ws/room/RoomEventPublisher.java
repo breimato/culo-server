@@ -54,7 +54,7 @@ public class RoomEventPublisher {
   /** The card V 1 dto mapper. */
   private final CardV1DtoMapper cardV1DtoMapper;
 
-  /** The room service. */
+  /** The player lookup service. */
   private final PlayerLookupService playerLookupService;
 
   // ─── Room / lobby events ─────────────────────────────────────────────────
@@ -91,7 +91,7 @@ public class RoomEventPublisher {
   }
 
   /**
-	 * Publish room closed (host closed the room for everyone).
+	 * Publish room closed.
 	 *
 	 * @param room the room
 	 */
@@ -291,8 +291,8 @@ public class RoomEventPublisher {
   /**
 	 * Publish culo swap result.
 	 *
-	 * @param room     the room
-	 * @param accepted the accepted
+	 * @param room         the room
+	 * @param swapAccepted the swap accepted
 	 */
   public void publishCuloSwapResult(final Room room, final boolean swapAccepted) {
 

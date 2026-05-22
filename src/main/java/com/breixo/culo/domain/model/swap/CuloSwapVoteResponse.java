@@ -3,7 +3,13 @@ package com.breixo.culo.domain.model.swap;
 import com.breixo.culo.domain.model.room.Room;
 import lombok.Builder;
 
-/** Respuesta del use case de voto: sala guardada y si la votacion termino con swap aceptado. */
+/**
+ * The Record CuloSwapVoteResponse.
+ *
+ * @param room           the room
+ * @param votingFinished the voting finished
+ * @param swapAccepted   the swap accepted
+ */
 @Builder
 public record CuloSwapVoteResponse(
         Room room,

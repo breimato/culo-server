@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
-/** The Class DealPolicyServiceImpl. */
+/**
+ * The Class DealPolicyServiceImpl.
+ */
 @Service
 public class DealPolicyServiceImpl implements DealPolicyService {
 

@@ -27,7 +27,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Card Dealing Service Impl Test. */
+/**
+ * The Class CardDealingServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class CardDealingServiceImplTest {
 
@@ -47,9 +49,13 @@ class CardDealingServiceImplTest {
     @Mock
     HandManagementService handManagementService;
 
-    /** Test find two of oros player index when second player has two of oros then return index one. */
+    /**
+	 * Test find two of oros player index when second player has two of oros then
+	 * return index one.
+	 */
     @Test
     void testFindTwoOfOrosPlayerIndex_whenSecondPlayerHasTwoOfOros_thenReturnIndexOne() {
+        
         // Given
         final var twoOfOros = Card.builder().suit(Suit.OROS).number(2).build();
         final var playerOneId = "player-one";
@@ -74,9 +80,12 @@ class CardDealingServiceImplTest {
         assertEquals(1, playerIndex);
     }
 
-    /** Test transfer highest cards when called then remove and add best cards. */
+    /**
+	 * Test transfer highest cards when called then remove and add best cards.
+	 */
     @Test
     void testTransferHighestCards_whenCalled_thenRemoveAndAddBestCards() {
+        
         // Given
         final var giverId = "giver-id";
         final var receiverId = "receiver-id";
@@ -105,9 +114,12 @@ class CardDealingServiceImplTest {
         assertEquals(roomAfterTransfer, result);
     }
 
-    /** Test deal cards when not first game then increment play epoch. */
+    /**
+	 * Test deal cards when not first game then increment play epoch.
+	 */
     @Test
     void testDealCards_whenNotFirstGame_thenIncrementPlayEpoch() {
+        
         // Given
         final var playerOne = Instancio.of(Player.class)
                 .set(field(Player::id), "player-one")

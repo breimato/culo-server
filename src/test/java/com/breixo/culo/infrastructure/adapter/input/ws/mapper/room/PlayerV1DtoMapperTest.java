@@ -16,7 +16,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Player V 1 Dto Mapper Test. */
+/**
+ * The Class PlayerV1DtoMapperTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class PlayerV1DtoMapperTest {
 
@@ -28,9 +30,12 @@ class PlayerV1DtoMapperTest {
     @Mock
     PlayerRoleMapper playerRoleMapper;
 
-    /** Test to player V 1 dto when player is valid then return mapped dto. */
+    /**
+	 * Test to player V 1 dto when player is valid then return mapped dto.
+	 */
     @Test
     void testToPlayerV1Dto_whenPlayerIsValid_thenReturnMappedDto() {
+        
         // Given
         final var player = Instancio.create(Player.class);
         final var playerRoleV1Dto = Instancio.create(PlayerRoleV1Dto.class);

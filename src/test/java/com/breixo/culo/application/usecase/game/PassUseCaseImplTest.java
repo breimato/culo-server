@@ -26,11 +26,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Pass Use Case Impl Test. */
+/**
+ * The Class PassUseCaseImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class PassUseCaseImplTest {
 
-    /** The pass use case. */
+    /** The pass use case impl. */
     @InjectMocks
     PassUseCaseImpl passUseCaseImpl;
 
@@ -50,9 +52,12 @@ class PassUseCaseImplTest {
     @Mock
     PassExecutionService passExecutionService;
 
-    /** Test execute when command is valid then return pass result. */
+    /**
+	 * Test execute when command is valid then return pass result.
+	 */
     @Test
     void testExecute_whenCommandIsValid_thenReturnPassResult() {
+        
         // Given
         final var passCommand = Instancio.create(PassCommand.class);
         final var gameSessionContext = Instancio.create(GameSessionContext.class);
@@ -86,9 +91,12 @@ class PassUseCaseImplTest {
         assertEquals(passResult.roundClosed(), result.roundClosed());
     }
 
-    /** Test execute when not player turn then throw game exception. */
+    /**
+	 * Test execute when not player turn then throw game exception.
+	 */
     @Test
     void testExecute_whenNotPlayerTurn_thenThrowGameException() {
+        
         // Given
         final var passCommand = Instancio.create(PassCommand.class);
         final var gameSessionContext = Instancio.create(GameSessionContext.class);

@@ -11,7 +11,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-/** The Class Card Factory Service Impl Test. */
+/**
+ * The Class CardFactoryServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class CardFactoryServiceImplTest {
 
@@ -19,9 +21,12 @@ class CardFactoryServiceImplTest {
     @InjectMocks
     CardFactoryServiceImpl cardFactoryService;
 
-    /** Test build card when suit and number are valid then return card. */
+    /**
+	 * Test build card when suit and number are valid then return card.
+	 */
     @Test
     void testBuildCard_whenSuitAndNumberAreValid_thenReturnCard() {
+        
         // Given
         final var suit = Suit.OROS;
         final var number = 1;
@@ -34,9 +39,12 @@ class CardFactoryServiceImplTest {
         assertEquals(number, card.number());
     }
 
-    /** Test build card when number is invalid then throw game exception. */
+    /**
+	 * Test build card when number is invalid then throw game exception.
+	 */
     @Test
     void testBuildCard_whenNumberIsInvalid_thenThrowGameException() {
+        
         // Given
         final var suit = Suit.BASTOS;
         final var number = 8;

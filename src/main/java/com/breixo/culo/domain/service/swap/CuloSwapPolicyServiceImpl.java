@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
-/** The Class CuloSwapPolicyServiceImpl. */
+/**
+ * The Class CuloSwapPolicyServiceImpl.
+ */
 @Service
 @RequiredArgsConstructor
 public class CuloSwapPolicyServiceImpl implements CuloSwapPolicyService {

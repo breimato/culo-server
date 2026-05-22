@@ -20,7 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
-/** The Class Play Rule Service Impl Test. */
+/**
+ * The Class PlayRuleServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class PlayRuleServiceImplTest {
 
@@ -32,9 +34,12 @@ class PlayRuleServiceImplTest {
     @Mock
     CardRankResolverService cardRankResolverService;
 
-    /** Test is legal when round open then any valid play is legal. */
+    /**
+	 * Test is legal when round open then any valid play is legal.
+	 */
     @Test
     void testIsLegal_whenRoundOpen_thenAnyValidPlayIsLegal() {
+        
         // Given
         final var round = Round.builder()
                 .requirement(0)
@@ -53,9 +58,12 @@ class PlayRuleServiceImplTest {
         assertTrue(this.playRuleService.isLegal(play, round));
     }
 
-    /** Test is legal when as oros then always legal. */
+    /**
+	 * Test is legal when as oros then always legal.
+	 */
     @Test
     void testIsLegal_whenAsOros_thenAlwaysLegal() {
+        
         // Given
         final var cardCopas = Card.builder().suit(Suit.COPAS).number(12).build();
         final var cardEspadas = Card.builder().suit(Suit.ESPADAS).number(12).build();
@@ -75,9 +83,12 @@ class PlayRuleServiceImplTest {
         assertTrue(this.playRuleService.isLegal(asOros, round));
     }
 
-    /** Test is legal when wrong size then illegal. */
+    /**
+	 * Test is legal when wrong size then illegal.
+	 */
     @Test
     void testIsLegal_whenWrongSize_thenIllegal() {
+        
         // Given
         final var cardCopas = Card.builder().suit(Suit.COPAS).number(7).build();
         final var cardEspadas = Card.builder().suit(Suit.ESPADAS).number(7).build();
@@ -97,9 +108,12 @@ class PlayRuleServiceImplTest {
         assertFalse(this.playRuleService.isLegal(singleSeven, round));
     }
 
-    /** Test is legal when lower rank then illegal. */
+    /**
+	 * Test is legal when lower rank then illegal.
+	 */
     @Test
     void testIsLegal_whenLowerRank_thenIllegal() {
+        
         // Given
         final var cardCopas = Card.builder().suit(Suit.COPAS).number(10).build();
         final var cardEspadas = Card.builder().suit(Suit.ESPADAS).number(10).build();
@@ -122,9 +136,12 @@ class PlayRuleServiceImplTest {
         assertFalse(this.playRuleService.isLegal(lowerPair, round));
     }
 
-    /** Test is legal when same or higher rank and correct size then legal. */
+    /**
+	 * Test is legal when same or higher rank and correct size then legal.
+	 */
     @Test
     void testIsLegal_whenSameOrHigherRankAndCorrectSize_thenLegal() {
+        
         // Given
         final var cardCopas = Card.builder().suit(Suit.COPAS).number(7).build();
         final var cardEspadas = Card.builder().suit(Suit.ESPADAS).number(7).build();
@@ -147,9 +164,12 @@ class PlayRuleServiceImplTest {
         assertTrue(this.playRuleService.isLegal(higherPair, round));
     }
 
-    /** Test is plin when round open then false. */
+    /**
+	 * Test is plin when round open then false.
+	 */
     @Test
     void testIsPlin_whenRoundOpen_thenFalse() {
+        
         // Given
         final var round = Round.builder()
                 .requirement(0)
@@ -168,9 +188,12 @@ class PlayRuleServiceImplTest {
         assertFalse(this.playRuleService.isPlin(play, round));
     }
 
-    /** Test is plin when same number as last play then true. */
+    /**
+	 * Test is plin when same number as last play then true.
+	 */
     @Test
     void testIsPlin_whenSameNumberAsLastPlay_thenTrue() {
+        
         // Given
         final var cardCopas = Card.builder().suit(Suit.COPAS).number(7).build();
         final var cardEspadas = Card.builder().suit(Suit.ESPADAS).number(7).build();
@@ -192,9 +215,12 @@ class PlayRuleServiceImplTest {
         assertTrue(this.playRuleService.isPlin(plin, round));
     }
 
-    /** Test is plin when different number then false. */
+    /**
+	 * Test is plin when different number then false.
+	 */
     @Test
     void testIsPlin_whenDifferentNumber_thenFalse() {
+        
         // Given
         final var cardCopas = Card.builder().suit(Suit.COPAS).number(7).build();
         final var cardEspadas = Card.builder().suit(Suit.ESPADAS).number(7).build();
@@ -216,9 +242,12 @@ class PlayRuleServiceImplTest {
         assertFalse(this.playRuleService.isPlin(different, round));
     }
 
-    /** Test is round over when round open then false. */
+    /**
+	 * Test is round over when round open then false.
+	 */
     @Test
     void testIsRoundOver_whenRoundOpen_thenFalse() {
+        
         // Given
         final var round = Round.builder()
                 .requirement(0)
@@ -232,9 +261,12 @@ class PlayRuleServiceImplTest {
         assertFalse(this.playRuleService.isRoundOver(round, List.of("a", "b", "c")));
     }
 
-    /** Test is round over when two players and opponent passed then over. */
+    /**
+	 * Test is round over when two players and opponent passed then over.
+	 */
     @Test
     void testIsRoundOver_whenTwoPlayersAndOpponentPassed_thenOver() {
+        
         // Given
         final var round = Round.builder()
                 .requirement(2)
@@ -249,9 +281,12 @@ class PlayRuleServiceImplTest {
         assertTrue(this.playRuleService.isRoundOver(round, List.of("player-a", "player-b")));
     }
 
-    /** Test is round over when two players and last player passed then not over. */
+    /**
+	 * Test is round over when two players and last player passed then not over.
+	 */
     @Test
     void testIsRoundOver_whenTwoPlayersAndLastPlayerPassed_thenNotOver() {
+        
         // Given
         final var round = Round.builder()
                 .requirement(2)
@@ -266,9 +301,12 @@ class PlayRuleServiceImplTest {
         assertFalse(this.playRuleService.isRoundOver(round, List.of("player-a", "player-b")));
     }
 
-    /** Test is round over when three players and both responders passed then over. */
+    /**
+	 * Test is round over when three players and both responders passed then over.
+	 */
     @Test
     void testIsRoundOver_whenThreePlayersAndBothRespondersPassed_thenOver() {
+        
         // Given
         final var round = Round.builder()
                 .requirement(2)
@@ -283,9 +321,13 @@ class PlayRuleServiceImplTest {
         assertTrue(this.playRuleService.isRoundOver(round, List.of("player-a", "player-b", "player-c")));
     }
 
-    /** Test is round over when three players and only one responder passed then not over. */
+    /**
+	 * Test is round over when three players and only one responder passed then not
+	 * over.
+	 */
     @Test
     void testIsRoundOver_whenThreePlayersAndOnlyOneResponderPassed_thenNotOver() {
+        
         // Given
         final var round = Round.builder()
                 .requirement(2)
@@ -300,9 +342,13 @@ class PlayRuleServiceImplTest {
         assertFalse(this.playRuleService.isRoundOver(round, List.of("player-a", "player-b", "player-c")));
     }
 
-    /** Test is round over when plin in two players and opponent skipped then over immediately. */
+    /**
+	 * Test is round over when plin in two players and opponent skipped then over
+	 * immediately.
+	 */
     @Test
     void testIsRoundOver_whenPlinInTwoPlayersAndOpponentSkipped_thenOverImmediately() {
+        
         // Given
         final var round = Round.builder()
                 .requirement(2)
@@ -318,9 +364,12 @@ class PlayRuleServiceImplTest {
         assertTrue(this.playRuleService.isRoundOver(round, List.of("player-a", "player-b")));
     }
 
-    /** Test is round over when plin in three players and responder passed then over. */
+    /**
+	 * Test is round over when plin in three players and responder passed then over.
+	 */
     @Test
     void testIsRoundOver_whenPlinInThreePlayersAndResponderPassed_thenOver() {
+        
         // Given
         final var round = Round.builder()
                 .requirement(2)
@@ -336,9 +385,13 @@ class PlayRuleServiceImplTest {
         assertTrue(this.playRuleService.isRoundOver(round, List.of("player-a", "player-b", "player-c")));
     }
 
-    /** Test is round over when plin in three players and only skipped player passed then not over. */
+    /**
+	 * Test is round over when plin in three players and only skipped player passed
+	 * then not over.
+	 */
     @Test
     void testIsRoundOver_whenPlinInThreePlayersAndOnlySkippedPlayerPassed_thenNotOver() {
+        
         // Given
         final var round = Round.builder()
                 .requirement(2)

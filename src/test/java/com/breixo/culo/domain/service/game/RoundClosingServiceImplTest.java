@@ -23,7 +23,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Round Closing Service Impl Test. */
+/**
+ * The Class RoundClosingServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class RoundClosingServiceImplTest {
 
@@ -43,9 +45,13 @@ class RoundClosingServiceImplTest {
     @Mock
     GameContextService gameContextService;
 
-    /** Test close round if others all passed when round not over then round closed is false. */
+    /**
+	 * Test close round if others all passed when round not over then round closed
+	 * is false.
+	 */
     @Test
     void testCloseRoundIfOthersAllPassed_whenRoundNotOver_thenRoundClosedIsFalse() {
+        
         // Given
         final var currentRound = Instancio.create(Round.class);
         final var gameSession = Instancio.of(GameSession.class)
@@ -68,9 +74,12 @@ class RoundClosingServiceImplTest {
         assertFalse(roundClosure.roundClosed());
     }
 
-    /** Test close round if others all passed when round over then finish round. */
+    /**
+	 * Test close round if others all passed when round over then finish round.
+	 */
     @Test
     void testCloseRoundIfOthersAllPassed_whenRoundOver_thenFinishRound() {
+        
         // Given
         final var currentRound = Instancio.create(Round.class);
         final var gameSession = Instancio.of(GameSession.class)

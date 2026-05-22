@@ -27,11 +27,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Culo Swap Initiate Use Case Impl Test. */
+/**
+ * The Class CuloSwapInitiateUseCaseImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class CuloSwapInitiateUseCaseImplTest {
 
-    /** The culo swap initiate use case. */
+    /** The culo swap initiate use case impl. */
     @InjectMocks
     CuloSwapInitiateUseCaseImpl culoSwapInitiateUseCaseImpl;
 
@@ -55,9 +57,12 @@ class CuloSwapInitiateUseCaseImplTest {
     @Mock
     RoomPhaseService roomPhaseService;
 
-    /** Test execute when command is valid then save and return room. */
+    /**
+	 * Test execute when command is valid then save and return room.
+	 */
     @Test
     void testExecute_whenCommandIsValid_thenSaveAndReturnRoom() {
+        
         // Given
         final var culoSwapInitiateCommand = Instancio.create(CuloSwapInitiateCommand.class);
         final var gameSessionContext = Instancio.create(GameSessionContext.class);
@@ -110,9 +115,12 @@ class CuloSwapInitiateUseCaseImplTest {
         assertEquals(savedRoom, room);
     }
 
-    /** Test execute when not culo then throw game exception. */
+    /**
+	 * Test execute when not culo then throw game exception.
+	 */
     @Test
     void testExecute_whenNotCulo_thenThrowGameException() {
+        
         // Given
         final var culoSwapInitiateCommand = Instancio.create(CuloSwapInitiateCommand.class);
         final var gameSessionContext = Instancio.create(GameSessionContext.class);

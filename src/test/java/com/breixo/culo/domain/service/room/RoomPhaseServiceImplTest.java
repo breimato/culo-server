@@ -17,7 +17,9 @@ import static org.instancio.Select.field;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-/** The Class Room Phase Service Impl Test. */
+/**
+ * The Class RoomPhaseServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class RoomPhaseServiceImplTest {
 
@@ -25,9 +27,12 @@ class RoomPhaseServiceImplTest {
     @InjectMocks
     RoomPhaseServiceImpl roomPhaseService;
 
-    /** Test require phase when phase matches then no exception. */
+    /**
+	 * Test require phase when phase matches then no exception.
+	 */
     @Test
     void testRequirePhase_whenPhaseMatches_thenNoException() {
+        
         // Given
         final var roomLobby = Instancio.of(RoomLobby.class)
                 .set(field(RoomLobby::phase), GamePhase.PLAYING)
@@ -40,9 +45,12 @@ class RoomPhaseServiceImplTest {
         this.roomPhaseService.requirePhase(room, GamePhase.PLAYING);
     }
 
-    /** Test require phase when phase mismatches then throw game exception. */
+    /**
+	 * Test require phase when phase mismatches then throw game exception.
+	 */
     @Test
     void testRequirePhase_whenPhaseMismatches_thenThrowGameException() {
+        
         // Given
         final var roomLobby = Instancio.of(RoomLobby.class)
                 .set(field(RoomLobby::phase), GamePhase.LOBBY)
@@ -60,9 +68,12 @@ class RoomPhaseServiceImplTest {
         assertEquals(GameExceptionConstants.WRONG_PHASE, gameException.getMessage());
     }
 
-    /** Test require lobby phase when not lobby then throw room exception. */
+    /**
+	 * Test require lobby phase when not lobby then throw room exception.
+	 */
     @Test
     void testRequireLobbyPhase_whenNotLobby_thenThrowRoomException() {
+        
         // Given
         final var roomLobby = Instancio.of(RoomLobby.class)
                 .set(field(RoomLobby::phase), GamePhase.PLAYING)
@@ -80,9 +91,12 @@ class RoomPhaseServiceImplTest {
         assertEquals(RoomExceptionConstants.GAME_ALREADY_STARTED, roomException.getMessage());
     }
 
-    /** Test with phase when called then return room with new phase. */
+    /**
+	 * Test with phase when called then return room with new phase.
+	 */
     @Test
     void testWithPhase_whenCalled_thenReturnRoomWithNewPhase() {
+        
         // Given
         final var roomLobby = Instancio.of(RoomLobby.class)
                 .set(field(RoomLobby::phase), GamePhase.LOBBY)

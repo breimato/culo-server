@@ -18,7 +18,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
-/** The Class JoinRoomUseCaseImpl. */
+/**
+ * The Class JoinRoomUseCaseImpl.
+ */
 @Component
 @RequiredArgsConstructor
 public class JoinRoomUseCaseImpl implements JoinRoomUseCase {
@@ -71,12 +73,12 @@ public class JoinRoomUseCaseImpl implements JoinRoomUseCase {
     }
 
     /**
-     * Reconnect.
-     *
-     * @param room   the room
-     * @param player the player
-     * @return the room join result
-     */
+	 * Reconnect.
+	 *
+	 * @param room   the room
+	 * @param player the player
+	 * @return the room join result
+	 */
     private RoomJoinResult reconnect(final Room room, final Player player) {
 
         final var roomWithReconnect = this.roomMembershipService.reconnectPlayer(room, player);

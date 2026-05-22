@@ -6,14 +6,16 @@ import com.breixo.culo.domain.model.room.Room;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
-/** The Interface Exchange Give Use Case. */
+/**
+ * The Interface ExchangeGiveUseCase.
+ */
 public interface ExchangeGiveUseCase {
 
   /**
-   * Execute.
-   *
-   * @param exchangeGiveCommand the exchange give command.
-   * @return the room.
-   */
+	 * Execute.
+	 *
+	 * @param exchangeGiveCommand the exchange give command
+	 * @return the room
+	 */
   Room execute(@Valid @NotNull ExchangeGiveCommand exchangeGiveCommand);
 }

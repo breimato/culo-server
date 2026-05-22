@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/** The Class PlayPolicyServiceImpl. */
+/**
+ * The Class PlayPolicyServiceImpl.
+ */
 @Service
 @RequiredArgsConstructor
 public class PlayPolicyServiceImpl implements PlayPolicyService {

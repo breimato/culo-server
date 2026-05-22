@@ -3,14 +3,16 @@ package com.breixo.culo.domain.port.input.swap;
 import com.breixo.culo.domain.command.swap.CuloSwapVoteCommand;
 import com.breixo.culo.domain.model.swap.CuloSwapVoteResponse;
 
-/** The Interface CuloSwapVoteUseCase. */
+/**
+ * The Interface CuloSwapVoteUseCase.
+ */
 public interface CuloSwapVoteUseCase {
 
     /**
-     * Execute.
-     *
-     * @param culoSwapVoteCommand the culo swap vote command
-     * @return the culo swap vote result
-     */
+	 * Execute.
+	 *
+	 * @param culoSwapVoteCommand the culo swap vote command
+	 * @return the culo swap vote response
+	 */
     CuloSwapVoteResponse execute(CuloSwapVoteCommand culoSwapVoteCommand);
 }

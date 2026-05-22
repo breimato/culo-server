@@ -6,7 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Component;
 
-/** The Class CuloSwapVoteFollowUpSupport. */
+/**
+ * The Class CuloSwapVoteFollowUpSupport.
+ */
 @Component
 @RequiredArgsConstructor
 public class CuloSwapVoteFollowUpSupport {
@@ -15,10 +17,10 @@ public class CuloSwapVoteFollowUpSupport {
     private final RoomEventPublisher roomEventPublisher;
 
     /**
-     * Publish vote follow up.
-     *
-     * @param culoVoteResult the culo vote result
-     */
+	 * Publish vote follow up.
+	 *
+	 * @param culoVoteResult the culo vote result
+	 */
     public void publishVoteFollowUp(final CuloSwapVoteResponse culoVoteResult) {
 
         this.roomEventPublisher.publishRoomState(culoVoteResult.room());

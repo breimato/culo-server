@@ -31,7 +31,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Hand On Play Service Impl Test. */
+/**
+ * The Class HandOnPlayServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class HandOnPlayServiceImplTest {
 
@@ -59,9 +61,12 @@ class HandOnPlayServiceImplTest {
     @Mock
     TurnManagementService turnManagementService;
 
-    /** Test apply when normal play then register play. */
+    /**
+	 * Test apply when normal play then register play.
+	 */
     @Test
     void testApply_whenNormalPlay_thenRegisterPlay() {
+        
         // Given
         final var currentRound = Instancio.create(Round.class);
         final var updatedRound = Instancio.create(Round.class);
@@ -112,9 +117,12 @@ class HandOnPlayServiceImplTest {
         assertFalse(handAfterPlay.playFlags().isAsOros());
     }
 
-    /** Test apply when plin then register plin play. */
+    /**
+	 * Test apply when plin then register plin play.
+	 */
     @Test
     void testApply_whenPlin_thenRegisterPlinPlay() {
+        
         // Given
         final var currentRound = Instancio.create(Round.class);
         final var updatedRound = Instancio.create(Round.class);
@@ -168,9 +176,12 @@ class HandOnPlayServiceImplTest {
         assertTrue(handAfterPlay.playFlags().plin());
     }
 
-    /** Test apply when as oros then reset round. */
+    /**
+	 * Test apply when as oros then reset round.
+	 */
     @Test
     void testApply_whenAsOros_thenResetRound() {
+        
         // Given
         final var currentRound = Instancio.create(Round.class);
         final var resetRound = Round.builder()

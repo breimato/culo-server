@@ -2,7 +2,9 @@ package com.breixo.culo.domain.constants;
 
 import lombok.NoArgsConstructor;
 
-/** The Class TurnConstants. */
+/**
+ * The Class TurnConstants.
+ */
 @NoArgsConstructor
 public final class TurnConstants {
 

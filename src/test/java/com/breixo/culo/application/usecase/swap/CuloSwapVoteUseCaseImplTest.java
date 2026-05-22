@@ -24,28 +24,39 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Culo Swap Vote Use Case Impl Test. */
+/**
+ * The Class CuloSwapVoteUseCaseImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class CuloSwapVoteUseCaseImplTest {
 
+    /** The culo swap vote use case impl. */
     @InjectMocks
     CuloSwapVoteUseCaseImpl culoSwapVoteUseCaseImpl;
 
+    /** The room save persistence port. */
     @Mock
     RoomSavePersistencePort roomSavePersistencePort;
 
+    /** The game context service. */
     @Mock
     GameContextService gameContextService;
 
+    /** The culo swap policy service. */
     @Mock
     CuloSwapPolicyService culoSwapPolicyService;
 
+    /** The culo service. */
     @Mock
     CuloService culoService;
 
+    /** The room phase service. */
     @Mock
     RoomPhaseService roomPhaseService;
 
+    /**
+	 * Test execute when not all voted then save room without closing poll.
+	 */
     @Test
     void testExecute_whenNotAllVoted_thenSaveRoomWithoutClosingPoll() {
         final var culoSwapVoteCommand = Instancio.create(CuloSwapVoteCommand.class);

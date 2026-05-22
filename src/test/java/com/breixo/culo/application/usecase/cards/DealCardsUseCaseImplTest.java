@@ -25,11 +25,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Deal Cards Use Case Impl Test. */
+/**
+ * The Class DealCardsUseCaseImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class DealCardsUseCaseImplTest {
 
-    /** The deal cards use case. */
+    /** The deal cards use case impl. */
     @InjectMocks
     DealCardsUseCaseImpl dealCardsUseCaseImpl;
 
@@ -49,9 +51,12 @@ class DealCardsUseCaseImplTest {
     @Mock
     DealCompletionService dealCompletionService;
 
-    /** Test execute when host and first game then deals cards. */
+    /**
+	 * Test execute when host and first game then deals cards.
+	 */
     @Test
     void testExecute_whenHostAndFirstGame_thenDealsCards() {
+        
         // Given
         final var dealCardsCommand = Instancio.create(DealCardsCommand.class);
         final var gameSessionContext = Instancio.create(GameSessionContext.class);
@@ -81,9 +86,12 @@ class DealCardsUseCaseImplTest {
         assertEquals(savedRoom, result);
     }
 
-    /** Test execute when not host on first game then throw room exception. */
+    /**
+	 * Test execute when not host on first game then throw room exception.
+	 */
     @Test
     void testExecute_whenNotHostOnFirstGame_thenThrowRoomException() {
+        
         // Given
         final var dealCardsCommand = Instancio.create(DealCardsCommand.class);
         final var gameSessionContext = Instancio.create(GameSessionContext.class);

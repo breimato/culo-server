@@ -5,16 +5,18 @@ import com.breixo.culo.domain.model.game.TurnAfterPlay;
 import com.breixo.culo.domain.model.room.Player;
 import com.breixo.culo.domain.model.room.Room;
 
-/** The Interface PostPlayTurnService. */
+/**
+ * The Interface PostPlayTurnService.
+ */
 public interface PostPlayTurnService {
 
     /**
-     * Apply.
-     *
-     * @param room the room
-     * @param player the player
-     * @param playFlags the play flags
-     * @return the play turn outcome
-     */
+	 * Apply.
+	 *
+	 * @param room      the room
+	 * @param player    the player
+	 * @param playFlags the play flags
+	 * @return the turn after play
+	 */
     TurnAfterPlay apply(Room room, Player player, PlayTraits playFlags);
 }

@@ -26,7 +26,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Culo Swap Policy Service Impl Test. */
+/**
+ * The Class CuloSwapPolicyServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class CuloSwapPolicyServiceImplTest {
 
@@ -38,9 +40,13 @@ class CuloSwapPolicyServiceImplTest {
     @Mock
     PlayerLookupService playerLookupService;
 
-    /** Test validate no active swap when initiator id is set then throw game exception. */
+    /**
+	 * Test validate no active swap when initiator id is set then throw game
+	 * exception.
+	 */
     @Test
     void testValidateNoActiveSwap_whenInitiatorIdIsSet_thenThrowGameException() {
+        
         // Given
         final var culoSwapState = Instancio.of(CuloSwapState.class)
                 .set(field(CuloSwapState::initiatorId), Instancio.create(String.class))
@@ -58,9 +64,12 @@ class CuloSwapPolicyServiceImplTest {
         assertEquals(GameExceptionConstants.SWAP_ALREADY_ACTIVE, gameException.getMessage());
     }
 
-    /** Test validate target exists when player not found then throw room exception. */
+    /**
+	 * Test validate target exists when player not found then throw room exception.
+	 */
     @Test
     void testValidateTargetExists_whenPlayerNotFound_thenThrowRoomException() {
+        
         // Given
         final var room = Instancio.create(Room.class);
         final var targetPlayerId = Instancio.create(String.class);
@@ -76,9 +85,12 @@ class CuloSwapPolicyServiceImplTest {
         assertEquals(RoomExceptionConstants.PLAYER_NOT_IN_ROOM, roomException.getMessage());
     }
 
-    /** Test validate not already voted when vote exists then throw game exception. */
+    /**
+	 * Test validate not already voted when vote exists then throw game exception.
+	 */
     @Test
     void testValidateNotAlreadyVoted_whenVoteExists_thenThrowGameException() {
+        
         // Given
         final var player = Instancio.create(Player.class);
         final Map<String, Boolean> votes = new HashMap<>();

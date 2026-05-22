@@ -8,7 +8,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/** The Class Deck Builder Service Impl Test. */
+/**
+ * The Class DeckBuilderServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class DeckBuilderServiceImplTest {
 
@@ -18,7 +20,9 @@ class DeckBuilderServiceImplTest {
     /** The deck builder service. */
     final DeckBuilderServiceImpl deckBuilderService = new DeckBuilderServiceImpl(this.cardFactoryService);
 
-    /** Test build shuffled deck when called then return full deck. */
+    /**
+	 * Test build shuffled deck when called then return full deck.
+	 */
     @Test
     void testBuildShuffledDeck_whenCalled_thenReturnFullDeck() {
         // When

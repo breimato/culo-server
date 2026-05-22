@@ -33,7 +33,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Redis Room Store Test. */
+/**
+ * The Class RedisRoomStoreTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class RedisRoomStoreTest {
 
@@ -66,7 +68,9 @@ class RedisRoomStoreTest {
   /** The redis room store. */
   RedisRoomStore redisRoomStore;
 
-  /** Init. */
+  /**
+	 * Inits the.
+	 */
   @BeforeEach
   void init() {
     this.roomRedisObjectMapper = RoomRedisObjectMapperFactory.create();
@@ -79,7 +83,11 @@ class RedisRoomStoreTest {
     lenient().when(this.stringRedisTemplate.opsForSet()).thenReturn(this.setOperations);
   }
 
-  /** Test save when room valid then touch set key and add to index. */
+  /**
+	 * Test save when room valid then touch set key and add to index.
+	 *
+	 * @throws Exception the exception
+	 */
   @Test
   void testSave_whenRoomValid_thenTouchSetKeyAndAddToIndex() throws Exception {
     // Given
@@ -109,7 +117,11 @@ class RedisRoomStoreTest {
     assertEquals(touchedRoom, savedRoom);
   }
 
-  /** Test find by code when key exists then return room. */
+  /**
+	 * Test find by code when key exists then return room.
+	 *
+	 * @throws Exception the exception
+	 */
   @Test
   void testFindByCode_whenKeyExists_thenReturnRoom() throws Exception {
     // Given
@@ -128,7 +140,9 @@ class RedisRoomStoreTest {
     assertEquals(room, roomOptional.get());
   }
 
-  /** Test find by code when key missing then empty. */
+  /**
+	 * Test find by code when key missing then empty.
+	 */
   @Test
   void testFindByCode_whenKeyMissing_thenEmpty() {
     // Given
@@ -143,7 +157,9 @@ class RedisRoomStoreTest {
     assertTrue(roomOptional.isEmpty());
   }
 
-  /** Test exists by code when key present then true. */
+  /**
+	 * Test exists by code when key present then true.
+	 */
   @Test
   void testExistsByCode_whenKeyPresent_thenTrue() {
     // Given
@@ -158,7 +174,9 @@ class RedisRoomStoreTest {
     assertTrue(exists);
   }
 
-  /** Test exists by code when key missing then false. */
+  /**
+	 * Test exists by code when key missing then false.
+	 */
   @Test
   void testExistsByCode_whenKeyMissing_thenFalse() {
     // Given
@@ -173,7 +191,9 @@ class RedisRoomStoreTest {
     assertFalse(exists);
   }
 
-  /** Test delete by code when called then del key and srem index. */
+  /**
+	 * Test delete by code when called then del key and srem index.
+	 */
   @Test
   void testDeleteByCode_whenCalled_thenDelKeyAndSremIndex() {
     // Given
@@ -187,7 +207,11 @@ class RedisRoomStoreTest {
     verify(this.setOperations, times(1)).remove(RoomRedisKeys.ROOM_CODES_INDEX, ROOM_CODE);
   }
 
-  /** Test find all when index has codes then return only existing rooms. */
+  /**
+	 * Test find all when index has codes then return only existing rooms.
+	 *
+	 * @throws Exception the exception
+	 */
   @Test
   void testFindAll_whenIndexHasCodes_thenReturnOnlyExistingRooms() throws Exception {
     // Given
@@ -212,7 +236,9 @@ class RedisRoomStoreTest {
     assertEquals(room, rooms.iterator().next());
   }
 
-  /** Test find all when index empty then return empty list. */
+  /**
+	 * Test find all when index empty then return empty list.
+	 */
   @Test
   void testFindAll_whenIndexEmpty_thenReturnEmptyList() {
     // Given
@@ -225,7 +251,11 @@ class RedisRoomStoreTest {
     assertTrue(rooms.isEmpty());
   }
 
-  /** Test save when mapper fails to write then throw illegal state exception. */
+  /**
+	 * Test save when mapper fails to write then throw illegal state exception.
+	 *
+	 * @throws Exception the exception
+	 */
   @Test
   void testSave_whenMapperFailsToWrite_thenThrowIllegalStateException() throws Exception {
     // Given
@@ -261,7 +291,12 @@ class RedisRoomStoreTest {
     assertTrue(illegalStateException.getMessage().contains(ROOM_CODE));
   }
 
-  /** Test find by code when mapper fails to read then throw illegal state exception. */
+  /**
+	 * Test find by code when mapper fails to read then throw illegal state
+	 * exception.
+	 *
+	 * @throws Exception the exception
+	 */
   @Test
   void testFindByCode_whenMapperFailsToRead_thenThrowIllegalStateException() throws Exception {
     // Given

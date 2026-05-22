@@ -4,8 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Jerarquía de poder de las cartas (de menor a mayor).
- * DOS &lt; CUATRO &lt; CINCO &lt; SEIS &lt; SIETE &lt; SOTA &lt; CABALLO &lt; REY &lt; TRES &lt; AS_OTRO &lt; AS_OROS
+ * The Enum CardRank.
  */
 @Getter
 @RequiredArgsConstructor

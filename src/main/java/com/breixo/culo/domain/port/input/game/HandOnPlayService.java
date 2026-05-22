@@ -5,16 +5,18 @@ import com.breixo.culo.domain.model.game.HandAfterPlay;
 import com.breixo.culo.domain.model.room.Player;
 import com.breixo.culo.domain.model.room.Room;
 
-/** The Interface HandOnPlayService. */
+/**
+ * The Interface HandOnPlayService.
+ */
 public interface HandOnPlayService {
 
     /**
-     * Apply.
-     *
-     * @param room the room
-     * @param player the player
-     * @param play the play
-     * @return the play hand update outcome
-     */
+	 * Apply.
+	 *
+	 * @param room   the room
+	 * @param player the player
+	 * @param play   the play
+	 * @return the hand after play
+	 */
     HandAfterPlay apply(Room room, Player player, Play play);
 }

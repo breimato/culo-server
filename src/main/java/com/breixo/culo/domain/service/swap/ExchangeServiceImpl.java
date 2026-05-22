@@ -20,7 +20,9 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 
-/** The Class ExchangeServiceImpl. */
+/**
+ * The Class ExchangeServiceImpl.
+ */
 @Service
 @RequiredArgsConstructor
 public class ExchangeServiceImpl implements ExchangeService {
@@ -74,13 +76,13 @@ public class ExchangeServiceImpl implements ExchangeService {
     }
 
     /**
-     * Process ganador give.
-     *
-     * @param room      the room
-     * @param ganadorId the ganador id
-     * @param cards     the cards
-     * @return the room
-     */
+	 * Process ganador give.
+	 *
+	 * @param room      the room
+	 * @param ganadorId the ganador id
+	 * @param cards     the cards
+	 * @return the room
+	 */
     private Room processGanadorGive(final Room room, final String ganadorId, final List<Card> cards) {
 
         final var culoId = this.playerRoleService.getPlayerIdByRole(room, PlayerRole.CULO).orElseThrow();
@@ -89,13 +91,13 @@ public class ExchangeServiceImpl implements ExchangeService {
     }
 
     /**
-     * Process subcampeon give.
-     *
-     * @param room         the room
-     * @param subcampeonId the subcampeon id
-     * @param cards        the cards
-     * @return the room
-     */
+	 * Process subcampeon give.
+	 *
+	 * @param room         the room
+	 * @param subcampeonId the subcampeon id
+	 * @param cards        the cards
+	 * @return the room
+	 */
     private Room processSubcampeonGive(
             final Room room,
             final String subcampeonId,
@@ -107,11 +109,11 @@ public class ExchangeServiceImpl implements ExchangeService {
     }
 
     /**
-     * Checks if is exchange complete.
-     *
-     * @param room the room
-     * @return true, if is exchange complete
-     */
+	 * Checks if is exchange complete.
+	 *
+	 * @param room the room
+	 * @return true, if is exchange complete
+	 */
     private boolean isExchangeComplete(final Room room) {
 
         final var ganadorDone = room.exchangeState().exchangeDone().contains(

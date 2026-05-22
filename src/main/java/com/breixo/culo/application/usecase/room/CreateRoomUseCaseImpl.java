@@ -14,7 +14,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
-/** The Class CreateRoomUseCaseImpl. */
+/**
+ * The Class CreateRoomUseCaseImpl.
+ */
 @Component
 @RequiredArgsConstructor
 public class CreateRoomUseCaseImpl implements CreateRoomUseCase {

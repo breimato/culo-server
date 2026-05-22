@@ -5,15 +5,17 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.experimental.UtilityClass;
 
-/** Factory for Jackson ObjectMapper used to serialize rooms in Redis. */
+/**
+ * A factory for creating RoomRedisObjectMapper objects.
+ */
 @UtilityClass
 public class RoomRedisObjectMapperFactory {
 
   /**
-   * Create object mapper for room redis persistence.
-   *
-   * @return the object mapper
-   */
+	 * Creates the.
+	 *
+	 * @return the object mapper
+	 */
   public static ObjectMapper create() {
     return new ObjectMapper()
         .registerModule(new JavaTimeModule())

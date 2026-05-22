@@ -5,14 +5,16 @@ import com.breixo.culo.domain.model.room.Room;
 
 import java.util.Optional;
 
-/** Leave room use case. */
+/**
+ * The Interface LeaveRoomUseCase.
+ */
 public interface LeaveRoomUseCase {
 
     /**
-     * Removes the player from the room. Empty if the room was deleted.
-     *
-     * @param leaveRoomCommand the leave room command
-     * @return the updated room, or empty when the room no longer exists
-     */
+	 * Execute.
+	 *
+	 * @param leaveRoomCommand the leave room command
+	 * @return the optional
+	 */
     Optional<Room> execute(LeaveRoomCommand leaveRoomCommand);
 }

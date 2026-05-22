@@ -13,7 +13,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-/** The Class LeaveRoomUseCaseImpl. */
+/**
+ * The Class LeaveRoomUseCaseImpl.
+ */
 @Component
 @RequiredArgsConstructor
 public class LeaveRoomUseCaseImpl implements LeaveRoomUseCase {

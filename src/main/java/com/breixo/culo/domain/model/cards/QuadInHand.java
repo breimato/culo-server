@@ -5,7 +5,12 @@ import lombok.Builder;
 
 import java.util.List;
 
-/** The Record QuadInHand. */
+/**
+ * The Record QuadInHand.
+ *
+ * @param updatedHand the updated hand
+ * @param events      the events
+ */
 @Builder
 public record QuadInHand(
         List<Card> updatedHand,

@@ -15,7 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Component;
 
-/** The Class CuloSwapVoteUseCaseImpl. */
+/**
+ * The Class CuloSwapVoteUseCaseImpl.
+ */
 @Component
 @RequiredArgsConstructor
 public class CuloSwapVoteUseCaseImpl implements CuloSwapVoteUseCase {
@@ -70,6 +72,13 @@ public class CuloSwapVoteUseCaseImpl implements CuloSwapVoteUseCase {
                 .build();
     }
 
+    /**
+	 * Resolve vote when all players voted.
+	 *
+	 * @param roomAfterVote       the room after vote
+	 * @param allPlayersHaveVoted the all players have voted
+	 * @return the culo swap poll closed
+	 */
     private CuloSwapPollClosed resolveVoteWhenAllPlayersVoted(final Room roomAfterVote, final boolean allPlayersHaveVoted) {
 
         if (BooleanUtils.isFalse(allPlayersHaveVoted)) {

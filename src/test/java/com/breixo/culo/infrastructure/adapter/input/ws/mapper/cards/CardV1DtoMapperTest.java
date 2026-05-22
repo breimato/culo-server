@@ -11,7 +11,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-/** The Class Card V 1 Dto Mapper Test. */
+/**
+ * The Class CardV1DtoMapperTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class CardV1DtoMapperTest {
 
@@ -19,9 +21,12 @@ class CardV1DtoMapperTest {
     @InjectMocks
     CardV1DtoMapperImpl cardV1DtoMapper;
 
-    /** Test to card V 1 dto when card is valid then return mapped dto. */
+    /**
+	 * Test to card V 1 dto when card is valid then return mapped dto.
+	 */
     @Test
     void testToCardV1Dto_whenCardIsValid_thenReturnMappedDto() {
+        
         // Given
         final var card = Card.builder().suit(Suit.OROS).number(7).build();
 
@@ -33,7 +38,9 @@ class CardV1DtoMapperTest {
         assertEquals(7, cardV1Dto.getNumber());
     }
 
-    /** Test to card V 1 dto when card is null then return null. */
+    /**
+	 * Test to card V 1 dto when card is null then return null.
+	 */
     @Test
     void testToCardV1Dto_whenCardIsNull_thenReturnNull() {
         // When / Then

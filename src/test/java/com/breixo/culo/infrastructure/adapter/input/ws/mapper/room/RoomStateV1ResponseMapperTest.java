@@ -33,7 +33,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Room State V 1 Response Mapper Test. */
+/**
+ * The Class RoomStateV1ResponseMapperTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class RoomStateV1ResponseMapperTest {
 
@@ -53,9 +55,13 @@ class RoomStateV1ResponseMapperTest {
     @Mock
     CardV1DtoMapper cardV1DtoMapper;
 
-    /** Test to room state V 1 response dto when player order exists then map current player id. */
+    /**
+	 * Test to room state V 1 response dto when player order exists then map current
+	 * player id.
+	 */
     @Test
     void testToRoomStateV1ResponseDto_whenPlayerOrderExists_thenMapCurrentPlayerId() {
+        
         // Given
         final var player = Instancio.of(Player.class)
                 .set(field(Player::id), "player-1")
@@ -111,9 +117,13 @@ class RoomStateV1ResponseMapperTest {
         assertEquals(2, roomStateV1ResponseDto.getPlayers().getFirst().getCardCount());
     }
 
-    /** Test to room state V 1 response dto when player order empty then current player id is null. */
+    /**
+	 * Test to room state V 1 response dto when player order empty then current
+	 * player id is null.
+	 */
     @Test
     void testToRoomStateV1ResponseDto_whenPlayerOrderEmpty_thenCurrentPlayerIdIsNull() {
+        
         // Given
         final var currentRound = Instancio.of(Round.class)
                 .set(field(Round::lastRank), null)

@@ -19,7 +19,9 @@ import static org.instancio.Select.field;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-/** The Class Exchange Policy Service Impl Test. */
+/**
+ * The Class ExchangePolicyServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class ExchangePolicyServiceImplTest {
 
@@ -27,9 +29,13 @@ class ExchangePolicyServiceImplTest {
     @InjectMocks
     ExchangePolicyServiceImpl exchangePolicyService;
 
-    /** Test validate not already done when player already exchanged then throw game exception. */
+    /**
+	 * Test validate not already done when player already exchanged then throw game
+	 * exception.
+	 */
     @Test
     void testValidateNotAlreadyDone_whenPlayerAlreadyExchanged_thenThrowGameException() {
+        
         // Given
         final var player = Instancio.create(Player.class);
         final Set<String> exchangeDone = new HashSet<>();
@@ -50,9 +56,12 @@ class ExchangePolicyServiceImplTest {
         assertEquals(GameExceptionConstants.EXCHANGE_ALREADY_DONE, gameException.getMessage());
     }
 
-    /** Test validate role can exchange when role is none then throw game exception. */
+    /**
+	 * Test validate role can exchange when role is none then throw game exception.
+	 */
     @Test
     void testValidateRoleCanExchange_whenRoleIsNone_thenThrowGameException() {
+        
         // Given
         final var player = Instancio.of(Player.class)
                 .set(field(Player::role), PlayerRole.NONE)

@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
-/** The Class DealCompletionServiceImpl. */
+/**
+ * The Class DealCompletionServiceImpl.
+ */
 @Service
 @RequiredArgsConstructor
 public class DealCompletionServiceImpl implements DealCompletionService {
@@ -47,12 +49,12 @@ public class DealCompletionServiceImpl implements DealCompletionService {
     }
 
     /**
-     * Finish dealing with exchange.
-     *
-     * @param room            the room
-     * @param rolesBeforeDeal the roles before deal
-     * @return the room
-     */
+	 * Finish dealing with exchange.
+	 *
+	 * @param room            the room
+	 * @param rolesBeforeDeal the roles before deal
+	 * @return the room
+	 */
     private Room finishDealingWithExchange(final Room room, final Map<PlayerRole, String> rolesBeforeDeal) {
 
         var roomWithRoles = this.playerRoleService.updatePlayerRoles(room, rolesBeforeDeal);
@@ -68,11 +70,11 @@ public class DealCompletionServiceImpl implements DealCompletionService {
     }
 
     /**
-     * Finish dealing with playing.
-     *
-     * @param room the room
-     * @return the room
-     */
+	 * Finish dealing with playing.
+	 *
+	 * @param room the room
+	 * @return the room
+	 */
     private Room finishDealingWithPlaying(final Room room) {
 
         final var roomAfterQuadDiscard = this.quadDiscardService.discardQuadsForAllPlayers(room);

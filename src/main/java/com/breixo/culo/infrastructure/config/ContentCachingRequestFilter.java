@@ -16,15 +16,7 @@ import java.io.IOException;
 @Component
 public class ContentCachingRequestFilter extends OncePerRequestFilter {
 
-  /**
-	 * Do filter internal.
-	 *
-	 * @param httpServletRequest  the http servlet request
-	 * @param httpServletResponse the http servlet response
-	 * @param filterChain         the filter chain
-	 * @throws ServletException the servlet exception
-	 * @throws IOException      Signals that an I/O exception has occurred.
-	 */
+  /** {@inheritDoc} */
   @Override
   protected void doFilterInternal(
       final HttpServletRequest httpServletRequest,

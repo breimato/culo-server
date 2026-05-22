@@ -11,7 +11,9 @@ import com.breixo.culo.domain.port.output.room.RoomSavePersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-/** The Class PassUseCaseImpl. */
+/**
+ * The Class PassUseCaseImpl.
+ */
 @Component
 @RequiredArgsConstructor
 public class PassUseCaseImpl implements PassUseCase {

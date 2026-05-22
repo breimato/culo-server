@@ -10,7 +10,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-/** The Class Post Game Pass V 1 Request Mapper Test. */
+/**
+ * The Class PostGamePassV1RequestMapperTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class PostGamePassV1RequestMapperTest {
 
@@ -18,9 +20,12 @@ class PostGamePassV1RequestMapperTest {
     @InjectMocks
     PostGamePassV1RequestMapperImpl postGamePassV1RequestMapper;
 
-    /** Test to pass command when request is valid then return mapped command. */
+    /**
+	 * Test to pass command when request is valid then return mapped command.
+	 */
     @Test
     void testToPassCommand_whenRequestIsValid_thenReturnMappedCommand() {
+        
         // Given
         final var postGamePassV1RequestDto = Instancio.create(PostGamePassV1RequestDto.class);
 
@@ -32,7 +37,9 @@ class PostGamePassV1RequestMapperTest {
         assertEquals(postGamePassV1RequestDto.getRoomCode(), passCommand.roomCode());
     }
 
-    /** Test to pass command when request is null then return null. */
+    /**
+	 * Test to pass command when request is null then return null.
+	 */
     @Test
     void testToPassCommand_whenRequestIsNull_thenReturnNull() {
         // When / Then

@@ -8,13 +8,19 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/** The Class Room Redis Serialization Test. */
+/**
+ * The Class RoomRedisSerializationTest.
+ */
 class RoomRedisSerializationTest {
 
   /** The room redis object mapper. */
   private final ObjectMapper roomRedisObjectMapper = RoomRedisObjectMapperFactory.create();
 
-  /** Test round trip when room from instancio then equals after json. */
+  /**
+	 * Test round trip when room from instancio then equals after json.
+	 *
+	 * @throws Exception the exception
+	 */
   @Test
   void testRoundTrip_whenRoomFromInstancio_thenEqualsAfterJson() throws Exception {
     // Given

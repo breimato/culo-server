@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Objects;
 
-/** The Class PlayerEliminationServiceImpl. */
+/**
+ * The Class PlayerEliminationServiceImpl.
+ */
 @Service
 @RequiredArgsConstructor
 public class PlayerEliminationServiceImpl implements PlayerEliminationService {
@@ -49,6 +51,12 @@ public class PlayerEliminationServiceImpl implements PlayerEliminationService {
                 .build();
     }
 
+    /**
+	 * Finish game with last active player.
+	 *
+	 * @param roomWithFinishOrder the room with finish order
+	 * @return the player elimination
+	 */
     private PlayerElimination finishGameWithLastActivePlayer(final Room roomWithFinishOrder) {
 
         final var culoId = this.gameSessionContextService.activePlayerIds(roomWithFinishOrder).getFirst();

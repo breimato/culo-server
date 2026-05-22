@@ -27,11 +27,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Join Room Use Case Impl Test. */
+/**
+ * The Class JoinRoomUseCaseImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class JoinRoomUseCaseImplTest {
 
-    /** The join room use case. */
+    /** The join room use case impl. */
     @InjectMocks
     JoinRoomUseCaseImpl joinRoomUseCaseImpl;
 
@@ -55,9 +57,12 @@ class JoinRoomUseCaseImplTest {
     @Mock
     RoomMembershipService roomMembershipService;
 
-    /** Test execute when room not found then throw room exception. */
+    /**
+	 * Test execute when room not found then throw room exception.
+	 */
     @Test
     void testExecute_whenRoomNotFound_thenThrowRoomException() {
+        
         // Given
         final var joinRoomCommand = Instancio.create(JoinRoomCommand.class);
 
@@ -72,9 +77,12 @@ class JoinRoomUseCaseImplTest {
         verify(this.roomRetrievalPersistencePort, times(1)).findByCode(joinRoomCommand.roomCode());
     }
 
-    /** Test execute when game already started then throw room exception. */
+    /**
+	 * Test execute when game already started then throw room exception.
+	 */
     @Test
     void testExecute_whenGameAlreadyStarted_thenThrowRoomException() {
+        
         // Given
         final var joinRoomCommand = Instancio.create(JoinRoomCommand.class);
         final var room = Instancio.create(Room.class);
@@ -95,9 +103,12 @@ class JoinRoomUseCaseImplTest {
         assertEquals(RoomExceptionConstants.GAME_ALREADY_STARTED, roomException.getMessage());
     }
 
-    /** Test execute when client reconnects then return existing player. */
+    /**
+	 * Test execute when client reconnects then return existing player.
+	 */
     @Test
     void testExecute_whenClientReconnects_thenReturnExistingPlayer() {
+        
         // Given
         final var joinRoomCommand = Instancio.create(JoinRoomCommand.class);
         final var room = Instancio.create(Room.class);

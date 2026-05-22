@@ -10,7 +10,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-/** The Class Game Phase Mapper Test. */
+/**
+ * The Class GamePhaseMapperTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class GamePhaseMapperTest {
 
@@ -18,9 +20,12 @@ class GamePhaseMapperTest {
     @InjectMocks
     GamePhaseMapperImpl gamePhaseMapper;
 
-    /** Test to game phase V 1 dto when phase is lobby then return lobby dto. */
+    /**
+	 * Test to game phase V 1 dto when phase is lobby then return lobby dto.
+	 */
     @Test
     void testToGamePhaseV1Dto_whenPhaseIsLobby_thenReturnLobbyDto() {
+        
         // Given
         final var gamePhase = GamePhase.LOBBY;
 
@@ -31,7 +36,9 @@ class GamePhaseMapperTest {
         assertEquals(GamePhaseV1Dto.LOBBY, gamePhaseV1Dto);
     }
 
-    /** Test to game phase when dto is null then return null. */
+    /**
+	 * Test to game phase when dto is null then return null.
+	 */
     @Test
     void testToGamePhase_whenDtoIsNull_thenReturnNull() {
         // When / Then

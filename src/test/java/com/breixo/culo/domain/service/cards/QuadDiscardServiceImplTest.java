@@ -20,7 +20,9 @@ import static org.instancio.Select.field;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/** The Class Quad Discard Service Impl Test. */
+/**
+ * The Class QuadDiscardServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class QuadDiscardServiceImplTest {
 
@@ -28,9 +30,12 @@ class QuadDiscardServiceImplTest {
     @InjectMocks
     QuadDiscardServiceImpl quadDiscardService;
 
-    /** Test discard quads when four cards of same number then removes them. */
+    /**
+	 * Test discard quads when four cards of same number then removes them.
+	 */
     @Test
     void testDiscardQuads_whenFourCardsOfSameNumber_thenRemovesThem() {
+        
         // Given
         final var player = Instancio.create(Player.class);
         final Map<String, List<Card>> hands = new HashMap<>();
@@ -60,9 +65,12 @@ class QuadDiscardServiceImplTest {
         assertEquals(7, quadDiscardApplied.room().gameSession().hands().get(player.id()).getFirst().number());
     }
 
-    /** Test discard quads when three of a kind then does nothing. */
+    /**
+	 * Test discard quads when three of A kind then does nothing.
+	 */
     @Test
     void testDiscardQuads_whenThreeOfAKind_thenDoesNothing() {
+        
         // Given
         final var player = Instancio.create(Player.class);
         final Map<String, List<Card>> hands = new HashMap<>();

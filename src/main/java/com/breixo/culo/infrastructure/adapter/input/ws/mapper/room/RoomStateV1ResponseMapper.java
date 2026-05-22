@@ -32,11 +32,11 @@ public class RoomStateV1ResponseMapper {
     private final CardV1DtoMapper cardV1DtoMapper;
 
     /**
-     * To room state V 1 response dto.
-     *
-     * @param room the room
-     * @return the room state V 1 response dto
-     */
+	 * To room state V 1 response dto.
+	 *
+	 * @param room the room
+	 * @return the room state V 1 response dto
+	 */
     public RoomStateV1ResponseDto toRoomStateV1ResponseDto(final Room room) {
         final var round = room.gameSession().currentRound();
         final var lastRankName = this.toCardRankNameV1Dto(round.lastRank());
@@ -68,6 +68,13 @@ public class RoomStateV1ResponseMapper {
                 .build();
     }
 
+    /**
+	 * To player V 1 dto.
+	 *
+	 * @param player the player
+	 * @param room   the room
+	 * @return the player V 1 dto
+	 */
     private PlayerV1Dto toPlayerV1Dto(final Player player, final Room room) {
         final var hand = room.gameSession().hands().getOrDefault(player.id(), List.of());
         return PlayerV1Dto.builder()
@@ -79,6 +86,12 @@ public class RoomStateV1ResponseMapper {
                 .build();
     }
 
+    /**
+	 * To card rank name V 1 dto.
+	 *
+	 * @param cardRank the card rank
+	 * @return the card rank name V 1 dto
+	 */
     private CardRankNameV1Dto toCardRankNameV1Dto(final CardRank cardRank) {
         if (Objects.isNull(cardRank)) {
             return null;

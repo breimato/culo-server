@@ -26,7 +26,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Play Builder Service Impl Test. */
+/**
+ * The Class PlayBuilderServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class PlayBuilderServiceImplTest {
 
@@ -38,9 +40,12 @@ class PlayBuilderServiceImplTest {
     @Mock
     CardFactoryService cardFactoryService;
 
-    /** Test build play when cards share same number then return play. */
+    /**
+	 * Test build play when cards share same number then return play.
+	 */
     @Test
     void testBuildPlay_whenCardsShareSameNumber_thenReturnPlay() {
+        
         // Given
         final var card = Card.builder().suit(Suit.OROS).number(7).build();
         final var cardOne = Card.builder().suit(Suit.COPAS).number(7).build();
@@ -53,9 +58,12 @@ class PlayBuilderServiceImplTest {
         assertEquals(cards, play.cards());
     }
 
-    /** Test build play when cards have different numbers then throw game exception. */
+    /**
+	 * Test build play when cards have different numbers then throw game exception.
+	 */
     @Test
     void testBuildPlay_whenCardsHaveDifferentNumbers_thenThrowGameException() {
+        
         // Given
         final var card = Card.builder().suit(Suit.OROS).number(7).build();
         final var cardOne = Card.builder().suit(Suit.COPAS).number(10).build();
@@ -70,9 +78,12 @@ class PlayBuilderServiceImplTest {
         assertEquals(GameExceptionConstants.INVALID_PLAY, gameException.getMessage());
     }
 
-    /** Test to cards when cards not in hand then throw game exception. */
+    /**
+	 * Test to cards when cards not in hand then throw game exception.
+	 */
     @Test
     void testToCards_whenCardsNotInHand_thenThrowGameException() {
+        
         // Given
         final var playerId = Instancio.create(String.class);
         final var cardInput = Instancio.of(CardInput.class)

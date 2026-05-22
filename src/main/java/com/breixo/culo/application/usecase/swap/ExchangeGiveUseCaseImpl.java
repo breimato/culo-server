@@ -14,7 +14,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 
-/** The Class ExchangeGiveUseCaseImpl. */
+/**
+ * The Class ExchangeGiveUseCaseImpl.
+ */
 @Component
 @RequiredArgsConstructor
 public class ExchangeGiveUseCaseImpl implements ExchangeGiveUseCase {

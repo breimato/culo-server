@@ -22,7 +22,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Play Execution Service Impl Test. */
+/**
+ * The Class PlayExecutionServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class PlayExecutionServiceImplTest {
 
@@ -38,9 +40,12 @@ class PlayExecutionServiceImplTest {
     @Mock
     PostPlayTurnService postPlayTurnService;
 
-    /** Test execute when plin and not as oros then plin is true. */
+    /**
+	 * Test execute when plin and not as oros then plin is true.
+	 */
     @Test
     void testExecute_whenPlinAndNotAsOros_thenPlinIsTrue() {
+        
         // Given
         final var room = Instancio.create(Room.class);
         final var player = Instancio.create(Player.class);
@@ -69,9 +74,12 @@ class PlayExecutionServiceImplTest {
         assertFalse(playExecutionResult.gameFinished());
     }
 
-    /** Test execute when as oros then round is closed. */
+    /**
+	 * Test execute when as oros then round is closed.
+	 */
     @Test
     void testExecute_whenAsOros_thenRoundIsClosed() {
+        
         // Given
         final var room = Instancio.create(Room.class);
         final var player = Instancio.create(Player.class);
@@ -98,9 +106,12 @@ class PlayExecutionServiceImplTest {
         assertFalse(playExecutionResult.plin());
     }
 
-    /** Test execute when round closed by plin then round is closed. */
+    /**
+	 * Test execute when round closed by plin then round is closed.
+	 */
     @Test
     void testExecute_whenRoundClosedByPlin_thenRoundIsClosed() {
+        
         // Given
         final var room = Instancio.create(Room.class);
         final var player = Instancio.create(Player.class);

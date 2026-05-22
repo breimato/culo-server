@@ -17,7 +17,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/** The Class RoomFactoryServiceImpl. */
+/**
+ * The Class RoomFactoryServiceImpl.
+ */
 @Service
 public class RoomFactoryServiceImpl implements RoomFactoryService {
 

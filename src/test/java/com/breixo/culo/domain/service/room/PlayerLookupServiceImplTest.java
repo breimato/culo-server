@@ -15,7 +15,9 @@ import static org.instancio.Select.field;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/** The Class Player Lookup Service Impl Test. */
+/**
+ * The Class PlayerLookupServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class PlayerLookupServiceImplTest {
 
@@ -23,9 +25,12 @@ class PlayerLookupServiceImplTest {
     @InjectMocks
     PlayerLookupServiceImpl playerLookupService;
 
-    /** Test find player by client id when player exists then return player. */
+    /**
+	 * Test find player by client id when player exists then return player.
+	 */
     @Test
     void testFindPlayerByClientId_whenPlayerExists_thenReturnPlayer() {
+        
         // Given
         final var player = Instancio.of(Player.class)
                 .set(field(Player::clientId), "client-123")
@@ -45,9 +50,12 @@ class PlayerLookupServiceImplTest {
         assertEquals(player, playerOptional.get());
     }
 
-    /** Test find player by id when player missing then return empty. */
+    /**
+	 * Test find player by id when player missing then return empty.
+	 */
     @Test
     void testFindPlayerById_whenPlayerMissing_thenReturnEmpty() {
+        
         // Given
         final var player = Instancio.of(Player.class)
                 .set(field(Player::id), "player-id")

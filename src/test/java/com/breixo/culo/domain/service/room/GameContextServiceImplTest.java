@@ -29,7 +29,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Game Context Service Impl Test. */
+/**
+ * The Class GameContextServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class GameContextServiceImplTest {
 
@@ -49,9 +51,12 @@ class GameContextServiceImplTest {
     @Mock
     RoomPhaseService roomPhaseService;
 
-    /** Test load when room exists then return game session context. */
+    /**
+	 * Test load when room exists then return game session context.
+	 */
     @Test
     void testLoad_whenRoomExists_thenReturnGameSessionContext() {
+        
         // Given
         final var roomCode = Instancio.create(String.class);
         final var clientId = Instancio.create(String.class);
@@ -70,9 +75,12 @@ class GameContextServiceImplTest {
         assertEquals(player, gameSessionContext.player());
     }
 
-    /** Test load when room not found then throw room exception. */
+    /**
+	 * Test load when room not found then throw room exception.
+	 */
     @Test
     void testLoad_whenRoomNotFound_thenThrowRoomException() {
+        
         // Given
         final var roomCode = Instancio.create(String.class);
         final var clientId = Instancio.create(String.class);
@@ -88,9 +96,12 @@ class GameContextServiceImplTest {
         assertEquals(RoomExceptionConstants.ROOM_NOT_FOUND, roomException.getMessage());
     }
 
-    /** Test require player turn when not current player then throw game exception. */
+    /**
+	 * Test require player turn when not current player then throw game exception.
+	 */
     @Test
     void testRequirePlayerTurn_whenNotCurrentPlayer_thenThrowGameException() {
+        
         // Given
         final var player = Instancio.of(Player.class)
                 .set(field(Player::id), "player-b")
@@ -112,9 +123,12 @@ class GameContextServiceImplTest {
         assertEquals(GameExceptionConstants.NOT_YOUR_TURN, gameException.getMessage());
     }
 
-    /** Test is player out when hand is empty then return true. */
+    /**
+	 * Test is player out when hand is empty then return true.
+	 */
     @Test
     void testIsPlayerOut_whenHandIsEmpty_thenReturnTrue() {
+        
         // Given
         final var room = Instancio.create(Room.class);
         final var playerId = Instancio.create(String.class);

@@ -20,7 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-/** The Class Deal Policy Service Impl Test. */
+/**
+ * The Class DealPolicyServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class DealPolicyServiceImplTest {
 
@@ -28,9 +30,12 @@ class DealPolicyServiceImplTest {
     @InjectMocks
     DealPolicyServiceImpl dealPolicyService;
 
-    /** Test validate dealing authority when player is culo then no exception. */
+    /**
+	 * Test validate dealing authority when player is culo then no exception.
+	 */
     @Test
     void testValidateDealingAuthority_whenPlayerIsCulo_thenNoException() {
+        
         // Given
         final var player = Instancio.of(Player.class)
                 .set(field(Player::role), PlayerRole.CULO)
@@ -46,9 +51,13 @@ class DealPolicyServiceImplTest {
         assertDoesNotThrow(() -> this.dealPolicyService.validateDealingAuthority(room, player));
     }
 
-    /** Test validate dealing authority when not culo and not first game then throw game exception. */
+    /**
+	 * Test validate dealing authority when not culo and not first game then throw
+	 * game exception.
+	 */
     @Test
     void testValidateDealingAuthority_whenNotCuloAndNotFirstGame_thenThrowGameException() {
+        
         // Given
         final var player = Instancio.of(Player.class)
                 .set(field(Player::role), PlayerRole.GANADOR)
@@ -69,9 +78,13 @@ class DealPolicyServiceImplTest {
         assertEquals(GameExceptionConstants.NOT_CULO, gameException.getMessage());
     }
 
-    /** Test validate dealing authority when first game and not host then throw room exception. */
+    /**
+	 * Test validate dealing authority when first game and not host then throw room
+	 * exception.
+	 */
     @Test
     void testValidateDealingAuthority_whenFirstGameAndNotHost_thenThrowRoomException() {
+        
         // Given
         final var player = Instancio.of(Player.class)
                 .set(field(Player::id), "player-id")

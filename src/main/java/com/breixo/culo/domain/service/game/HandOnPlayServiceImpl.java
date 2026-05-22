@@ -15,7 +15,9 @@ import com.breixo.culo.domain.port.input.game.TurnManagementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-/** The Class HandOnPlayServiceImpl. */
+/**
+ * The Class HandOnPlayServiceImpl.
+ */
 @Service
 @RequiredArgsConstructor
 public class HandOnPlayServiceImpl implements HandOnPlayService {
@@ -51,6 +53,13 @@ public class HandOnPlayServiceImpl implements HandOnPlayService {
                 .build();
     }
 
+    /**
+	 * Resolve play traits.
+	 *
+	 * @param play the play
+	 * @param room the room
+	 * @return the play traits
+	 */
     private PlayTraits resolvePlayTraits(final Play play, final Room room) {
 
         final var currentRound = room.gameSession().currentRound();
@@ -63,6 +72,15 @@ public class HandOnPlayServiceImpl implements HandOnPlayService {
                 .build();
     }
 
+    /**
+	 * Apply hand updates.
+	 *
+	 * @param room      the room
+	 * @param playerId  the player id
+	 * @param play      the play
+	 * @param playFlags the play flags
+	 * @return the room
+	 */
     private Room applyHandUpdates(
             final Room room,
             final String playerId,
@@ -83,6 +101,16 @@ public class HandOnPlayServiceImpl implements HandOnPlayService {
                 .build();
     }
 
+    /**
+	 * Builds the updated round.
+	 *
+	 * @param round     the round
+	 * @param play      the play
+	 * @param playerId  the player id
+	 * @param playFlags the play flags
+	 * @param room      the room
+	 * @return the round
+	 */
     private Round buildUpdatedRound(
             final Round round,
             final Play play,

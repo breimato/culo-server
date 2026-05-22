@@ -12,7 +12,9 @@ import com.breixo.culo.domain.port.output.room.RoomSavePersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-/** The Class CuloSwapInitiateUseCaseImpl. */
+/**
+ * The Class CuloSwapInitiateUseCaseImpl.
+ */
 @Component
 @RequiredArgsConstructor
 public class CuloSwapInitiateUseCaseImpl implements CuloSwapInitiateUseCase {

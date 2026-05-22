@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.ArrayList;
 
-/** The Class RoomMembershipServiceImpl. */
+/**
+ * The Class RoomMembershipServiceImpl.
+ */
 @Service
 public class RoomMembershipServiceImpl implements RoomMembershipService {
 

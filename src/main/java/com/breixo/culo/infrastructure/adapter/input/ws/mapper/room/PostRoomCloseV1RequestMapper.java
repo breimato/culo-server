@@ -4,7 +4,9 @@ import com.breixo.culo.domain.command.room.CloseRoomCommand;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.PostRoomCloseV1RequestDto;
 import org.mapstruct.Mapper;
 
-/** Maps close room WS request to domain command. */
+/**
+ * The Interface PostRoomCloseV1RequestMapper.
+ */
 @Mapper(componentModel = "spring")
 public interface PostRoomCloseV1RequestMapper {
 

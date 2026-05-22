@@ -32,7 +32,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Exchange Service Impl Test. */
+/**
+ * The Class ExchangeServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class ExchangeServiceImplTest {
 
@@ -64,9 +66,12 @@ class ExchangeServiceImplTest {
     @Mock
     PlayerLookupService playerLookupService;
 
-    /** Test process give when ganador gives cards then transfer to culo. */
+    /**
+	 * Test process give when ganador gives cards then transfer to culo.
+	 */
     @Test
     void testProcessGive_whenGanadorGivesCards_thenTransferToCulo() {
+        
         // Given
         final var ganadorId = "ganador-id";
         final var culoId = "culo-id";
@@ -102,9 +107,12 @@ class ExchangeServiceImplTest {
         assertEquals(roomAfterGive, result);
     }
 
-    /** Test process give when player has no exchange role then return same room. */
+    /**
+	 * Test process give when player has no exchange role then return same room.
+	 */
     @Test
     void testProcessGive_whenPlayerHasNoExchangeRole_thenReturnSameRoom() {
+        
         // Given
         final var playerId = "player-id";
         final var exchangeGiveCommand = Instancio.create(ExchangeGiveCommand.class);
@@ -126,9 +134,12 @@ class ExchangeServiceImplTest {
         assertEquals(room, result);
     }
 
-    /** Test finalize if complete when exchange incomplete then return same room. */
+    /**
+	 * Test finalize if complete when exchange incomplete then return same room.
+	 */
     @Test
     void testFinalizeIfComplete_whenExchangeIncomplete_thenReturnSameRoom() {
+        
         // Given
         final var exchangeState = Instancio.of(ExchangeState.class)
                 .set(field(ExchangeState::exchangeDone), Set.of())
@@ -148,9 +159,12 @@ class ExchangeServiceImplTest {
         assertEquals(room, result);
     }
 
-    /** Test finalize if complete when exchange complete then phase is playing. */
+    /**
+	 * Test finalize if complete when exchange complete then phase is playing.
+	 */
     @Test
     void testFinalizeIfComplete_whenExchangeComplete_thenPhaseIsPlaying() {
+        
         // Given
         final var ganadorId = "ganador-id";
         final var subcampeonId = "sub-id";

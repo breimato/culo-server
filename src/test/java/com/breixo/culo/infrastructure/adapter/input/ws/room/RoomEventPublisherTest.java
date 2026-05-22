@@ -24,30 +24,40 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** Tests for {@link RoomEventPublisher}. */
+/**
+ * The Class RoomEventPublisherTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class RoomEventPublisherTest {
 
+  /** The simp messaging template. */
   @Mock
   private SimpMessagingTemplate simpMessagingTemplate;
 
+  /** The joined room V 1 response mapper. */
   @Mock
   private JoinedRoomV1ResponseMapper joinedRoomV1ResponseMapper;
 
+  /** The room state V 1 response mapper. */
   @Mock
   private RoomStateV1ResponseMapper roomStateV1ResponseMapper;
 
+  /** The card V 1 dto mapper. */
   @Mock
   private CardV1DtoMapper cardV1DtoMapper;
 
+  /** The player lookup service. */
   @Mock
   private PlayerLookupService playerLookupService;
 
+  /** The room event publisher. */
   @Spy
   @InjectMocks
   private RoomEventPublisher roomEventPublisher;
 
-  /** publishJoinResult must re-send the joining player's hand (reconnect after F5). */
+  /**
+	 * Publish join result publishes hand update for joining player.
+	 */
   @Test
   void publishJoinResult_publishesHandUpdateForJoiningPlayer() {
     final var roomJoinResult = Instancio.create(RoomJoinResult.class);

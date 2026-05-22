@@ -2,7 +2,9 @@ package com.breixo.culo.infrastructure.adapter.output.repository.room;
 
 import lombok.experimental.UtilityClass;
 
-/** Redis key names for room persistence. */
+/**
+ * The Class RoomRedisKeys.
+ */
 @UtilityClass
 public class RoomRedisKeys {
 
@@ -13,11 +15,11 @@ public class RoomRedisKeys {
   public static final String ROOM_CODES_INDEX = "culo:room:codes";
 
   /**
-   * Room key for code.
-   *
-   * @param roomCode the room code
-   * @return the redis key
-   */
+	 * Room key.
+	 *
+	 * @param roomCode the room code
+	 * @return the string
+	 */
   public static String roomKey(final String roomCode) {
     return ROOM_KEY_PREFIX + roomCode;
   }

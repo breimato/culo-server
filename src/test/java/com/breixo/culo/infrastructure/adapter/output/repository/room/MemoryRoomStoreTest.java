@@ -14,20 +14,26 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/** The Class Memory Room Store Test. */
+/**
+ * The Class MemoryRoomStoreTest.
+ */
 class MemoryRoomStoreTest {
 
   /** The memory room store. */
   MemoryRoomStore memoryRoomStore;
 
-  /** Init. */
+  /**
+	 * Inits the.
+	 */
   @BeforeEach
   void init() {
     final var roomMembershipService = new RoomMembershipServiceImpl();
     this.memoryRoomStore = new MemoryRoomStore(roomMembershipService);
   }
 
-  /** Test save when room provided then store and return touched room. */
+  /**
+	 * Test save when room provided then store and return touched room.
+	 */
   @Test
   void testSave_whenRoomProvided_thenStoreAndReturnTouchedRoom() {
     // Given
@@ -49,7 +55,9 @@ class MemoryRoomStoreTest {
     assertEquals(savedRoom, foundRoom);
   }
 
-  /** Test find by code when room missing then empty. */
+  /**
+	 * Test find by code when room missing then empty.
+	 */
   @Test
   void testFindByCode_whenRoomMissing_thenEmpty() {
     // When
@@ -59,7 +67,9 @@ class MemoryRoomStoreTest {
     assertTrue(roomOptional.isEmpty());
   }
 
-  /** Test find all when rooms saved then return all values. */
+  /**
+	 * Test find all when rooms saved then return all values.
+	 */
   @Test
   void testFindAll_whenRoomsSaved_thenReturnAllValues() {
     // Given
@@ -85,7 +95,9 @@ class MemoryRoomStoreTest {
     assertEquals(2, rooms.size());
   }
 
-  /** Test exists by code when room present then true. */
+  /**
+	 * Test exists by code when room present then true.
+	 */
   @Test
   void testExistsByCode_whenRoomPresent_thenTrue() {
     // Given
@@ -104,7 +116,9 @@ class MemoryRoomStoreTest {
     assertTrue(exists);
   }
 
-  /** Test exists by code when room missing then false. */
+  /**
+	 * Test exists by code when room missing then false.
+	 */
   @Test
   void testExistsByCode_whenRoomMissing_thenFalse() {
     // When
@@ -114,7 +128,9 @@ class MemoryRoomStoreTest {
     assertFalse(exists);
   }
 
-  /** Test delete by code when room present then remove. */
+  /**
+	 * Test delete by code when room present then remove.
+	 */
   @Test
   void testDeleteByCode_whenRoomPresent_thenRemove() {
     // Given

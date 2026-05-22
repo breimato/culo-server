@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-/** The Class PlayerLookupServiceImpl. */
+/**
+ * The Class PlayerLookupServiceImpl.
+ */
 @Service
 public class PlayerLookupServiceImpl implements PlayerLookupService {
 

@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/** The Class CuloServiceImpl. */
+/**
+ * The Class CuloServiceImpl.
+ */
 @Service
 @RequiredArgsConstructor
 public class CuloServiceImpl implements CuloService {
@@ -103,6 +105,14 @@ public class CuloServiceImpl implements CuloService {
                 .build();
     }
 
+    /**
+	 * Swap hands.
+	 *
+	 * @param room        the room
+	 * @param initiatorId the initiator id
+	 * @param targetId    the target id
+	 * @return the hash map
+	 */
     private HashMap<String, List<Card>> swapHands(
             final Room room,
             final String initiatorId,
@@ -118,6 +128,14 @@ public class CuloServiceImpl implements CuloService {
         return hands;
     }
 
+    /**
+	 * Swap roles after approval.
+	 *
+	 * @param room        the room
+	 * @param initiatorId the initiator id
+	 * @param targetId    the target id
+	 * @return the list
+	 */
     private List<Player> swapRolesAfterApproval(
             final Room room,
             final String initiatorId,
@@ -133,6 +151,15 @@ public class CuloServiceImpl implements CuloService {
         return updatedPlayers;
     }
 
+    /**
+	 * Apply swap role.
+	 *
+	 * @param player      the player
+	 * @param initiatorId the initiator id
+	 * @param targetId    the target id
+	 * @param target      the target
+	 * @return the player
+	 */
     private Player applySwapRole(
             final Player player,
             final String initiatorId,

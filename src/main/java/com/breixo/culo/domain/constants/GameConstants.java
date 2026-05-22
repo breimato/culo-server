@@ -2,7 +2,9 @@ package com.breixo.culo.domain.constants;
 
 import lombok.NoArgsConstructor;
 
-/** The Class GameConstants. */
+/**
+ * The Class GameConstants.
+ */
 @NoArgsConstructor
 public final class GameConstants {
 

@@ -6,14 +6,16 @@ import com.breixo.culo.domain.model.room.RoomJoinResult;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
-/** The Interface Join Room Use Case. */
+/**
+ * The Interface JoinRoomUseCase.
+ */
 public interface JoinRoomUseCase {
 
   /**
-   * Execute.
-   *
-   * @param joinRoomCommand the join room command.
-   * @return the room join result.
-   */
+	 * Execute.
+	 *
+	 * @param joinRoomCommand the join room command
+	 * @return the room join result
+	 */
   RoomJoinResult execute(@Valid @NotNull JoinRoomCommand joinRoomCommand);
 }

@@ -19,7 +19,9 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-/** The Class Start Game Policy Service Impl Test. */
+/**
+ * The Class StartGamePolicyServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class StartGamePolicyServiceImplTest {
 
@@ -27,9 +29,12 @@ class StartGamePolicyServiceImplTest {
     @InjectMocks
     StartGamePolicyServiceImpl startGamePolicyService;
 
-    /** Test validate can start when host and enough players then no exception. */
+    /**
+	 * Test validate can start when host and enough players then no exception.
+	 */
     @Test
     void testValidateCanStart_whenHostAndEnoughPlayers_thenNoException() {
+        
         // Given
         final var startGameCommand = Instancio.create(StartGameCommand.class);
         final var player = Instancio.of(Player.class)
@@ -48,9 +53,12 @@ class StartGamePolicyServiceImplTest {
         assertDoesNotThrow(() -> this.startGamePolicyService.validateCanStart(room, player));
     }
 
-    /** Test validate can start when not host then throw room exception. */
+    /**
+	 * Test validate can start when not host then throw room exception.
+	 */
     @Test
     void testValidateCanStart_whenNotHost_thenThrowRoomException() {
+        
         // Given
         final var startGameCommand = Instancio.create(StartGameCommand.class);
         final var hostPlayer = Instancio.of(Player.class)

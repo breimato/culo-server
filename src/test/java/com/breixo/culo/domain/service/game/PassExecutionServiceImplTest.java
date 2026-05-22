@@ -27,7 +27,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Pass Execution Service Impl Test. */
+/**
+ * The Class PassExecutionServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class PassExecutionServiceImplTest {
 
@@ -51,9 +53,12 @@ class PassExecutionServiceImplTest {
     @Mock
     RoundClosingService roundClosingService;
 
-    /** Test execute when round closes immediately then round closed is true. */
+    /**
+	 * Test execute when round closes immediately then round closed is true.
+	 */
     @Test
     void testExecute_whenRoundClosesImmediately_thenRoundClosedIsTrue() {
+        
         // Given
         final var player = Instancio.create(Player.class);
         final var currentRound = Instancio.create(Round.class);
@@ -95,9 +100,12 @@ class PassExecutionServiceImplTest {
         assertTrue(passResult.roundClosed());
     }
 
-    /** Test execute when round not closed then advances turn and retries close. */
+    /**
+	 * Test execute when round not closed then advances turn and retries close.
+	 */
     @Test
     void testExecute_whenRoundNotClosed_thenAdvancesTurnAndRetriesClose() {
+        
         // Given
         final var player = Instancio.create(Player.class);
         final var currentRound = Instancio.create(Round.class);
@@ -147,9 +155,13 @@ class PassExecutionServiceImplTest {
         assertTrue(passResult.roundClosed());
     }
 
-    /** Test execute when advance turn and round still open then round closed is false. */
+    /**
+	 * Test execute when advance turn and round still open then round closed is
+	 * false.
+	 */
     @Test
     void testExecute_whenAdvanceTurnAndRoundStillOpen_thenRoundClosedIsFalse() {
+        
         // Given
         final var player = Instancio.create(Player.class);
         final var currentRound = Instancio.create(Round.class);

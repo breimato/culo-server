@@ -12,7 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/** The Class Room Factory Service Impl Test. */
+/**
+ * The Class RoomFactoryServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class RoomFactoryServiceImplTest {
 
@@ -20,9 +22,12 @@ class RoomFactoryServiceImplTest {
     @InjectMocks
     RoomFactoryServiceImpl roomFactoryService;
 
-    /** Test create empty room when command provided then build lobby session. */
+    /**
+	 * Test create empty room when command provided then build lobby session.
+	 */
     @Test
     void testCreateEmptyRoom_whenCommandProvided_thenBuildLobbySession() {
+        
         // Given
         final var createRoomCommand = Instancio.create(CreateRoomCommand.class);
         final var roomCode = Instancio.create(String.class);

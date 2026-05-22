@@ -10,7 +10,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-/** The Class Joined Room V 1 Response Mapper Test. */
+/**
+ * The Class JoinedRoomV1ResponseMapperTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class JoinedRoomV1ResponseMapperTest {
 
@@ -18,9 +20,13 @@ class JoinedRoomV1ResponseMapperTest {
     @InjectMocks
     JoinedRoomV1ResponseMapperImpl joinedRoomV1ResponseMapper;
 
-    /** Test to joined room V 1 response dto when result is valid then return mapped dto. */
+    /**
+	 * Test to joined room V 1 response dto when result is valid then return mapped
+	 * dto.
+	 */
     @Test
     void testToJoinedRoomV1ResponseDto_whenResultIsValid_thenReturnMappedDto() {
+        
         // Given
         final var roomJoinResult = Instancio.create(RoomJoinResult.class);
 
@@ -31,7 +37,9 @@ class JoinedRoomV1ResponseMapperTest {
         assertEquals(roomJoinResult.roomCode(), joinedRoomV1ResponseDto.getRoomCode());
     }
 
-    /** Test to joined room V 1 response dto when result is null then return null. */
+    /**
+	 * Test to joined room V 1 response dto when result is null then return null.
+	 */
     @Test
     void testToJoinedRoomV1ResponseDto_whenResultIsNull_thenReturnNull() {
         // When / Then

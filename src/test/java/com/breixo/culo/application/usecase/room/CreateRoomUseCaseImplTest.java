@@ -20,7 +20,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Create Room Use Case Impl Test. */
+/**
+ * The Class CreateRoomUseCaseImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class CreateRoomUseCaseImplTest {
 
@@ -38,9 +40,12 @@ class CreateRoomUseCaseImplTest {
     /** The room membership service. */
     final RoomMembershipServiceImpl roomMembershipService = new RoomMembershipServiceImpl();
 
-    /** The create room use case. */
+    /** The create room use case impl. */
     CreateRoomUseCaseImpl createRoomUseCaseImpl;
 
+    /**
+	 * Sets the up.
+	 */
     @BeforeEach
     void setUp() {
         this.createRoomUseCaseImpl = new CreateRoomUseCaseImpl(
@@ -50,7 +55,9 @@ class CreateRoomUseCaseImplTest {
                 this.roomMembershipService);
     }
 
-    /** Test execute when command is valid then persist and return join result. */
+    /**
+	 * Test execute when command is valid then persist and return join result.
+	 */
     @Test
     void testExecute_whenCommandIsValid_thenPersistAndReturnJoinResult() {
 

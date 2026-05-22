@@ -11,7 +11,9 @@ import com.breixo.culo.domain.port.output.room.RoomSavePersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-/** The Class DealCardsUseCaseImpl. */
+/**
+ * The Class DealCardsUseCaseImpl.
+ */
 @Component
 @RequiredArgsConstructor
 public class DealCardsUseCaseImpl implements DealCardsUseCase {

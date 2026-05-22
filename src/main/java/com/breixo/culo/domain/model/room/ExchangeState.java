@@ -9,6 +9,10 @@ import java.util.Set;
 
 /**
  * The Record ExchangeState.
+ *
+ * @param pendingGanadorToCulo         the pending ganador to culo
+ * @param pendingSubcampeonToPenultimo the pending subcampeon to penultimo
+ * @param exchangeDone                 the exchange done
  */
 @Builder(toBuilder = true)
 public record ExchangeState(
@@ -17,6 +21,13 @@ public record ExchangeState(
         @NotNull Set<String> exchangeDone
 ) {
 
+    /**
+	 * Instantiates a new exchange state.
+	 *
+	 * @param pendingGanadorToCulo         the pending ganador to culo
+	 * @param pendingSubcampeonToPenultimo the pending subcampeon to penultimo
+	 * @param exchangeDone                 the exchange done
+	 */
     public ExchangeState {
         pendingGanadorToCulo = List.copyOf(pendingGanadorToCulo);
         pendingSubcampeonToPenultimo = List.copyOf(pendingSubcampeonToPenultimo);

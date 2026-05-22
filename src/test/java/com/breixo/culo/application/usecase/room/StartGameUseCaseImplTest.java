@@ -25,11 +25,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/** The Class Start Game Use Case Impl Test. */
+/**
+ * The Class StartGameUseCaseImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class StartGameUseCaseImplTest {
 
-    /** The start game use case. */
+    /** The start game use case impl. */
     @InjectMocks
     StartGameUseCaseImpl startGameUseCaseImpl;
 
@@ -49,9 +51,12 @@ class StartGameUseCaseImplTest {
     @Mock
     StartGamePolicyService startGamePolicyService;
 
-    /** Test execute when host and enough players then phase is dealing. */
+    /**
+	 * Test execute when host and enough players then phase is dealing.
+	 */
     @Test
     void testExecute_whenHostAndEnoughPlayers_thenPhaseIsDealing() {
+        
         // Given
         final var startGameCommand = Instancio.create(StartGameCommand.class);
         final var gameSessionContext = Instancio.create(GameSessionContext.class);
@@ -78,9 +83,12 @@ class StartGameUseCaseImplTest {
         assertEquals(savedRoom, result);
     }
 
-    /** Test execute when not host then throw room exception. */
+    /**
+	 * Test execute when not host then throw room exception.
+	 */
     @Test
     void testExecute_whenNotHost_thenThrowRoomException() {
+        
         // Given
         final var startGameCommand = Instancio.create(StartGameCommand.class);
         final var gameSessionContext = Instancio.create(GameSessionContext.class);
@@ -104,9 +112,12 @@ class StartGameUseCaseImplTest {
         assertEquals(RoomExceptionConstants.NOT_HOST, roomException.getMessage());
     }
 
-    /** Test execute when not enough players then throw room exception. */
+    /**
+	 * Test execute when not enough players then throw room exception.
+	 */
     @Test
     void testExecute_whenNotEnoughPlayers_thenThrowRoomException() {
+        
         // Given
         final var startGameCommand = Instancio.create(StartGameCommand.class);
         final var gameSessionContext = Instancio.create(GameSessionContext.class);

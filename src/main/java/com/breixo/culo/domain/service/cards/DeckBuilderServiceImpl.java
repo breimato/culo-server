@@ -14,7 +14,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/** The Class DeckBuilderServiceImpl. */
+/**
+ * The Class DeckBuilderServiceImpl.
+ */
 @Service
 @RequiredArgsConstructor
 public class DeckBuilderServiceImpl implements DeckBuilderService {

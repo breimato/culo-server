@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Service;
 
-/** The Class RoundClosingServiceImpl. */
+/**
+ * The Class RoundClosingServiceImpl.
+ */
 @Service
 @RequiredArgsConstructor
 public class RoundClosingServiceImpl implements RoundClosingService {

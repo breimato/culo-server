@@ -16,7 +16,9 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Service;
 
-/** The Class PostPlayTurnServiceImpl. */
+/**
+ * The Class PostPlayTurnServiceImpl.
+ */
 @Service
 @RequiredArgsConstructor
 public class PostPlayTurnServiceImpl implements PostPlayTurnService {
@@ -53,6 +55,13 @@ public class PostPlayTurnServiceImpl implements PostPlayTurnService {
         return this.outcomeWhenNormalPlay(afterPlayerOut.room(), playFlags.plin());
     }
 
+    /**
+	 * Register player out if needed.
+	 *
+	 * @param room   the room
+	 * @param player the player
+	 * @return the player elimination check
+	 */
     private PlayerEliminationCheck registerPlayerOutIfNeeded(final Room room, final Player player) {
 
         final var playerId = player.id();
@@ -75,6 +84,12 @@ public class PostPlayTurnServiceImpl implements PostPlayTurnService {
                 .build();
     }
 
+    /**
+	 * Outcome when game ended.
+	 *
+	 * @param room the room
+	 * @return the turn after play
+	 */
     private TurnAfterPlay outcomeWhenGameEnded(final Room room) {
 
         final var roomInDealingPhase = this.roomPhaseService.withPhase(room, GamePhase.DEALING);
@@ -86,6 +101,13 @@ public class PostPlayTurnServiceImpl implements PostPlayTurnService {
                 .build();
     }
 
+    /**
+	 * Outcome when as oros.
+	 *
+	 * @param room                the room
+	 * @param playerWasEliminated the player was eliminated
+	 * @return the turn after play
+	 */
     private TurnAfterPlay outcomeWhenAsOros(final Room room, final boolean playerWasEliminated) {
 
         if (BooleanUtils.isFalse(playerWasEliminated)) {
@@ -105,6 +127,13 @@ public class PostPlayTurnServiceImpl implements PostPlayTurnService {
                 .build();
     }
 
+    /**
+	 * Outcome when normal play.
+	 *
+	 * @param room the room
+	 * @param plin the plin
+	 * @return the turn after play
+	 */
     private TurnAfterPlay outcomeWhenNormalPlay(final Room room, final boolean plin) {
 
         final var roomAfterTurn = this.turnManagementService.advanceTurn(room, plin);

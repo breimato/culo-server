@@ -27,7 +27,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
-/** The Class Turn Management Service Impl Test. */
+/**
+ * The Class TurnManagementServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class TurnManagementServiceImplTest {
 
@@ -39,9 +41,13 @@ class TurnManagementServiceImplTest {
     @Mock
     RoundService roundService;
 
-    /** Test finish round and set opener when last player is out then opens with next active player. */
+    /**
+	 * Test finish round and set opener when last player is out then opens with next
+	 * active player.
+	 */
     @Test
     void testFinishRoundAndSetOpener_whenLastPlayerIsOut_thenOpensWithNextActivePlayer() {
+        
         // Given
         final var player = Instancio.of(Player.class).set(field(Player::id), "p1").create();
         final var playerOne = Instancio.of(Player.class).set(field(Player::id), "p2").create();

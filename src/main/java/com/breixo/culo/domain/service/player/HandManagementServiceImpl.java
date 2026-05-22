@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/** The Class HandManagementServiceImpl. */
+/**
+ * The Class HandManagementServiceImpl.
+ */
 @Service
 public class HandManagementServiceImpl implements HandManagementService {
 
@@ -34,13 +36,13 @@ public class HandManagementServiceImpl implements HandManagementService {
     }
 
     /**
-     * Update hand.
-     *
-     * @param room     the room
-     * @param playerId the player id
-     * @param hand     the hand
-     * @return the room
-     */
+	 * Update hand.
+	 *
+	 * @param room     the room
+	 * @param playerId the player id
+	 * @param hand     the hand
+	 * @return the room
+	 */
     private Room updateHand(final Room room, final String playerId, final List<Card> hand) {
 
         final var hands = new HashMap<>(room.gameSession().hands());

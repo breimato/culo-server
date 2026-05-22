@@ -12,7 +12,9 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Controller;
 
-/** STOMP controller for closing a room (host only). */
+/**
+ * The Class PostRoomCloseV1Controller.
+ */
 @Controller
 @RequiredArgsConstructor
 public class PostRoomCloseV1Controller implements PostRoomCloseV1Api {

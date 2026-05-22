@@ -10,7 +10,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-/** The Class Post Dealing Confirm V 1 Request Mapper Test. */
+/**
+ * The Class PostDealingConfirmV1RequestMapperTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class PostDealingConfirmV1RequestMapperTest {
 
@@ -18,9 +20,12 @@ class PostDealingConfirmV1RequestMapperTest {
     @InjectMocks
     PostDealingConfirmV1RequestMapperImpl postDealingConfirmV1RequestMapper;
 
-    /** Test to deal cards command when request is valid then return mapped command. */
+    /**
+	 * Test to deal cards command when request is valid then return mapped command.
+	 */
     @Test
     void testToDealCardsCommand_whenRequestIsValid_thenReturnMappedCommand() {
+        
         // Given
         final var postDealingConfirmV1RequestDto = Instancio.create(PostDealingConfirmV1RequestDto.class);
 
@@ -33,7 +38,9 @@ class PostDealingConfirmV1RequestMapperTest {
         assertEquals(postDealingConfirmV1RequestDto.getRoomCode(), dealCardsCommand.roomCode());
     }
 
-    /** Test to deal cards command when request is null then return null. */
+    /**
+	 * Test to deal cards command when request is null then return null.
+	 */
     @Test
     void testToDealCardsCommand_whenRequestIsNull_thenReturnNull() {
         // When / Then

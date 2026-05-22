@@ -11,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Component;
 
-/** The Class CloseRoomUseCaseImpl. */
+/**
+ * The Class CloseRoomUseCaseImpl.
+ */
 @Component
 @RequiredArgsConstructor
 public class CloseRoomUseCaseImpl implements CloseRoomUseCase {

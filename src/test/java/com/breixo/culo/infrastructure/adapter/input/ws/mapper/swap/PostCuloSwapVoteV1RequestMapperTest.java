@@ -10,7 +10,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-/** The Class Post Culo Swap Vote V 1 Request Mapper Test. */
+/**
+ * The Class PostCuloSwapVoteV1RequestMapperTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class PostCuloSwapVoteV1RequestMapperTest {
 
@@ -18,9 +20,13 @@ class PostCuloSwapVoteV1RequestMapperTest {
     @InjectMocks
     PostCuloSwapVoteV1RequestMapperImpl postCuloSwapVoteV1RequestMapper;
 
-    /** Test to culo swap vote command when request is valid then return mapped command. */
+    /**
+	 * Test to culo swap vote command when request is valid then return mapped
+	 * command.
+	 */
     @Test
     void testToCuloSwapVoteCommand_whenRequestIsValid_thenReturnMappedCommand() {
+        
         // Given
         final var postCuloSwapVoteV1RequestDto = Instancio.create(PostCuloSwapVoteV1RequestDto.class);
 
@@ -34,7 +40,9 @@ class PostCuloSwapVoteV1RequestMapperTest {
         assertEquals(postCuloSwapVoteV1RequestDto.getAccept(), culoSwapVoteCommand.accept());
     }
 
-    /** Test to culo swap vote command when request is null then return null. */
+    /**
+	 * Test to culo swap vote command when request is null then return null.
+	 */
     @Test
     void testToCuloSwapVoteCommand_whenRequestIsNull_thenReturnNull() {
         // When / Then

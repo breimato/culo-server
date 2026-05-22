@@ -21,7 +21,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-/** Redis-backed room persistence (scenario 1: single instance or sticky sessions). */
+/**
+ * The Class RedisRoomStore.
+ */
 @Component
 @Profile("redis")
 public class RedisRoomStore implements
@@ -43,13 +45,13 @@ public class RedisRoomStore implements
   private final CuloProperties culoProperties;
 
   /**
-   * Instantiates a new redis room store.
-   *
-   * @param stringRedisTemplate    the string redis template
-   * @param roomRedisObjectMapper  the room redis object mapper
-   * @param roomMembershipService  the room membership service
-   * @param culoProperties         the culo properties
-   */
+	 * Instantiates a new redis room store.
+	 *
+	 * @param stringRedisTemplate   the string redis template
+	 * @param roomRedisObjectMapper the room redis object mapper
+	 * @param roomMembershipService the room membership service
+	 * @param culoProperties        the culo properties
+	 */
   public RedisRoomStore(
       final StringRedisTemplate stringRedisTemplate,
       @Qualifier("roomRedisObjectMapper") final ObjectMapper roomRedisObjectMapper,

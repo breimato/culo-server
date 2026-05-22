@@ -52,7 +52,7 @@ class PostGameAckV1ControllerTest {
   @Mock
   RoomAckCoordinator roomAckCoordinator;
 
-  /** The room service. */
+  /** The player lookup service. */
   @Mock
   PlayerLookupService playerLookupService;
 

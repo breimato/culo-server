@@ -21,7 +21,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/** The Class Player Role Service Impl Test. */
+/**
+ * The Class PlayerRoleServiceImplTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class PlayerRoleServiceImplTest {
 
@@ -29,9 +31,12 @@ class PlayerRoleServiceImplTest {
     @InjectMocks
     PlayerRoleServiceImpl playerRoleService;
 
-    /** Test get player id by role when role exists then return player id. */
+    /**
+	 * Test get player id by role when role exists then return player id.
+	 */
     @Test
     void testGetPlayerIdByRole_whenRoleExists_thenReturnPlayerId() {
+        
         // Given
         final var player = Instancio.of(Player.class)
                 .set(field(Player::id), "player-ganador")
@@ -52,9 +57,12 @@ class PlayerRoleServiceImplTest {
         assertEquals("player-ganador", playerIdOptional.get());
     }
 
-    /** Test get player id by role when role missing then return empty. */
+    /**
+	 * Test get player id by role when role missing then return empty.
+	 */
     @Test
     void testGetPlayerIdByRole_whenRoleMissing_thenReturnEmpty() {
+        
         // Given
         final var player = Instancio.of(Player.class)
                 .set(field(Player::role), PlayerRole.NONE)
@@ -73,9 +81,12 @@ class PlayerRoleServiceImplTest {
         assertTrue(playerIdOptional.isEmpty());
     }
 
-    /** Test assign roles when finish order complete then assign exchange roles. */
+    /**
+	 * Test assign roles when finish order complete then assign exchange roles.
+	 */
     @Test
     void testAssignRoles_whenFinishOrderComplete_thenAssignExchangeRoles() {
+        
         // Given
         final var ganador = Instancio.of(Player.class)
                 .set(field(Player::id), "p1")
@@ -118,9 +129,12 @@ class PlayerRoleServiceImplTest {
         assertEquals("p4", roomWithRoles.gameSession().lastCuloId());
     }
 
-    /** Test assign roles when player not in finish order then keep role unchanged. */
+    /**
+	 * Test assign roles when player not in finish order then keep role unchanged.
+	 */
     @Test
     void testAssignRoles_whenPlayerNotInFinishOrder_thenKeepRoleUnchanged() {
+        
         // Given
         final var player = Instancio.of(Player.class)
                 .set(field(Player::id), "outside")
@@ -144,9 +158,12 @@ class PlayerRoleServiceImplTest {
         assertEquals(PlayerRole.SUBCAMPEON, roomWithRoles.roomLobby().players().getFirst().role());
     }
 
-    /** Test update player roles when map provided then apply roles. */
+    /**
+	 * Test update player roles when map provided then apply roles.
+	 */
     @Test
     void testUpdatePlayerRoles_whenMapProvided_thenApplyRoles() {
+        
         // Given
         final var firstPlayer = Instancio.of(Player.class)
                 .set(field(Player::id), "p1")
@@ -176,9 +193,12 @@ class PlayerRoleServiceImplTest {
         assertEquals(PlayerRole.CULO, playersById.get("p2").role());
     }
 
-    /** Test reset player roles when called then set all to none. */
+    /**
+	 * Test reset player roles when called then set all to none.
+	 */
     @Test
     void testResetPlayerRoles_whenCalled_thenSetAllToNone() {
+        
         // Given
         final var player = Instancio.of(Player.class)
                 .set(field(Player::role), PlayerRole.GANADOR)
@@ -197,9 +217,13 @@ class PlayerRoleServiceImplTest {
         assertEquals(PlayerRole.NONE, roomWithResetRoles.roomLobby().players().getFirst().role());
     }
 
-    /** Test capture exchange roles when roles present then capture all exchange roles. */
+    /**
+	 * Test capture exchange roles when roles present then capture all exchange
+	 * roles.
+	 */
     @Test
     void testCaptureExchangeRoles_whenRolesPresent_thenCaptureAllExchangeRoles() {
+        
         // Given
         final var ganador = Instancio.of(Player.class)
                 .set(field(Player::id), "ganador-id")
@@ -234,9 +258,12 @@ class PlayerRoleServiceImplTest {
         assertEquals("culo-id", capturedRoles.get(PlayerRole.CULO));
     }
 
-    /** Test needs post deal exchange when ganador and culo present then return true. */
+    /**
+	 * Test needs post deal exchange when ganador and culo present then return true.
+	 */
     @Test
     void testNeedsPostDealExchange_whenGanadorAndCuloPresent_thenReturnTrue() {
+        
         // Given
         final Map<PlayerRole, String> rolesBeforeDeal = new EnumMap<>(PlayerRole.class);
         rolesBeforeDeal.put(PlayerRole.GANADOR, "ganador-id");
@@ -249,9 +276,12 @@ class PlayerRoleServiceImplTest {
         assertTrue(needsExchange);
     }
 
-    /** Test needs post deal exchange when culo missing then return false. */
+    /**
+	 * Test needs post deal exchange when culo missing then return false.
+	 */
     @Test
     void testNeedsPostDealExchange_whenCuloMissing_thenReturnFalse() {
+        
         // Given
         final Map<PlayerRole, String> rolesBeforeDeal = Map.of(PlayerRole.GANADOR, "ganador-id");
 

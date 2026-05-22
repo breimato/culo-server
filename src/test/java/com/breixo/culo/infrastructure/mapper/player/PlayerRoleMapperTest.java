@@ -10,7 +10,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-/** The Class Player Role Mapper Test. */
+/**
+ * The Class PlayerRoleMapperTest.
+ */
 @ExtendWith(MockitoExtension.class)
 class PlayerRoleMapperTest {
 
@@ -18,9 +20,12 @@ class PlayerRoleMapperTest {
     @InjectMocks
     PlayerRoleMapperImpl playerRoleMapper;
 
-    /** Test to player role V 1 dto when role is culo then return culo dto. */
+    /**
+	 * Test to player role V 1 dto when role is culo then return culo dto.
+	 */
     @Test
     void testToPlayerRoleV1Dto_whenRoleIsCulo_thenReturnCuloDto() {
+        
         // Given
         final var playerRole = PlayerRole.CULO;
 
@@ -31,7 +36,9 @@ class PlayerRoleMapperTest {
         assertEquals(PlayerRoleV1Dto.CULO, playerRoleV1Dto);
     }
 
-    /** Test to player role when dto is null then return null. */
+    /**
+	 * Test to player role when dto is null then return null.
+	 */
     @Test
     void testToPlayerRole_whenDtoIsNull_thenReturnNull() {
         // When / Then

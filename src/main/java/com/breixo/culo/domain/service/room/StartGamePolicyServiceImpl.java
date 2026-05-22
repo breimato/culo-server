@@ -9,7 +9,9 @@ import com.breixo.culo.domain.port.input.room.StartGamePolicyService;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Service;
 
-/** The Class StartGamePolicyServiceImpl. */
+/**
+ * The Class StartGamePolicyServiceImpl.
+ */
 @Service
 public class StartGamePolicyServiceImpl implements StartGamePolicyService {
 
