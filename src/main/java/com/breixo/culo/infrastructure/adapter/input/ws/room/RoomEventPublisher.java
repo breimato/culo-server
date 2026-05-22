@@ -73,6 +73,7 @@ public class RoomEventPublisher {
     this.publishJoinedRoom(roomJoinResult.playerId(), joinedRoomV1ResponseDto);
     this.publishJoinedRoomToClient(clientId, joinedRoomV1ResponseDto);
     this.publishRoomState(roomJoinResult.room());
+    this.publishHandUpdate(roomJoinResult.room(), roomJoinResult.playerId());
   }
 
   /**
