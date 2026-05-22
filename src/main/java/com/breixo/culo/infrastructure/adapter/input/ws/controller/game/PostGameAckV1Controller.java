@@ -2,7 +2,7 @@ package com.breixo.culo.infrastructure.adapter.input.ws.controller.game;
 
 import com.breixo.culo.domain.port.input.room.PlayerLookupService;
 import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
-import com.breixo.culo.infrastructure.adapter.input.ws.RoomAckCoordinator;
+import com.breixo.culo.infrastructure.adapter.input.ws.room.RoomAckCoordinator;
 import com.breixo.culo.infrastructure.adapter.input.ws.api.PostGameAckV1Api;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.PostGameAckV1RequestDto;
 import jakarta.validation.Valid;

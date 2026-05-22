@@ -1,10 +1,10 @@
 package com.breixo.culo.infrastructure.adapter.input.ws.controller.room;
 
 import com.breixo.culo.domain.port.input.room.CreateRoomUseCase;
-import com.breixo.culo.infrastructure.adapter.input.ws.RoomEventPublisher;
+import com.breixo.culo.infrastructure.adapter.input.ws.room.RoomEventPublisher;
 import com.breixo.culo.infrastructure.adapter.input.ws.api.PostRoomCreateV1Api;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.PostRoomCreateV1RequestDto;
-import com.breixo.culo.infrastructure.adapter.input.ws.mapper.PostRoomCreateV1RequestMapper;
+import com.breixo.culo.infrastructure.adapter.input.ws.mapper.room.PostRoomCreateV1RequestMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

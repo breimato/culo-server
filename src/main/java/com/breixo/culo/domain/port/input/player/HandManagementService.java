@@ -1,6 +1,6 @@
 package com.breixo.culo.domain.port.input.player;
 
-import com.breixo.culo.domain.model.card.Card;
+import com.breixo.culo.domain.model.cards.Card;
 import com.breixo.culo.domain.model.room.Room;
 
 import java.util.List;

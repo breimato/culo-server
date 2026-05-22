@@ -1,6 +1,6 @@
 package com.breixo.culo.domain.service.player;
 
-import com.breixo.culo.domain.model.card.Card;
+import com.breixo.culo.domain.model.cards.Card;
 import com.breixo.culo.domain.model.room.Room;
 import com.breixo.culo.domain.port.input.player.HandManagementService;
 import org.springframework.stereotype.Service;

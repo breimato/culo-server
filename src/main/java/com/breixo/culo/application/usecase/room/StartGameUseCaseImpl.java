@@ -4,9 +4,9 @@ import com.breixo.culo.domain.command.room.StartGameCommand;
 import com.breixo.culo.domain.model.room.Room;
 import com.breixo.culo.domain.model.room.enums.GamePhase;
 import com.breixo.culo.domain.port.input.room.RoomPhaseService;
-import com.breixo.culo.domain.port.input.room.RoomStartPolicyValidationService;
+import com.breixo.culo.domain.port.input.room.StartGamePolicyService;
 import com.breixo.culo.domain.port.input.room.StartGameUseCase;
-import com.breixo.culo.domain.port.input.session.GameSessionContextService;
+import com.breixo.culo.domain.port.input.room.GameContextService;
 import com.breixo.culo.domain.port.output.room.RoomSavePersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -20,13 +20,13 @@ public class StartGameUseCaseImpl implements StartGameUseCase {
     private final RoomSavePersistencePort roomSavePersistencePort;
 
     /** The game session context service. */
-    private final GameSessionContextService gameSessionContextService;
+    private final GameContextService gameSessionContextService;
 
     /** The room phase service. */
     private final RoomPhaseService roomPhaseService;
 
     /** The room start policy validation service. */
-    private final RoomStartPolicyValidationService roomStartPolicyValidationService;
+    private final StartGamePolicyService roomStartPolicyValidationService;
 
     /** {@inheritDoc} */
     @Override

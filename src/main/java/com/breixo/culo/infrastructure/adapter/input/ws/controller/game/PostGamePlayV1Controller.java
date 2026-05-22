@@ -1,12 +1,12 @@
 package com.breixo.culo.infrastructure.adapter.input.ws.controller.game;
 
 import com.breixo.culo.domain.port.input.game.PlayCardsUseCase;
-import com.breixo.culo.infrastructure.adapter.input.ws.RoomAckCoordinator;
-import com.breixo.culo.infrastructure.adapter.input.ws.RoomEventPublisher;
+import com.breixo.culo.infrastructure.adapter.input.ws.room.RoomAckCoordinator;
+import com.breixo.culo.infrastructure.adapter.input.ws.room.RoomEventPublisher;
 import com.breixo.culo.infrastructure.adapter.input.ws.api.PostGamePlayV1Api;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.PostGamePlayV1RequestDto;
-import com.breixo.culo.infrastructure.adapter.input.ws.mapper.PostGamePlayV1RequestMapper;
-import com.breixo.culo.infrastructure.adapter.input.ws.support.PlayFollowUpSupport;
+import com.breixo.culo.infrastructure.adapter.input.ws.mapper.game.PostGamePlayV1RequestMapper;
+import com.breixo.culo.infrastructure.adapter.input.ws.support.game.PlayFollowUpSupport;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

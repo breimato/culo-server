@@ -1,6 +1,6 @@
 package com.breixo.culo.domain.model.room;
 
-import com.breixo.culo.domain.model.card.Card;
+import com.breixo.culo.domain.model.cards.Card;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 

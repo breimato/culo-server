@@ -4,7 +4,7 @@ import com.breixo.culo.domain.port.input.game.PassUseCase;
 import com.breixo.culo.infrastructure.adapter.input.ws.api.PostGamePassV1Api;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.PostGamePassV1RequestDto;
 import com.breixo.culo.infrastructure.adapter.input.ws.mapper.game.PostGamePassV1RequestMapper;
-import com.breixo.culo.infrastructure.adapter.input.ws.support.PlayFollowUpSupport;
+import com.breixo.culo.infrastructure.adapter.input.ws.support.game.PlayFollowUpSupport;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +38,7 @@ public class PostGamePassV1Controller implements PostGamePassV1Api {
 
     final var passResult = this.passUseCase.execute(passCommand);
 
-    this.playFollowUpSupport.publishPassFollowUp(passResult.room(), passResult.roundEnded());
+    this.playFollowUpSupport.publishPassFollowUp(passResult.room(), passResult.roundClosed());
 
     return ResponseEntity.noContent().build();
   }

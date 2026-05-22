@@ -1,7 +1,7 @@
 package com.breixo.culo.domain.service.room;
 
 import com.breixo.culo.domain.command.room.CreateRoomCommand;
-import com.breixo.culo.domain.model.play.Round;
+import com.breixo.culo.domain.model.game.Round;
 import com.breixo.culo.domain.model.room.CuloSwapState;
 import com.breixo.culo.domain.model.room.ExchangeState;
 import com.breixo.culo.domain.model.room.GameSession;

@@ -3,14 +3,16 @@ package com.breixo.culo.infrastructure.adapter.input.ws.controller.room;
 import com.breixo.culo.domain.command.room.JoinRoomCommand;
 import com.breixo.culo.domain.model.room.RoomJoinResult;
 import com.breixo.culo.domain.port.input.room.JoinRoomUseCase;
-import com.breixo.culo.infrastructure.adapter.input.ws.RoomEventPublisher;
+import com.breixo.culo.infrastructure.adapter.input.ws.room.RoomEventPublisher;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.PostRoomJoinV1RequestDto;
-import com.breixo.culo.infrastructure.adapter.input.ws.mapper.PostRoomJoinV1RequestMapper;
-import com.breixo.culo.infrastructure.adapter.input.ws.support.WsInboundControllerTestSupport;
-import com.breixo.culo.infrastructure.adapter.input.ws.support.WsInboundExceptionSupport;
+import com.breixo.culo.infrastructure.adapter.input.ws.mapper.room.PostRoomJoinV1RequestMapper;
+import com.breixo.culo.infrastructure.adapter.input.ws.support.common.WsInboundControllerTestSupport;
+import com.breixo.culo.infrastructure.adapter.input.ws.support.common.WsInboundExceptionSupport;
 import com.breixo.culo.infrastructure.config.WsInboundDestinationConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.instancio.Instancio;
+
+import static org.instancio.Select.field;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,8 +22,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.instancio.Select.field;
+import com.breixo.culo.domain.exception.RoomException;
+import com.breixo.culo.domain.exception.constants.RoomExceptionConstants;
 
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -87,6 +92,7 @@ class PostRoomJoinV1ControllerTest {
     // When
     when(this.postRoomJoinV1RequestMapper.toJoinRoomCommand(postRoomJoinV1RequestDto)).thenReturn(joinRoomCommand);
     when(this.joinRoomUseCase.execute(joinRoomCommand)).thenReturn(roomJoinResult);
+    doNothing().when(this.roomEventPublisher).publishJoinResult(roomJoinResult);
 
     this.mockMvc.perform(post(WsInboundDestinationConstants.POST_ROOM_JOIN_V1)
             .contentType(MediaType.APPLICATION_JSON)
@@ -97,5 +103,36 @@ class PostRoomJoinV1ControllerTest {
     verify(this.postRoomJoinV1RequestMapper, times(1)).toJoinRoomCommand(postRoomJoinV1RequestDto);
     verify(this.joinRoomUseCase, times(1)).execute(joinRoomCommand);
     verify(this.roomEventPublisher, times(1)).publishJoinResult(roomJoinResult);
+  }
+
+  /**
+	 * Test post room join V 1 when use case fails then publish error to client.
+	 *
+	 * @throws Exception the exception
+	 */
+  @Test
+  void testPostRoomJoinV1_whenUseCaseFails_thenPublishErrorToClient() throws Exception {
+    // Given
+    final var postRoomJoinV1RequestDto = Instancio.of(PostRoomJoinV1RequestDto.class)
+        .generate(field(PostRoomJoinV1RequestDto::getRoomCode), gen -> gen.string().length(4))
+        .generate(field(PostRoomJoinV1RequestDto::getNick), gen -> gen.string().length(1, 20))
+        .create();
+    final var joinRoomCommand = Instancio.create(JoinRoomCommand.class);
+    final var roomException = new RoomException(RoomExceptionConstants.ROOM_NOT_FOUND);
+
+    // When
+    when(this.postRoomJoinV1RequestMapper.toJoinRoomCommand(postRoomJoinV1RequestDto)).thenReturn(joinRoomCommand);
+    doThrow(roomException).when(this.joinRoomUseCase).execute(joinRoomCommand);
+
+    this.mockMvc.perform(post(WsInboundDestinationConstants.POST_ROOM_JOIN_V1)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(this.objectMapper.writeValueAsString(postRoomJoinV1RequestDto)))
+        .andExpect(status().isNoContent());
+
+    // Then
+    verify(this.postRoomJoinV1RequestMapper, times(1)).toJoinRoomCommand(postRoomJoinV1RequestDto);
+    verify(this.joinRoomUseCase, times(1)).execute(joinRoomCommand);
+    verify(this.wsInboundExceptionSupport, times(1))
+        .publishErrorToClient(postRoomJoinV1RequestDto.getClientId(), roomException);
   }
 }

@@ -1,5 +1,7 @@
 package com.breixo.culo.domain.service.player;
 
+import com.breixo.culo.domain.constants.FinishOrderConstants;
+import com.breixo.culo.domain.model.room.Player;
 import com.breixo.culo.domain.model.room.Room;
 import com.breixo.culo.domain.model.room.enums.PlayerRole;
 import com.breixo.culo.domain.port.input.player.PlayerRoleService;
@@ -28,7 +30,7 @@ public class PlayerRoleServiceImpl implements PlayerRoleService {
 
         return room.roomLobby().players().stream()
                 .filter(player -> role.getId().equals(player.role().getId()))
-                .map(player -> player.id())
+                .map(Player::id)
                 .findFirst();
     }
 
@@ -39,29 +41,7 @@ public class PlayerRoleServiceImpl implements PlayerRoleService {
         final var finishOrder = room.gameSession().finishOrder();
         final var finishOrderSize = finishOrder.size();
         final var updatedPlayers = room.roomLobby().players().stream()
-                .map(player -> {
-                    final Integer playerIndex = finishOrder.indexOf(player.id());
-
-                    if (Integer.compare(playerIndex, 0) < 0) {
-                        return player;
-                    }
-
-                    final PlayerRole playerRole;
-
-                    if (Integer.valueOf(0).equals(playerIndex)) {
-                        playerRole = PlayerRole.GANADOR;
-                    } else if (Integer.valueOf(finishOrderSize - 1).equals(playerIndex)) {
-                        playerRole = PlayerRole.CULO;
-                    } else if (Integer.valueOf(finishOrderSize - 2).equals(playerIndex)) {
-                        playerRole = PlayerRole.PENULTIMO;
-                    } else if (Integer.valueOf(1).equals(playerIndex)) {
-                        playerRole = PlayerRole.SUBCAMPEON;
-                    } else {
-                        playerRole = PlayerRole.NONE;
-                    }
-
-                    return player.toBuilder().role(playerRole).build();
-                })
+                .map(player -> this.assignRoleFromFinishOrder(player, finishOrder, finishOrderSize))
                 .toList();
 
         return room.toBuilder()
@@ -79,11 +59,7 @@ public class PlayerRoleServiceImpl implements PlayerRoleService {
     public Room updatePlayerRoles(final Room room, final Map<PlayerRole, String> rolesByPlayer) {
 
         final var updatedPlayers = room.roomLobby().players().stream()
-                .map(player -> rolesByPlayer.entrySet().stream()
-                        .filter(entry -> entry.getValue().equals(player.id()))
-                        .findFirst()
-                        .map(entry -> player.toBuilder().role(entry.getKey()).build())
-                        .orElse(player))
+                .map(player -> this.applyRoleFromMap(player, rolesByPlayer))
                 .toList();
 
         return room.toBuilder()
@@ -113,10 +89,11 @@ public class PlayerRoleServiceImpl implements PlayerRoleService {
     public Map<PlayerRole, String> captureExchangeRoles(final Room room) {
 
         final var roles = new EnumMap<PlayerRole, String>(PlayerRole.class);
-        EXCHANGE_ROLES.forEach(playerRole -> {
-            final var playerId = this.getPlayerIdByRole(room, playerRole);
-            playerId.ifPresent(id -> roles.put(playerRole, id));
-        });
+
+        for (final var playerRole : EXCHANGE_ROLES) {
+            this.captureRoleIfPresent(room, playerRole, roles);
+        }
+
         return roles;
     }
 
@@ -127,5 +104,61 @@ public class PlayerRoleServiceImpl implements PlayerRoleService {
         final var hasGanador = rolesBeforeDeal.containsKey(PlayerRole.GANADOR);
         final var hasCulo = rolesBeforeDeal.containsKey(PlayerRole.CULO);
         return BooleanUtils.isTrue(hasGanador) && BooleanUtils.isTrue(hasCulo);
+    }
+
+    private Player applyRoleFromMap(final Player player, final Map<PlayerRole, String> rolesByPlayer) {
+
+        for (final var entry : rolesByPlayer.entrySet()) {
+            if (entry.getValue().equals(player.id())) {
+                return player.toBuilder().role(entry.getKey()).build();
+            }
+        }
+
+        return player;
+    }
+
+    private void captureRoleIfPresent(
+            final Room room,
+            final PlayerRole playerRole,
+            final Map<PlayerRole, String> roles) {
+
+        final var playerId = this.getPlayerIdByRole(room, playerRole);
+        playerId.ifPresent(id -> roles.put(playerRole, id));
+    }
+
+    private Player assignRoleFromFinishOrder(
+            final Player player,
+            final List<String> finishOrder,
+            final int finishOrderSize) {
+
+        final var finishIndex = finishOrder.indexOf(player.id());
+
+        if (finishIndex == FinishOrderConstants.NOT_IN_FINISH_ORDER) {
+            return player;
+        }
+
+        final var playerRole = this.resolveRoleForFinishIndex(finishIndex, finishOrderSize);
+        return player.toBuilder().role(playerRole).build();
+    }
+
+    private PlayerRole resolveRoleForFinishIndex(final int finishIndex, final int finishOrderSize) {
+
+        if (finishIndex == FinishOrderConstants.GANADOR_FINISH_INDEX) {
+            return PlayerRole.GANADOR;
+        }
+
+        if (finishIndex == finishOrderSize - 1) {
+            return PlayerRole.CULO;
+        }
+
+        if (finishIndex == finishOrderSize - 2) {
+            return PlayerRole.PENULTIMO;
+        }
+
+        if (finishIndex == FinishOrderConstants.SUBCAMPEON_FINISH_INDEX) {
+            return PlayerRole.SUBCAMPEON;
+        }
+
+        return PlayerRole.NONE;
     }
 }

@@ -1,6 +1,9 @@
 package com.breixo.culo.domain.constants;
 
+import lombok.NoArgsConstructor;
+
 /** The Class GameConstants. */
+@NoArgsConstructor
 public final class GameConstants {
 
     /** The Constant BEST_CARDS_FROM_CULO_TO_GANADOR. */
@@ -18,6 +21,6 @@ public final class GameConstants {
     /** The Constant QUAD_SIZE. */
     public static final Integer QUAD_SIZE = 4;
 
-    private GameConstants() {
-    }
+    /** The Constant LAST_ACTIVE_PLAYER_COUNT. */
+    public static final Integer LAST_ACTIVE_PLAYER_COUNT = 1;
 }

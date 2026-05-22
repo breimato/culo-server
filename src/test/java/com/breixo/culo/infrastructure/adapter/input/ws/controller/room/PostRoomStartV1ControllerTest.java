@@ -5,11 +5,11 @@ import com.breixo.culo.domain.exception.RoomException;
 import com.breixo.culo.domain.exception.constants.RoomExceptionConstants;
 import com.breixo.culo.domain.model.room.Room;
 import com.breixo.culo.domain.port.input.room.StartGameUseCase;
-import com.breixo.culo.infrastructure.adapter.input.ws.RoomEventPublisher;
+import com.breixo.culo.infrastructure.adapter.input.ws.room.RoomEventPublisher;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.PostRoomStartV1RequestDto;
-import com.breixo.culo.infrastructure.adapter.input.ws.mapper.PostRoomStartV1RequestMapper;
-import com.breixo.culo.infrastructure.adapter.input.ws.support.WsInboundControllerTestSupport;
-import com.breixo.culo.infrastructure.adapter.input.ws.support.WsInboundExceptionSupport;
+import com.breixo.culo.infrastructure.adapter.input.ws.mapper.room.PostRoomStartV1RequestMapper;
+import com.breixo.culo.infrastructure.adapter.input.ws.support.common.WsInboundControllerTestSupport;
+import com.breixo.culo.infrastructure.adapter.input.ws.support.common.WsInboundExceptionSupport;
 import com.breixo.culo.infrastructure.config.WsInboundDestinationConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.instancio.Instancio;
@@ -22,6 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -85,6 +86,7 @@ class PostRoomStartV1ControllerTest {
     // When
     when(this.postRoomStartV1RequestMapper.toStartGameCommand(postRoomStartV1RequestDto)).thenReturn(startGameCommand);
     when(this.startGameUseCase.execute(startGameCommand)).thenReturn(room);
+    doNothing().when(this.roomEventPublisher).publishRoomState(room);
 
     this.mockMvc.perform(post(WsInboundDestinationConstants.POST_ROOM_START_V1)
             .contentType(MediaType.APPLICATION_JSON)
@@ -120,6 +122,8 @@ class PostRoomStartV1ControllerTest {
         .andExpect(status().isNoContent());
 
     // Then
+    verify(this.postRoomStartV1RequestMapper, times(1)).toStartGameCommand(postRoomStartV1RequestDto);
+    verify(this.startGameUseCase, times(1)).execute(startGameCommand);
     verify(this.wsInboundExceptionSupport, times(1)).publishErrorToClientAndPlayer(
         postRoomStartV1RequestDto.getClientId(),
         postRoomStartV1RequestDto.getRoomCode(),

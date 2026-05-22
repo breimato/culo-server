@@ -1,5 +1,6 @@
 package com.breixo.culo.domain.command.game;
 
+import com.breixo.culo.domain.command.cards.CardInput;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;

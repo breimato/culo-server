@@ -1,8 +1,8 @@
 package com.breixo.culo.domain.model.room;
 
-import com.breixo.culo.domain.model.card.Card;
-import com.breixo.culo.domain.model.play.Round;
-import com.breixo.culo.domain.model.quad.QuadDiscardEvent;
+import com.breixo.culo.domain.model.cards.Card;
+import com.breixo.culo.domain.model.game.Round;
+import com.breixo.culo.domain.model.cards.QuadDiscardEvent;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 

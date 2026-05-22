@@ -5,11 +5,11 @@ import com.breixo.culo.domain.exception.RoomException;
 import com.breixo.culo.domain.exception.constants.RoomExceptionConstants;
 import com.breixo.culo.domain.model.room.RoomJoinResult;
 import com.breixo.culo.domain.port.input.room.CreateRoomUseCase;
-import com.breixo.culo.infrastructure.adapter.input.ws.RoomEventPublisher;
+import com.breixo.culo.infrastructure.adapter.input.ws.room.RoomEventPublisher;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.PostRoomCreateV1RequestDto;
-import com.breixo.culo.infrastructure.adapter.input.ws.mapper.PostRoomCreateV1RequestMapper;
-import com.breixo.culo.infrastructure.adapter.input.ws.support.WsInboundControllerTestSupport;
-import com.breixo.culo.infrastructure.adapter.input.ws.support.WsInboundExceptionSupport;
+import com.breixo.culo.infrastructure.adapter.input.ws.mapper.room.PostRoomCreateV1RequestMapper;
+import com.breixo.culo.infrastructure.adapter.input.ws.support.common.WsInboundControllerTestSupport;
+import com.breixo.culo.infrastructure.adapter.input.ws.support.common.WsInboundExceptionSupport;
 import com.breixo.culo.infrastructure.config.WsInboundDestinationConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.instancio.Instancio;
@@ -22,6 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -86,6 +87,7 @@ class PostRoomCreateV1ControllerTest {
     when(this.postRoomCreateV1RequestMapper.toCreateRoomCommand(postRoomCreateV1RequestDto))
         .thenReturn(createRoomCommand);
     when(this.createRoomUseCase.execute(createRoomCommand)).thenReturn(roomJoinResult);
+    doNothing().when(this.roomEventPublisher).publishJoinResult(roomJoinResult);
 
     this.mockMvc.perform(post(WsInboundDestinationConstants.POST_ROOM_CREATE_V1)
             .contentType(MediaType.APPLICATION_JSON)
@@ -121,6 +123,8 @@ class PostRoomCreateV1ControllerTest {
         .andExpect(status().isNoContent());
 
     // Then
+    verify(this.postRoomCreateV1RequestMapper, times(1)).toCreateRoomCommand(postRoomCreateV1RequestDto);
+    verify(this.createRoomUseCase, times(1)).execute(createRoomCommand);
     verify(this.wsInboundExceptionSupport, times(1))
         .publishErrorToClient(postRoomCreateV1RequestDto.getClientId(), roomException);
   }

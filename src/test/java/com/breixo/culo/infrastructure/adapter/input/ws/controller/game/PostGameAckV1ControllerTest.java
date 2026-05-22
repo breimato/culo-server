@@ -4,7 +4,7 @@ import com.breixo.culo.domain.model.room.Player;
 import com.breixo.culo.domain.model.room.Room;
 import com.breixo.culo.domain.port.input.room.PlayerLookupService;
 import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
-import com.breixo.culo.infrastructure.adapter.input.ws.RoomAckCoordinator;
+import com.breixo.culo.infrastructure.adapter.input.ws.room.RoomAckCoordinator;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.PostGameAckV1RequestDto;
 import com.breixo.culo.infrastructure.config.WsInboundDestinationConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -92,6 +92,8 @@ class PostGameAckV1ControllerTest {
         .andExpect(status().isNoContent());
 
     // Then
+    verify(this.roomRetrievalPersistencePort, times(1)).findByCode(roomCode);
+    verify(this.playerLookupService, times(1)).findPlayerByClientId(this.room, clientId);
     verify(this.roomAckCoordinator, times(1)).recordAck(roomCode, eventId, player.id());
   }
 
@@ -115,6 +117,7 @@ class PostGameAckV1ControllerTest {
         .andExpect(status().isNoContent());
 
     // Then
+    verify(this.roomRetrievalPersistencePort, times(1)).findByCode(roomCode);
     verifyNoInteractions(this.roomAckCoordinator);
   }
 }
