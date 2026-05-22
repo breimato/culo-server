@@ -30,9 +30,9 @@ public class RoomCodeGenerator implements RoomCodeGenerationPort {
 
   /** The room existence persistence port. */
   private final RoomExistencePersistencePort roomExistencePersistencePort;
-  
+
   /** The secure random. */
-  private final SecureRandom secureRandom = new SecureRandom();
+  private final SecureRandom secureRandom;
 
   /**
 	 * Execute.

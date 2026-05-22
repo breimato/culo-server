@@ -5,6 +5,7 @@ import com.breixo.culo.domain.port.output.room.RoomDeletionPersistencePort;
 import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
 import com.breixo.culo.infrastructure.config.CuloProperties;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ import java.time.Instant;
  * The Class RoomCleanupScheduler.
  */
 @Component
+@Profile("memory")
 @RequiredArgsConstructor
 public class RoomCleanupScheduler {
 

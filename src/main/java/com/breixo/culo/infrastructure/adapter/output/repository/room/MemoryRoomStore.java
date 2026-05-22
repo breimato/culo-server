@@ -7,6 +7,7 @@ import com.breixo.culo.domain.port.output.room.RoomExistencePersistencePort;
 import com.breixo.culo.domain.port.output.room.RoomRetrievalPersistencePort;
 import com.breixo.culo.domain.port.output.room.RoomSavePersistencePort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -15,6 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /** The Class MemoryRoomStore. */
 @Component
+@Profile("memory")
 @RequiredArgsConstructor
 public class MemoryRoomStore implements
     RoomSavePersistencePort,

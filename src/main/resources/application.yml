@@ -2,6 +2,8 @@ server:
   port: ${PORT:8080}
 
 spring:
+  profiles:
+    default: memory
   application:
     name: culo-server
 
