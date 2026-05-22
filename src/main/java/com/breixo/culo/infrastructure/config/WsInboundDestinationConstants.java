@@ -14,6 +14,12 @@ public final class WsInboundDestinationConstants {
   /** The Constant POST_ROOM_START_V1. */
   public static final String POST_ROOM_START_V1 = "/app/room.start";
 
+  /** The Constant POST_ROOM_LEAVE_V1. */
+  public static final String POST_ROOM_LEAVE_V1 = "/app/room.leave";
+
+  /** The Constant POST_ROOM_CLOSE_V1. */
+  public static final String POST_ROOM_CLOSE_V1 = "/app/room.close";
+
   /** The Constant POST_DEALING_CONFIRM_V1. */
   public static final String POST_DEALING_CONFIRM_V1 = "/app/dealing.confirm";
 

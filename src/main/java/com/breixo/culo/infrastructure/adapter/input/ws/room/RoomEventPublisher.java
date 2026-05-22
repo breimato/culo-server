@@ -19,6 +19,7 @@ import com.breixo.culo.infrastructure.adapter.input.ws.dto.PlayMadeV1ResponseDto
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.PlayerRoleV1Dto;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.QuadDiscardedV1ResponseDto;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.RankingEntryV1Dto;
+import com.breixo.culo.infrastructure.adapter.input.ws.dto.RoomClosedV1ResponseDto;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.RoomStateV1ResponseDto;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.RoundEndedV1ResponseDto;
 import com.breixo.culo.infrastructure.adapter.input.ws.dto.TurnChangedV1ResponseDto;
@@ -87,6 +88,24 @@ public class RoomEventPublisher {
     final var destination = WsDestinationConstants.roomTopic(room.roomLobby().code())
         + WsDestinationConstants.ROOM_STATE_SUFFIX;
     this.simpMessagingTemplate.convertAndSend(destination, roomStateV1ResponseDto);
+  }
+
+  /**
+	 * Publish room closed (host closed the room for everyone).
+	 *
+	 * @param room the room
+	 */
+  public void publishRoomClosed(final Room room) {
+
+    final var roomClosedV1ResponseDto = RoomClosedV1ResponseDto.builder()
+        .reason("HOST_CLOSED")
+        .message("El host ha cerrado la sala")
+        .build();
+
+    final var destination = WsDestinationConstants.roomTopic(room.roomLobby().code())
+        + WsDestinationConstants.ROOM_CLOSED_SUFFIX;
+
+    this.simpMessagingTemplate.convertAndSend(destination, roomClosedV1ResponseDto);
   }
 
   /**

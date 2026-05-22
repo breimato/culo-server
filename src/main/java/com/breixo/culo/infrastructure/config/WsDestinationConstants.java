@@ -17,6 +17,9 @@ public final class WsDestinationConstants {
   /** The Constant ERROR_SUFFIX. */
   public static final String ERROR_SUFFIX = "/error";
 
+  /** The Constant ROOM_CLOSED_SUFFIX. */
+  public static final String ROOM_CLOSED_SUFFIX = "/roomClosed";
+
   /**
 	 * Instantiates a new ws destination constants.
 	 */
