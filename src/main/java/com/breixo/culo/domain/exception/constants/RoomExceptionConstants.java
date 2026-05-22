@@ -9,6 +9,7 @@ public final class RoomExceptionConstants {
     public static final String NOT_ENOUGH_PLAYERS  = "CULO-ROOM-005 | Se necesitan al menos 2 jugadores para empezar";
     public static final String PLAYER_NOT_IN_ROOM  = "CULO-ROOM-006 | No estás en esta sala";
     public static final String UNIQUE_CODE_GENERATION_FAILED = "CULO-ROOM-007 | No se pudo generar un código de sala único";
+    public static final String ROOM_CLOSED            = "CULO-ROOM-008 | La sala ha sido cerrada";
 
     private RoomExceptionConstants() {}
 }

@@ -1,0 +1,21 @@
+post:
+  summary: "Post Room Leave V1"
+  description: "Leave the current room (STOMP /app/room.leave)"
+  operationId: "PostRoomLeaveV1"
+  tags:
+    - post-room-leave-v1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../requests/PostRoomLeaveV1Request.yaml'
+  responses:
+    '204':
+      description: "204 No Content"
+    '500':
+      description: "Internal Server Error"
+      content:
+        application/json:
+          schema:
+            $ref: '../components/ApiErrorV1.yaml'

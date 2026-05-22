@@ -1,0 +1,13 @@
+get:
+  summary: "Room Closed V1 Event (outbound documentation)"
+  description: "Published to room topic on /roomClosed"
+  operationId: "GetRoomClosedV1EventDoc"
+  tags:
+    - docs-room-closed-v1
+  responses:
+    '200':
+      description: "200 OK"
+      content:
+        application/json:
+          schema:
+            $ref: '../responses/RoomClosedV1Response.yaml'

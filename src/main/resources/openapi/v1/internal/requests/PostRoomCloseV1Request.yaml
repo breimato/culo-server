@@ -1,0 +1,14 @@
+description: "Post Room Close V1 Request"
+type: object
+required:
+  - clientId
+  - roomCode
+properties:
+  clientId:
+    type: string
+    description: "Client identifier"
+  roomCode:
+    type: string
+    description: "Room code"
+    minLength: 4
+    maxLength: 4

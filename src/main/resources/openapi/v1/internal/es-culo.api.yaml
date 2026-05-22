@@ -11,6 +11,10 @@ paths:
     $ref: './culo/room-join-v1.api.yaml'
   /app/room.start:
     $ref: './culo/room-start-v1.api.yaml'
+  /app/room.leave:
+    $ref: './culo/room-leave-v1.api.yaml'
+  /app/room.close:
+    $ref: './culo/room-close-v1.api.yaml'
   /app/dealing.confirm:
     $ref: './culo/dealing-confirm-v1.api.yaml'
   /app/game.play:
@@ -42,6 +46,8 @@ paths:
     $ref: './culo/events-culo-swap-result-v1.api.yaml'
   /docs/v1/events/quad-discarded:
     $ref: './culo/events-quad-discarded-v1.api.yaml'
+  /docs/v1/events/room-closed:
+    $ref: './culo/events-room-closed-v1.api.yaml'
 
 components:
   schemas:
@@ -67,6 +73,10 @@ components:
       $ref: './requests/PostRoomJoinV1Request.yaml'
     PostRoomStartV1Request:
       $ref: './requests/PostRoomStartV1Request.yaml'
+    PostRoomLeaveV1Request:
+      $ref: './requests/PostRoomLeaveV1Request.yaml'
+    PostRoomCloseV1Request:
+      $ref: './requests/PostRoomCloseV1Request.yaml'
     PostDealingConfirmV1Request:
       $ref: './requests/PostDealingConfirmV1Request.yaml'
     PostGamePlayV1Request:
@@ -101,6 +111,8 @@ components:
       $ref: './responses/CuloSwapResultV1Response.yaml'
     QuadDiscardedV1Response:
       $ref: './responses/QuadDiscardedV1Response.yaml'
+    RoomClosedV1Response:
+      $ref: './responses/RoomClosedV1Response.yaml'
 
   responses:
     BadRequest:

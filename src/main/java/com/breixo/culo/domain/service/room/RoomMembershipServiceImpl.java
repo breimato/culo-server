@@ -7,6 +7,7 @@ import com.breixo.culo.domain.model.room.Player;
 import com.breixo.culo.domain.model.room.Room;
 import com.breixo.culo.domain.port.input.room.RoomMembershipService;
 import jakarta.validation.constraints.NotNull;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -20,7 +21,7 @@ public class RoomMembershipServiceImpl implements RoomMembershipService {
     @Override
     public Room addPlayer(@NotNull final Room room, @NotNull final Player player) {
 
-        if (Integer.valueOf(room.roomLobby().players().size()).compareTo(RoomConstants.MAX_PLAYERS) >= 0) {
+        if (room.roomLobby().players().size() >= RoomConstants.MAX_PLAYERS) {
             throw new RoomException(RoomExceptionConstants.ROOM_FULL);
         }
 
@@ -53,6 +54,33 @@ public class RoomMembershipServiceImpl implements RoomMembershipService {
                 .build();
 
         return this.touch(roomWithReconnectedPlayer);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Room removePlayer(@NotNull final Room room, @NotNull final Player player) {
+
+        final var remainingPlayers = room.roomLobby().players().stream()
+                .filter(playerInRoom -> BooleanUtils.isFalse(playerInRoom.id().equals(player.id())))
+                .toList();
+
+        if (remainingPlayers.isEmpty()
+                || remainingPlayers.stream()
+                        .anyMatch(playerInRoom -> playerInRoom.id().equals(room.roomLobby().hostPlayerId()))) {
+
+            return this.touch(room.toBuilder()
+                    .roomLobby(room.roomLobby().toBuilder()
+                            .players(remainingPlayers)
+                            .build())
+                    .build());
+        }
+
+        return this.touch(room.toBuilder()
+                .roomLobby(room.roomLobby().toBuilder()
+                        .players(remainingPlayers)
+                        .hostPlayerId(remainingPlayers.getFirst().id())
+                        .build())
+                .build());
     }
 
     /** {@inheritDoc} */

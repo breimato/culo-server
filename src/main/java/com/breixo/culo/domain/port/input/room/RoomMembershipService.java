@@ -32,4 +32,13 @@ public interface RoomMembershipService {
      * @return the room
      */
     Room touch(Room room);
+
+    /**
+     * Removes a player from the lobby and reassigns host if needed.
+     *
+     * @param room   the room
+     * @param player the player
+     * @return the room
+     */
+    Room removePlayer(Room room, Player player);
 }

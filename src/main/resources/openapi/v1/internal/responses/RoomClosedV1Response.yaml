@@ -1,0 +1,13 @@
+description: "Room Closed V1 Response"
+type: object
+required:
+  - reason
+properties:
+  reason:
+    type: string
+    description: "Close reason code"
+    example: "HOST_CLOSED"
+  message:
+    type: string
+    description: "Human-readable message"
+    example: "El host ha cerrado la sala"
